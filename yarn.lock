@@ -1044,6 +1044,53 @@
   dependencies:
     mkdirp "^1.0.4"
 
+"@po-ui/ng-components@2.10.0":
+  version "2.10.0"
+  resolved "https://registry.yarnpkg.com/@po-ui/ng-components/-/ng-components-2.10.0.tgz#eec5b0d840fec98b7a6ddcd676555155fbeb1bf5"
+  integrity sha512-NwiuQ2McNE7VeRRM5sfBNnxHYEwKThVSd4hSahArySFhV004CumpdNrZ/EQjS0Ey0+CRUvtZr+6BcPCIV2nttg==
+  dependencies:
+    "@po-ui/ng-schematics" "2.10.0"
+    "@po-ui/style" "2.10.0"
+    tslib "^1.10.0"
+
+"@po-ui/ng-components@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@po-ui/ng-components/-/ng-components-3.1.0.tgz#d5bc405da01f32735909f6edf3fc592a06669f6e"
+  integrity sha512-6wU+phSYuyIduHP10N3FRccGtDGV+1S+ssd1rK1Ofjs1mxlxs4kQqyZ/a1/EaVN4lUHiyDWGHfTvbLLrwzK8Aw==
+  dependencies:
+    "@po-ui/ng-schematics" "3.1.0"
+    "@po-ui/style" "3.1.0"
+    tslib "^2.0.0"
+
+"@po-ui/ng-schematics@2.10.0":
+  version "2.10.0"
+  resolved "https://registry.yarnpkg.com/@po-ui/ng-schematics/-/ng-schematics-2.10.0.tgz#628ed01b81f58a14b8e39f9a9fbad46c9e4240d8"
+  integrity sha512-BA37UGdjc2VxYcR1tAcB4vg6nSDJW9S0RrLO3Im/23jMUT/KWRkeGOn2+4B2InYteK+V5oZw/wOgQ3uBo7N30w==
+
+"@po-ui/ng-schematics@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@po-ui/ng-schematics/-/ng-schematics-3.1.0.tgz#686bf7caa5c401458f0f58e9d769323d010d493f"
+  integrity sha512-cHrXxQDz9yJFkTvj2+GUwtYq/DvuRQN8FR2am4OjAaXBHPdQNAloKEA2zeYUEvyizD4CminzwBfw1PbOtlzZmg==
+
+"@po-ui/ng-templates@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@po-ui/ng-templates/-/ng-templates-3.1.0.tgz#7f0eb7761eeb7ebd2c29d73aa8c23ff999866ef1"
+  integrity sha512-jowF5spKHFABCzQBHDlIPZ+2ahf8PZiOYt/zgnU0IZfAt2LqVis7nkH7rksD9v1E2vSmALt7DbuMbhR8Nf4Y6Q==
+  dependencies:
+    "@po-ui/ng-components" "3.1.0"
+    "@po-ui/ng-schematics" "3.1.0"
+    tslib "^2.0.0"
+
+"@po-ui/style@2.10.0":
+  version "2.10.0"
+  resolved "https://registry.yarnpkg.com/@po-ui/style/-/style-2.10.0.tgz#376bd46e6589bb5e68a7a7b4d84d679559a38553"
+  integrity sha512-VKTYnUzZURKBIYQVhb4a5/I+Iiu5RMKwnoMDpj1eISngoV85HuTmS1Cf5Tl8H3g5Qq+yXqEmaqTwaAVq0mlbgw==
+
+"@po-ui/style@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@po-ui/style/-/style-3.1.0.tgz#65928af32618942101f2aaf3985e242e22574d6a"
+  integrity sha512-Xlc4N6OQI2O0cZZtdLr/gWz6nDfPIA8rWlVRdQoh6EvQxMRoTl3izeplAJEEm/1UiUJwnqngPn7zuJ3HXPciFg==
+
 "@schematics/angular@9.1.12":
   version "9.1.12"
   resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-9.1.12.tgz#608e25dbd517d867002781f695336b51f05417a2"
@@ -8095,6 +8142,11 @@ tslib@^1.10.0, tslib@^1.13.0, tslib@^1.8.1, tslib@^1.9.0:
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.13.0.tgz#c881e13cc7015894ed914862d276436fa9a47043"
   integrity sha512-i/6DQjL8Xf3be4K/E6Wgpekn5Qasl1usyw++dAA35Ue5orEn65VIxOA+YvNNl9HV3qv70T7CNwjODHZrLwvd1Q==
+
+tslib@^2.0.0:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.0.1.tgz#410eb0d113e5b6356490eec749603725b021b43e"
+  integrity sha512-SgIkNheinmEBgx1IUNirK0TUD4X9yjjBRTqqjggWCU3pUEqIk3/Uwl3yRixYKT6WjQuGiwDv4NomL3wqRCj+CQ==
 
 tslint@~6.1.0:
   version "6.1.3"
