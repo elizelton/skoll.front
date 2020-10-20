@@ -1,0 +1,18 @@
+<po-page-dynamic-table
+  p-auto-router
+  p-concat-filters
+  p-keep-filters
+  p-title="Clientes"
+  [p-actions]="actions"
+  [p-page-custom-actions]="pageCustomActions"
+  [p-table-custom-actions]="tableCustomActions"
+  [p-breadcrumb]="breadcrumb"
+  [p-fields]="fields"
+  [p-service-api]="serviceApi"
+  [p-quick-search-width]="quickSearchWidth"
+>
+</po-page-dynamic-table>
+
+<po-modal #clienteDetailModal p-title="Detalhes do Cliente">
+  <po-dynamic-view [p-fields]="detailFields" [p-value]="detailedCliente"> </po-dynamic-view>
+</po-modal>

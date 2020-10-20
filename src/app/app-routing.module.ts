@@ -1,17 +1,44 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from './presentation/login/login.component';
-LoginComponent
 
 const routes: Routes = [
   {
     path: 'login',
-    component:LoginComponent
-  }
+    loadChildren: () =>
+      import('./login/login.module').then((m) => m.LoginModule),
+  },
+  {
+    path: 'usuario',
+    loadChildren: () =>
+      import('./usuario/usuario.module').then((m) => m.UsuarioModule),
+  },
+  {
+    path: 'cliente',
+    loadChildren: () =>
+      import('./cliente/cliente.module').then((m) => m.ClienteModule),
+  },
+  {
+    path: '',
+    loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
+  },
+  {
+    path: 'contrato',
+    loadChildren: () =>
+      import('./contrato/contrato.module').then((m) => m.ContratoModule),
+  }, {
+    path: 'produto',
+    loadChildren: () =>
+      import('./produto/produto.module').then((m) => m.ProdutoModule),
+  }, {
+    path: 'relatorio',
+    loadChildren: () =>
+      import('./relatorio/relatorio.module').then((m) => m.RelatorioModule),
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppRoutingModule { }
