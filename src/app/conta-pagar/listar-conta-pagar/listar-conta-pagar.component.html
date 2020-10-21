@@ -1,0 +1,51 @@
+<po-page-dynamic-table
+  p-auto-router
+  p-title="Contas a Pagar"
+  [p-actions]="actions"
+  [p-page-custom-actions]="pageCustomActions"
+  [p-table-custom-actions]="tableCustomActions"
+  [p-breadcrumb]="breadcrumb"
+  [p-fields]="fields"
+  [p-service-api]="serviceApi"
+  [p-quick-search-width]="quickSearchWidth"
+>
+<ng-template
+    p-table-row-template
+    let-rowItem
+    let-i="rowIndex"
+    p-table-row-template-arrow-direction="'right'"
+    p-table-row-template-show="true"
+  >
+    <po-widget p-title="Transport detail {{ rowItem.code }}">
+      <div class="po-row">
+        <po-select
+          class="po-md-6"
+          name="status"
+          [(ngModel)]="rowItem.status"
+          p-label="Transport status"
+          [p-options]="statusOptions"
+        >
+        </po-select>
+      </div>
+
+      <div class="po-row">
+        <po-info
+          class="po-md-4"
+          p-label="Batch of product"
+          p-orientation="horizontal"
+          [p-value]="rowItem.batch_product"
+        >
+        </po-info>
+
+        <po-info class="po-md-4" p-label="Driver" p-orientation="horizontal" [p-value]="rowItem.driver"> </po-info>
+
+        <po-info class="po-md-4" p-label="License plate" p-orientation="horizontal" [p-value]="rowItem.license_plate">
+        </po-info>
+      </div>
+    </po-widget>
+  </ng-template>
+</po-page-dynamic-table>
+
+<po-modal #userDetailModal p-title="Detalhes do Contrato">
+  <po-dynamic-view [p-fields]="detailFields" [p-value]="detailedUser"> </po-dynamic-view>
+</po-modal>

@@ -1,22 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {
-  PoModalComponent,
-  PoBreadcrumb, PoDialogService, PoNotificationService, PoPageAction, PoSelectOption, PoTableColumn, PoDynamicViewField
-} from '@po-ui/ng-components';
-import {
-  PoPageDynamicSearchFilters,
-  PoPageDynamicTableActions,
-  PoPageDynamicTableCustomAction,
-  PoPageDynamicTableCustomTableAction,
-} from '@po-ui/ng-templates';
-import { ContratoService } from '../contrato.service';
+import { PoModalComponent, PoBreadcrumb, PoDynamicViewField } from '@po-ui/ng-components';
+import { PoPageDynamicTableActions, PoPageDynamicSearchFilters, PoPageDynamicTableCustomAction, PoPageDynamicTableCustomTableAction } from '@po-ui/ng-templates';
+import { ContratoService } from 'src/app/contrato/contrato.service';
 
 @Component({
-  selector: 'app-listar-contrato',
-  templateUrl: './listar-contrato.component.html',
-  styleUrls: ['./listar-contrato.component.css'],
+  selector: 'app-listar-conta-pagar',
+  templateUrl: './listar-conta-pagar.component.html',
+  styleUrls: ['./listar-conta-pagar.component.css']
 })
-export class ListarContratoComponent implements OnInit {
+export class ListarContaPagarComponent implements OnInit {
   @ViewChild('userDetailModal') userDetailModal: PoModalComponent;
 
   readonly serviceApi = 'http://localhost:3000/contratos';

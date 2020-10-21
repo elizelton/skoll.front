@@ -78,10 +78,11 @@ export class AppComponent {
   }
 
   readonly menus: Array<PoMenuItem> = [
-    { 
+    {
       label: 'Home',
       icon: 'po-icon-home',
-      link: '/' },
+      link: '/',
+    },
     {
       label: 'Clientes',
       icon: 'po-icon-user',
@@ -100,33 +101,35 @@ export class AppComponent {
       shortLabel: 'Usuários',
       link: 'usuario',
     },
-    { 
-     label: 'Contratos',
-     icon: 'po-icon-document-filled',
-     link: 'contrato'
+    {
+      label: 'Contas a Pagar',
+      icon: 'po-icon po-icon-sale',
+      link: 'conta-pagar',
     },
-    { 
+    {
+      label: 'Contratos',
+      icon: 'po-icon-document-filled',
+      link: 'contrato',
+    },
+    {
       label: 'Produtos/Serviços',
       icon: 'po-icon po-icon-stock',
-      link: 'produto'
-     },
-     { 
+      link: 'produto',
+    },
+    {
       label: 'Vendedores',
       icon: 'po-icon po-icon-handshake',
-      link: 'vendedor'
-     },
-     { 
+      link: 'vendedor',
+    },
+    {
       label: 'Formas de Pagamento',
       icon: 'po-icon po-icon-finance',
-      link: 'forma-pagamento'
-     },
-    { 
-      label: 'Relatórios', 
+      link: 'forma-pagamento',
+    },
+    {
+      label: 'Relatórios',
       icon: 'po-icon-print',
-      link: 'relatorio',
-      subItems: [
-        {label: 'Vendas por Vendedor'}
-      ]
+      link: 'relatorio'
     },
   ];
 

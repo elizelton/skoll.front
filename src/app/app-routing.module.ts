@@ -34,6 +34,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./relatorio/relatorio.module').then((m) => m.RelatorioModule),
   },
+  {
+    path: 'conta-pagar',
+    loadChildren: () =>
+      import('./conta-pagar/conta-pagar.module').then((m) => m.ContaPagarModule),
+  },
 ];
 
 @NgModule({

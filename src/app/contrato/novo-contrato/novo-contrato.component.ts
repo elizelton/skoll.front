@@ -41,11 +41,11 @@ export class NovoContratoComponent implements OnInit {
     { label: 'Produto 4', value: 4 }
   ];
 
-  readonly subProdutoOptions: Array<PoRadioGroupOption> = [
-    { label: 'SubProduto 1', value: 1 },
-    { label: 'SubProduto 2', value: 2 },
-    { label: 'SubProduto 3', value: 3 },
-    { label: 'SubProduto 4', value: 4 },
+  readonly ServicoOptions: Array<PoRadioGroupOption> = [
+    { label: 'Servico 1', value: 1 },
+    { label: 'Servico 2', value: 2 },
+    { label: 'Servico 3', value: 3 },
+    { label: 'Servico 4', value: 4 },
   ];
 
   @ViewChild('form', { static: true }) form: FormControl;
@@ -106,8 +106,8 @@ export class NovoContratoComponent implements OnInit {
       property: 'produto'
     },
     {
-      label: 'SubProduto',
-      property: 'subProduto',
+      label: 'Servico',
+      property: 'Servico',
     },
     {
       label: 'Quantidade',
@@ -130,8 +130,8 @@ export class NovoContratoComponent implements OnInit {
   ]
 
   itemsProduto = [
-    { subProduto: 'Subproduto 1', produto: 'Produto 1', quantidade: 3, valorUnitario: 232.32, columnIcon: ['po-icon-edit', 'po-icon-delete'] },
-    { subProduto: 'Subproduto 1', produto: 'Produto 2', quantidade: 2, valorUnitario: 34.38, columnIcon: ['po-icon-edit', 'po-icon-delete'] }
+    { Servico: 'Servico 1', produto: 'Produto 1', quantidade: 3, valorUnitario: 232.32, columnIcon: ['po-icon-edit', 'po-icon-delete'] },
+    { Servico: 'Servico 1', produto: 'Produto 2', quantidade: 2, valorUnitario: 34.38, columnIcon: ['po-icon-edit', 'po-icon-delete'] }
   ]
 
   constructor(public poNotification: PoNotificationService, private contratoService: ContratoService) { }
