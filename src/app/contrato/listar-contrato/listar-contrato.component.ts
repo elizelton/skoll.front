@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   PoModalComponent,
-  PoBreadcrumb, PoDialogService, PoNotificationService, PoPageAction, PoSelectOption, PoTableColumn, PoDynamicViewField
+  PoBreadcrumb, PoDialogService, PoNotificationService, PoPageAction, PoSelectOption, PoTableColumn, PoDynamicViewField, PoModalAction, PoRadioGroupOption, PoInputComponent
 } from '@po-ui/ng-components';
 import {
   PoPageDynamicSearchFilters,
@@ -19,8 +19,21 @@ import { ContratoService } from '../contrato.service';
 export class ListarContratoComponent implements OnInit {
   @ViewChild('userDetailModal') userDetailModal: PoModalComponent;
 
+  @ViewChild('modalLancarParcela') modalLancarParcela: PoModalComponent;
+
+  DataParcela: string;
+
+  ValorParcela: number;
+
+  openModal() {
+    this.userDetailModal.open();
+  }
+  closeModal() {
+    this.userDetailModal.close();
+  }
+
   readonly serviceApi = 'http://localhost:3000/contratos';
-  detailedUser;
+  detailedContrato;
   quickSearchWidth: number = 3;
 
   readonly actions: PoPageDynamicTableActions = {
@@ -46,7 +59,8 @@ export class ListarContratoComponent implements OnInit {
   ];
 
   readonly fields: Array<any> = [
-    { property: 'id',type:"number", key: true, visible: true, filter: true },
+    { property: 'id', type: "number", key: true, visible: true, filter: true },
+    { property: 'Cliente', label: 'cliente', filter: true, gridColumns: 4 },
     {
       property: 'situacao', label: 'Situação', type: 'label',
       labels: [
@@ -75,8 +89,8 @@ export class ListarContratoComponent implements OnInit {
   ];
 
   tableCustomActions: Array<PoPageDynamicTableCustomTableAction> = [
-    {label: 'Lançar Pagamento'},
-    {label: 'Adicionar Produto'},
+    { label: 'Lançar Pagamento', action: this.onClickParcelaLancamento.bind(this) },
+    { label: 'Adicionar Produto' },
     { label: 'Detalhes', action: this.onClickUserDetail.bind(this) }
   ];
 
@@ -88,9 +102,38 @@ export class ListarContratoComponent implements OnInit {
     window.print();
   }
 
+  close: PoModalAction = {
+    action: () => {
+      this.closeModal();
+    },
+    label: 'Cancelar',
+    danger: true
+  };
+
+  confirm: PoModalAction = {
+    action: () => {
+      { }
+    },
+    label: 'Salvar'
+  };
+
+  readonly parcelaOptions: Array<PoRadioGroupOption> = [
+    { label: '1', value: '1' },
+    { label: '2', value: '2' },
+    { label: '3', value: '3' },
+    { label: '4', value: '3' }
+  ];
+
   private onClickUserDetail(contrato) {
-    this.detailedUser = contrato;
+    this.detailedContrato = contrato;
 
     this.userDetailModal.open();
+  }
+
+  private onClickParcelaLancamento(contrato) {
+    this.detailedContrato = contrato;
+    this.DataParcela = '2020-10-12';
+    this.ValorParcela = 323.32;
+      this.modalLancarParcela.open();
   }
 }

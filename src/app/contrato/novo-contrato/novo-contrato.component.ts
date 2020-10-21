@@ -35,14 +35,14 @@ export class NovoContratoComponent implements OnInit {
   private statusSubscription: Subscription;
 
   readonly produtoOptions: Array<PoRadioGroupOption> = [
-    { label: 'Produto 1', value: 1 },
+    { label: 'Jornal Impresso', value: 1 },
     { label: 'Produto 2', value: 2 },
     { label: 'Produto 3', value: 3 },
     { label: 'Produto 4', value: 4 }
   ];
 
   readonly ServicoOptions: Array<PoRadioGroupOption> = [
-    { label: 'Servico 1', value: 1 },
+    { label: 'PUBLICACAO PADRAO PB', value: 1 },
     { label: 'Servico 2', value: 2 },
     { label: 'Servico 3', value: 3 },
     { label: 'Servico 4', value: 4 },
@@ -130,8 +130,8 @@ export class NovoContratoComponent implements OnInit {
   ]
 
   itemsProduto = [
-    { Servico: 'Servico 1', produto: 'Produto 1', quantidade: 3, valorUnitario: 232.32, columnIcon: ['po-icon-edit', 'po-icon-delete'] },
-    { Servico: 'Servico 1', produto: 'Produto 2', quantidade: 2, valorUnitario: 34.38, columnIcon: ['po-icon-edit', 'po-icon-delete'] }
+    { Servico: 'Espaço 1', produto: 'Lista Telefônica', quantidade: 1, valorUnitario: 232.32, columnIcon: ['po-icon-edit', 'po-icon-delete'] },
+    { Servico: 'Espaço 2', produto: 'Lista Telefônica', quantidade: 2, valorUnitario: 34.38, columnIcon: ['po-icon-edit', 'po-icon-delete'] }
   ]
 
   constructor(public poNotification: PoNotificationService, private contratoService: ContratoService) { }

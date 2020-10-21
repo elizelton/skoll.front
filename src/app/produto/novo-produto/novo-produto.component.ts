@@ -31,19 +31,17 @@ export class NovoProdutoComponent implements OnInit {
     {
       label: 'Nome',
       property: 'nome',
-      width: '500px'
+      width: '50%'
     },
     {
       label: 'Valor Unitário',
       property: 'valorUnitario',
       type: 'currency',
       format: 'BRL',
-      width: '150px'
     },
     {
       label: 'Unidade',
-      property: 'unidade',
-      width: '150px'
+      property: 'unidade'
     },
     {
       property: 'columnIcon', label: ' ', type: 'icon', width: '100px', action: console.log, icons: [
@@ -55,8 +53,7 @@ export class NovoProdutoComponent implements OnInit {
   ]
 
   itemsServicos = [
-    { nome: 'Servico 1', unidade: 'cm²', valorUnitario: 232.32, columnIcon: ['po-icon-edit', 'po-icon-delete'] },
-    { nome: 'Servico 1', unidade: 'M²', valorUnitario: 34.38, columnIcon: ['po-icon-edit', 'po-icon-delete'] }
+    { nome: 'Premiação Itarare', unidade: '1', valorUnitario: 1000, columnIcon: ['po-icon-edit', 'po-icon-delete'] },
   ]
 
   

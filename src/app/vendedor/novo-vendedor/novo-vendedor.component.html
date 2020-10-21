@@ -1,0 +1,22 @@
+<po-page-default p-title="Novo Vendedor" [p-breadcrumb]="breadcrumb" [p-actions]="actions">
+
+    <form class="po-ml-5">
+        <po-divider></po-divider>
+        <div class="po-row">
+            <po-input class="po-md-5 " formControlName="name" p-auto-focus p-label="Nome" p-required
+                p-icon="po-icon-user">
+            </po-input>
+        </div>
+        <div class="po-row">
+            <po-input p-label="Código" class="po-md-2 po-lp-1">
+            </po-input>
+            <po-input class="po-md-3 po-lp-1" name="CPF" p-auto-focus p-label="CPF" p-mask="999.999.999-99" p-required>
+            </po-input>
+        </div>
+        <div class="po-row">
+            <po-decimal p-label="Percentual de Comissão(%)" class="po-md-2 po-lp-1" p-decimals-length="2"
+                p-icon="po-icon-money">
+            </po-decimal>
+        </div>
+    </form>
+</po-page-default>
