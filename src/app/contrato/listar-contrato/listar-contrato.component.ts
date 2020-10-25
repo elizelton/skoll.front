@@ -60,7 +60,7 @@ export class ListarContratoComponent implements OnInit {
 
   readonly fields: Array<any> = [
     { property: 'id', type: "number", key: true, visible: true, filter: true },
-    { property: 'Cliente', label: 'cliente', filter: true, gridColumns: 4 },
+    { property: 'cliente', label: 'Cliente', filter: true, gridColumns: 6 },
     {
       property: 'situacao', label: 'Situação', type: 'label',
       labels: [
@@ -69,9 +69,9 @@ export class ListarContratoComponent implements OnInit {
         { value: 3, color: 'color-08', label: 'Vencido', tooltip: 'Situação do contrato' }
       ]
     },
-    { property: 'dataInicio', label: 'Data inicio', type: 'date', filter: true, gridColumns: 6 },
-    { property: 'dataTermino', label: 'Data Término', type: 'date', filter: true, gridColumns: 4 },
-    { property: 'NomeVendedor', label: 'Vendedor', filter: true, gridColumns: 4 },
+    { property: 'dataInicio', label: 'Data inicio', type: 'date', filter: true, gridColumns: 3 },
+    { property: 'dataTermino', label: 'Data Término', type: 'date', filter: true, gridColumns: 3 },
+    { property: 'NomeVendedor', label: 'Vendedor', filter: true, gridColumns: 6 },
     { property: 'numParcelas', label: 'Quantidade de parcelas', type: 'number', filter: true, gridColumns: 4 },
     { property: 'valorTotal', label: 'Valor Total', type: 'currency', format: 'BRL', filter: true, gridColumns: 4 },
 
