@@ -71,7 +71,7 @@ export class ListarContratoComponent implements OnInit {
     },
     { property: 'dataInicio', label: 'Data inicio', type: 'date', filter: true, gridColumns: 3 },
     { property: 'dataTermino', label: 'Data Término', type: 'date', filter: true, gridColumns: 3 },
-    { property: 'NomeVendedor', label: 'Vendedor', filter: true, gridColumns: 6 },
+    { property: 'NomeVendedor', label: 'Vendedor', filter: true, gridColumns: 4 },
     { property: 'numParcelas', label: 'Quantidade de parcelas', type: 'number', filter: true, gridColumns: 4 },
     { property: 'valorTotal', label: 'Valor Total', type: 'currency', format: 'BRL', filter: true, gridColumns: 4 },
 

@@ -13,7 +13,7 @@ import {
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  showAction() {}
+  showAction() { }
 
   deslogar() {
     localStorage.removeItem('logado');
@@ -84,24 +84,6 @@ export class AppComponent {
       link: '/',
     },
     {
-      label: 'Clientes',
-      icon: 'po-icon-user',
-      shortLabel: 'Clientes',
-      link: 'cliente',
-    },
-    {
-      label: 'Fornecedores',
-      icon: 'po-icon-truck',
-      shortLabel: 'Fornecedores',
-      link: 'fornecedor',
-    },
-    {
-      label: 'Usuários',
-      icon: 'po-icon-users',
-      shortLabel: 'Usuários',
-      link: 'usuario',
-    },
-    {
       label: 'Contas a Pagar',
       icon: 'po-icon po-icon-sale',
       link: 'conta-pagar',
@@ -110,6 +92,28 @@ export class AppComponent {
       label: 'Contratos',
       icon: 'po-icon-document-filled',
       link: 'contrato',
+    },
+    {
+      label: 'Comissão',
+      icon: 'po-icon po-icon-finance',
+      link: 'comissao',
+    },
+    {
+      label: 'Clientes',
+      icon: 'po-icon-user',
+      shortLabel: 'Clientes',
+      link: 'cliente',
+    },
+    {
+      label: 'Formas de Pagamento',
+      icon: 'po-icon-credit-payment',
+      link: 'forma-pagamento',
+    },
+    {
+      label: 'Fornecedores',
+      icon: 'po-icon-truck',
+      shortLabel: 'Fornecedores',
+      link: 'fornecedor',
     },
     {
       label: 'Produtos/Serviços',
@@ -122,14 +126,15 @@ export class AppComponent {
       link: 'vendedor',
     },
     {
-      label: 'Formas de Pagamento',
-      icon: 'po-icon po-icon-finance',
-      link: 'forma-pagamento',
-    },
-    {
       label: 'Relatórios',
       icon: 'po-icon-print',
       link: 'relatorio'
+    },
+    {
+      label: 'Usuários',
+      icon: 'po-icon-users',
+      shortLabel: 'Usuários',
+      link: 'usuario',
     },
   ];
 
@@ -147,5 +152,5 @@ export class AppComponent {
     this.mostrarMenu = !!localStorage.getItem('logado');
   }
 
-  constructor(private poDialog: PoDialogService, private router: Router) {}
+  constructor(private poDialog: PoDialogService, private router: Router) { }
 }
