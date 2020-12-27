@@ -1,5 +1,5 @@
-<div class="po-wrapper" *ngIf="mostrarMenu">
-    <nav *ngIf="mostrarMenu">
+<div class="po-wrapper" *ngIf="usuario">
+    <nav>
         <po-toolbar [p-profile]="profile" p-title="SKOLL" [p-profile-actions]="profileActions"
             [p-notification-actions]="notificationActions" p-shadow="true" [p-notification-number]="2">
         </po-toolbar>
@@ -7,12 +7,12 @@
             <div *p-menu-header-template class="po-p-2 po-font-title sample-menu-header-text-color">
                 <p>Bem vindo,</p>
                 <p>
-                    <b>Neymar</b>
+                    <b>{{ usuario.nome.split(' ')[0]}}</b>
                 </p>
             </div>
         </po-menu>
     </nav>
     <router-outlet></router-outlet>
 </div>
-<router-outlet *ngIf="!mostrarMenu">
+<router-outlet *ngIf="!usuario">
 </router-outlet>

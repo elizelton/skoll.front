@@ -1,53 +1,63 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   {
     path: 'login',
     loadChildren: () =>
-      import('./login/login.module').then((m) => m.LoginModule),
+      import('./pages/login/login.module').then((m) => m.LoginModule),
   },
   {
     path: 'usuario',
     loadChildren: () =>
-      import('./usuario/usuario.module').then((m) => m.UsuarioModule),
+      import('./pages/usuario/usuario.module').then((m) => m.UsuarioModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'cliente',
     loadChildren: () =>
-      import('./cliente/cliente.module').then((m) => m.ClienteModule),
+      import('./pages/cliente/cliente.module').then((m) => m.ClienteModule),
+    canActivate: [AuthGuard]
   },
   {
     path: '',
-    loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
+    loadChildren: () => import('./pages/home/home.module').then((m) => m.HomeModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'contrato',
     loadChildren: () =>
-      import('./contrato/contrato.module').then((m) => m.ContratoModule),
+      import('./pages/contrato/contrato.module').then((m) => m.ContratoModule),
+    canActivate: [AuthGuard]
   }, {
     path: 'produto',
     loadChildren: () =>
-      import('./produto/produto.module').then((m) => m.ProdutoModule),
+      import('./pages/produto/produto.module').then((m) => m.ProdutoModule),
+    canActivate: [AuthGuard]
   }, {
     path: 'relatorio',
     loadChildren: () =>
-      import('./relatorio/relatorio.module').then((m) => m.RelatorioModule),
+      import('./pages/relatorio/relatorio.module').then((m) => m.RelatorioModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'conta-pagar',
     loadChildren: () =>
-      import('./conta-pagar/conta-pagar.module').then((m) => m.ContaPagarModule),
+      import('./pages/conta-pagar/conta-pagar.module').then((m) => m.ContaPagarModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'vendedor',
     loadChildren: () =>
-      import('./vendedor/vendedor.module').then((m) => m.VendedorModule),
+      import('./pages/vendedor/vendedor.module').then((m) => m.VendedorModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'comissao',
     loadChildren: () =>
-      import('./comissao/comissao.module').then((m) => m.ComissaoModule),
+      import('./pages/comissao/comissao.module').then((m) => m.ComissaoModule),
+    canActivate: [AuthGuard]
   },
 ];
 

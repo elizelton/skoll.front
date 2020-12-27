@@ -6,6 +6,9 @@ import {
   PoToolbarAction,
   PoToolbarProfile,
 } from '@po-ui/ng-components';
+import { LoginService } from './pages/login/login.service';
+import { Usuario } from './model/Usuario.model';
+import menu from './common/menu'
 
 @Component({
   selector: 'app-root',
@@ -13,20 +16,33 @@ import {
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
+
+  title = 'skoll';
+  usuario: Usuario
+
+  constructor(
+    private poDialog: PoDialogService,
+    private router: Router,
+    private loginService: LoginService
+  ) {
+    this.loginService.user.subscribe(u => this.usuario = u)
+  }
+
+getUsuario(): Usuario {
+  return this.usuario
+}
+
   showAction() { }
 
   deslogar() {
-    localStorage.removeItem('logado');
+    this.loginService.logout()
     this.router.navigate(['/login']);
   }
 
-  title = 'skoll';
-  mostrarMenu: boolean;
-
   profile: PoToolbarProfile = {
     avatar: '../assets/img/user.png',
-    subtitle: 'menino_ney@gmail.com',
-    title: 'Neymar Jr',
+    subtitle: this.getUsuario()?.UserName,
+    title: this.getUsuario()?.Nome,
   };
   profileActions: Array<PoToolbarAction> = [
     {
@@ -77,66 +93,7 @@ export class AppComponent {
       .length;
   }
 
-  readonly menus: Array<PoMenuItem> = [
-    {
-      label: 'Home',
-      icon: 'po-icon-home',
-      link: '/',
-    },
-    {
-      label: 'Contas a Pagar',
-      icon: 'po-icon po-icon-sale',
-      link: 'conta-pagar',
-    },
-    {
-      label: 'Contratos',
-      icon: 'po-icon-document-filled',
-      link: 'contrato',
-    },
-    {
-      label: 'Comissão',
-      icon: 'po-icon po-icon-finance',
-      link: 'comissao',
-    },
-    {
-      label: 'Clientes',
-      icon: 'po-icon-user',
-      shortLabel: 'Clientes',
-      link: 'cliente',
-    },
-    {
-      label: 'Formas de Pagamento',
-      icon: 'po-icon-credit-payment',
-      link: 'forma-pagamento',
-    },
-    {
-      label: 'Fornecedores',
-      icon: 'po-icon-truck',
-      shortLabel: 'Fornecedores',
-      link: 'fornecedor',
-    },
-    {
-      label: 'Produtos/Serviços',
-      icon: 'po-icon po-icon-stock',
-      link: 'produto',
-    },
-    {
-      label: 'Vendedores',
-      icon: 'po-icon po-icon-handshake',
-      link: 'vendedor',
-    },
-    {
-      label: 'Relatórios',
-      icon: 'po-icon-print',
-      link: 'relatorio'
-    },
-    {
-      label: 'Usuários',
-      icon: 'po-icon-users',
-      shortLabel: 'Usuários',
-      link: 'usuario',
-    },
-  ];
+  readonly menus: Array<PoMenuItem> = menu()
 
   openDialog(item: PoToolbarAction) {
     this.poDialog.alert({
@@ -149,8 +106,7 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    this.mostrarMenu = !!localStorage.getItem('logado');
   }
 
-  constructor(private poDialog: PoDialogService, private router: Router) { }
+
 }
