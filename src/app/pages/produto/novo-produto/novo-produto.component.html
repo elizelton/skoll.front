@@ -1,0 +1,29 @@
+<po-page-default p-title="Novo Produto" [p-breadcrumb]="breadcrumb" [p-actions]="actions">
+    <po-tabs>
+        <po-tab p-label="Produto" p-active="true">
+            <form #form>
+                <div class="po-row">
+                    <po-input class="po-md-4" p-auto-focus p-label="Nome" p-required p-icon="po-icon-stock">
+                    </po-input>
+                </div>
+                <div class="po-row">
+                    <po-switch class="po-ml-2" name="situacaoProduto" p-label="Ativo?" p-label-off="Não"
+                        p-label-on="Sim">
+                    </po-switch>
+                </div>
+            </form>
+        </po-tab>
+        <po-tab p-label="Serviços">
+            <div class="po-row">
+                <po-input class="po-md-6" p-auto-focus p-label="Nome" p-clean p-required>
+                </po-input>
+                <po-decimal p-label="Valor Únitario" class="po-md-2 po-lp-1" p-decimals-length="2" p-icon="po-icon-finance">
+                </po-decimal>
+                <po-select class="po-md-2" name="state" p-label="Unidade" [p-options]="unidadeOptions"></po-select>
+                <po-button p-label="Adicionar" class="po-mt-4" p-type="primary"> </po-button>
+              </div>
+              <po-table [p-columns]="colServicos" [p-items]="itemsServicos" p-striped="true">
+              </po-table>
+            </po-tab>
+    </po-tabs>
+</po-page-default>

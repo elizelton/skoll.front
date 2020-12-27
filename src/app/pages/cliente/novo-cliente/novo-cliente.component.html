@@ -1,0 +1,93 @@
+<po-page-default p-title="Novo Cliente" [p-breadcrumb]="breadcrumb" [p-actions]="actions">
+
+    <form [formGroup]="reactiveForm" class="po-ml-5">
+        <h3 class="po-font-text">Informações básicas</h3>
+        <po-divider></po-divider>
+        <div class="po-row">
+            <po-input class="po-md-5 " formControlName="name" p-auto-focus p-label="Nome" p-required
+                p-icon="po-icon-user">
+            </po-input>
+        </div>
+        <div class="po-row">
+            <po-email p-label="E-mail" class="po-md-4 po-lp-1">
+            </po-email>
+            <po-switch name="Ativo" class="po-ml-2" p-label="Ativo?" p-label-off="Não" p-label-on="Sim">
+            </po-switch>
+        </div>
+        <div class="po-row po-mb-5">
+            <po-datepicker class="po-md-2 po-lp-1" p-label="Data de Nascimento" p-clean p-format="dd/mm/yyyy" p-required
+                p-min-date="2003-01-01">
+            </po-datepicker>
+            <po-input class="po-md-3 po-lp-1" name="cpfCnpj" p-auto-focus p-label="CPF / CNPJ" p-required
+                (p-change-model)="cpfCnpfMask(this)">
+            </po-input>
+        </div>
+        <po-accordion>
+            <po-accordion-item p-label="Endereços">
+                <po-button p-label="Novo" p-type="primary" (p-click)="modalEndereco.open()"> </po-button>
+                <div id="div-space">
+                </div>
+                <po-table p-selectable [p-columns]="colEndereco" [p-items]="itemsEndereco">
+                </po-table>
+            </po-accordion-item>
+            <po-accordion-item p-label="Telefones">
+                <po-button p-label="Novo" p-type="primary" (p-click)="modalTelefone.open()"> </po-button>
+                <div id="div-space">    
+                </div>
+                <po-table [p-columns]="colTel" [p-items]="itemsTel" p-striped>
+                </po-table>
+            </po-accordion-item>
+        </po-accordion>
+    </form>
+
+    <po-modal #modalEndereco p-title="Novo Endereço" [p-primary-action]="confirm" [p-secondary-action]="close">
+        <div class="po-row">
+            <po-input class="po-md-12" p-auto-focus p-label="Logradouro" p-clean p-icon="po-icon-pin" p-required>
+            </po-input>
+        </div>
+        <div class="po-row">
+            <po-number class="po-md-2" p-label="Número" p-clean></po-number>
+            <po-input class="po-md-3 po-ml-2" p-auto-focus p-label="CEP" p-mask="99.999-999" p-required>
+            </po-input>
+            <po-switch class="po-ml-2" name="Endpreferencial" p-label="Endereço preferencial?" p-label-off="Não"
+                p-label-on="Sim">
+            </po-switch>
+        </div>
+        <div class="po-row">
+            <po-input class="po-md-6" p-auto-focus p-label="Complemento" p-required>
+            </po-input>
+            <po-input class="po-md-6" p-auto-focus p-label="Bairro" p-required>
+            </po-input>
+        </div>
+        <div class="po-row">
+            <po-lookup class="po-md-8" p-auto-focus p-label="Cidade" p-required>
+            </po-lookup>
+            <po-select class="po-md-4" name="state" p-label="Estado" [p-options]="stateOptions"></po-select>
+        </div>
+
+    </po-modal>
+
+    <po-modal #modalTelefone p-title="Novo Telefone" [p-primary-action]="confirm" [p-secondary-action]="close"
+        p-size="xl">
+        <div class="po-row">
+            <po-input class="po-md-4" p-mask="(99) 99999-9999" p-label="Número" p-icon="po-icon-telephone">
+            </po-input>
+            <po-select class="po-md-3 po-ml-1" name="tipoTelefone" p-label="Tipo" [p-options]="telefoneOptions">
+            </po-select>
+            <po-switch name="telPreferencial" class="po-ml-2" p-label="Telefone preferencial?" p-label-off="Não"
+                p-label-on="Sim">
+            </po-switch>
+            <po-switch name="Whatsapp" class="po-ml-2" p-label="Whatsapp?" p-label-off="Não" p-label-on="Sim">
+            </po-switch>
+        </div>
+    </po-modal>
+</po-page-default>
+
+<!-- <po-page-dynamic-edit #dynamicForm
+    p-auto-router
+    p-title="Novo cliente"
+    [p-actions]="actions"
+    [p-breadcrumb]="breadcrumb"
+    [p-fields]="fields" 
+    [p-service-api]="serviceApi">
+</po-page-dynamic-edit> -->

@@ -1,0 +1,57 @@
+<po-page-default p-title="Novo Contrato" [p-breadcrumb]="breadcrumb" [p-actions]="actions">
+
+
+  <po-tabs>
+    <po-tab p-label="Dados" p-active="true">
+      <form #form>
+        <div class="po-row">
+          <po-lookup class="po-md-4" p-auto-focus p-label="Cliente" p-required p-icon="po-icon-user">
+          </po-lookup>
+        </div>
+        <div class="po-row po-mt-2">
+          <div class="po-row">
+            <po-datepicker class="po-md-2 po-lp-1" p-label="Inicio da vigência" p-clean p-format="dd/mm/yyyy" p-required
+              p-min-date="2003-01-01">
+            </po-datepicker>
+            <po-datepicker class="po-md-2 po-lp-1" p-label="Término da vigência" p-clean p-format="dd/mm/yyyy"
+              p-required p-min-date="2003-01-01">
+            </po-datepicker>
+            <po-decimal p-label="Valor Total" class="po-md-2 po-lp-1" p-decimals-length="2" p-icon="po-icon-money">
+            </po-decimal>
+            <po-number p-label="Total de Parcelas" min-value=1 class="po-md-2 po-lp-1">
+            </po-number>
+          </div>
+          <div class="po-row">
+            <po-lookup p-label="Vendedor" class="po-md-4">
+            </po-lookup>
+          </div>
+          <div class="po-row po-mb-5">
+            <po-textarea class="po-md-7" name="observacoes" p-label="Observações"> </po-textarea>
+          </div>
+        </div>
+      </form>
+    </po-tab>
+    <po-tab p-label="Produtos">
+      <div class="po-row">
+        <po-select class="po-md-3" name="tipoProduto" p-label="Produto" [p-options]="produtoOptions">
+        </po-select>
+        <po-select class="po-md-3 po-ml-1" name="tipoServico" p-label="Servico" [p-options]="ServicoOptions">
+        </po-select>
+        <po-number p-label="Quantidade" min-value=1 class="po-md-1 po-lp-1">
+        </po-number>
+        <po-decimal p-label="Valor Únitario" class="po-md-2 po-lp-1" p-decimals-length="2" p-icon="po-icon-finance">
+        </po-decimal>
+        <po-button p-label="Adicionar" class="po-mt-4" p-type="primary"> </po-button>
+      </div>
+      <po-table [p-columns]="colProduto" [p-items]="itemsProduto" p-striped="true">
+      </po-table>
+    </po-tab>
+    <po-tab p-label="Parcelas">
+      <div class="po-row">
+
+      </div>
+      <po-table [p-columns]="columns" [p-items]="items">
+      </po-table>
+    </po-tab>
+  </po-tabs>
+</po-page-default>

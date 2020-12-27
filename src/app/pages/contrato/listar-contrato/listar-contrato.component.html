@@ -1,0 +1,75 @@
+<po-page-dynamic-table
+  p-auto-router
+  p-title="Contratos"
+  [p-actions]="actions"
+  [p-page-custom-actions]="pageCustomActions"
+  [p-table-custom-actions]="tableCustomActions"
+  [p-breadcrumb]="breadcrumb"
+  [p-fields]="fields"
+  [p-service-api]="serviceApi"
+  [p-quick-search-width]="quickSearchWidth"
+>
+<ng-template
+    p-table-row-template
+    let-rowItem
+    let-i="rowIndex"
+    p-table-row-template-arrow-direction="'right'"
+    p-table-row-template-show="true"
+  >
+    <po-widget p-title="Transport detail {{ rowItem.code }}">
+      <div class="po-row">
+        <po-select
+          class="po-md-6"
+          name="status"
+          [(ngModel)]="rowItem.status"
+          p-label="Transport status"
+          [p-options]="statusOptions"
+        >
+        </po-select>
+      </div>
+
+      <div class="po-row">
+        <po-info
+          class="po-md-4"
+          p-label="Batch of product"
+          p-orientation="horizontal"
+          [p-value]="rowItem.batch_product"
+        >
+        </po-info>
+
+        <po-info class="po-md-4" p-label="Driver" p-orientation="horizontal" [p-value]="rowItem.driver"> </po-info>
+
+        <po-info class="po-md-4" p-label="License plate" p-orientation="horizontal" [p-value]="rowItem.license_plate">
+        </po-info>
+      </div>
+    </po-widget>
+  </ng-template>
+</po-page-dynamic-table>
+
+<po-modal #userDetailModal p-title="Detalhes do Contrato">
+  <po-dynamic-view [p-fields]="detailFields" [p-value]="detailedContrato"> </po-dynamic-view>
+</po-modal>
+
+<po-modal #modalLancarParcela p-title="Novo Pagamento de Parcela" [p-primary-action]="confirm"
+  [p-secondary-action]="close">
+  <div class="po-row">
+    <po-select class="po-md-4" name="numParcela" p-label="Número da Parcela" [p-options]="parcelaOptions"></po-select>
+  </div>
+  <po-divider>
+  </po-divider>
+  <div class="po-row">
+    <po-datepicker class="po-md-4 po-lp-1" p-label="Data de Vencimento" p-clean p-format="dd/mm/yyyy" p-required
+      p-min-date="2003-01-01">
+    </po-datepicker>
+    <po-decimal p-label="Valor Devido" class="po-md-4 po-lp-1" p-decimals-length="2" p-icon="po-icon-money">
+    </po-decimal>
+  </div>
+  <div class="po-row">
+    <po-datepicker class="po-md-4 po-lp-1" p-label="Data de Pagamento" p-clean p-format="dd/mm/yyyy" p-required
+      p-min-date="2003-01-01">
+    </po-datepicker>
+    <po-decimal p-label="Valor de Pagamento" class="po-md-4 po-lp-1" p-decimals-length="2" p-icon="po-icon-money">
+    </po-decimal>
+  </div>
+
+</po-modal>
