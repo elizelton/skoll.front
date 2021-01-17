@@ -31,6 +31,7 @@
  * Field Container.............variáveis do Field Container.
  * Field Container Bottom......variáveis do Field Container Bottom.
  * Field Icon..................variáveis do Field Icon.
+ * Gauge.......................variáveis do Gauge.
  * Info........................variáveis do Info.
  * Input.......................variáveis do Input.
  * List View...................variáveis do List View.
@@ -99,80 +100,80 @@
 
 :root {
   /* Cor do background da linha da tabela */
-  --color-primary-light-95: #DADADA;
+  --color-primary-light-95: #fcf6f9;
 
   /* Borda inferior da Table Header */
-  --color-primary-light-80: #DADADA;
+  --color-primary-light-80: #E0EDE0;
 
   /* Scroll (opacidade de 50%) */
-  --color-primary-alpha-50: rgba(3, 53, 3, 1);
+  --color-primary-alpha-50: rgba(4, 110, 4, 0.5);
 
   /* Botão primário, Links, Cor da borda do input selecionado, Cor da borda do botão secundário */
   --color-primary: #046E04;
 
   /* Hover do Botão primário, Links, Cor da borda do botão secundário */
-  --color-primary-dark-20: #046E04;
+  --color-primary-dark-20: #046004;
 
   /* Pressed do Botão primário, Links, Cor da borda do botão secundário */
-  --color-primary-dark-40: #046E04;
+  --color-primary-dark-40: #035203;
 
   /* Secondary */
-  --color-secondary: #033803;
+  --color-secondary: #805223;
 
-  --color-secondary-dark-20: #033803;
+  --color-secondary-dark-20: #805223;
 
-  --color-secondary-dark-40: #033803;
+  --color-secondary-dark-40: #805223;
 
   /* Overlay de Modal e Menu (70% de opacidade) */
-  --color-secondary-dark-60-alpha-70: rgba(3, 53, 3, 0.7);
+  --color-secondary-dark-60-alpha-70: rgba(128, 81, 35, 0.603);
 
-  --color-secondary-dark-60: #033803;
+  --color-secondary-dark-60: #3b1c4a;
 
   /* Tertiary */
 
   /* Cor do background da linha de arquivo em carregamento (Upload) */
-  --color-tertiary-light-90: #DADADA;
+  --color-tertiary-light-90: #fffaef;
 
   /* Borda esquerda do menu lateral selecionado, Tab selecionada, Card em destaque */
-  --color-tertiary: #B3B3B3;
+  --color-tertiary: #805223;
 
   /* Cor de gráficos, botão do disclaimer */
-  --color-tertiary-dark-5: #DADADA;
+  --color-tertiary-dark-5: #805223;
 
-  --color-tertiary-dark-40: #DADADA;
+  --color-tertiary-dark-40: #805223;
 
-  --color-tertiary-dark-60: #DADADA;
+  --color-tertiary-dark-60: #805223;
 
   --color-white: #ffffff;
 
-  --color-white-alpha-30: rgba(255, 255, 255, 0.3);
+  --color-white-alpha-30: rgba(128, 82, 35, 0.3);
 
   /* Background da página, Background da linha selecionada */
-  --color-neutral-light-98: #DADADA;
+  --color-neutral-light-98: #fbfbfb;
 
   /* Borda inferior de item de tabela, Base do Slider, Background do Input inativo */
-  --color-neutral-light-90: #DADADA;
+  --color-neutral-light-90: #eceeee;
 
   /* Step inativo, Base Switch desligado */
-  --color-neutral-light-80: #DADADA;
+  --color-neutral-light-80: #dadedf;
 
   /* Ícone desabilitado, Slider desabilitado, Borda de input */
-  --color-neutral-light-60: #DADADA;
+  --color-neutral-light-60: #b6bdbf;
 
   /* Texto do Placeholder */
-  --color-neutral-light-40: #B3B3B3;
+  --color-neutral-light-40: #9da7a9;
 
   /* Borda superior do itens do menu (45% de opacidade) */
-  --color-neutral-alpha-45: rgba(4, 110, 4, 0.45);
+  --color-neutral-alpha-45: rgba(74, 92, 96, 0.45);
 
   /* Background do Feedback, Pill de informação */
-  --color-neutral: #B3B3B3;
+  --color-neutral: #4a5c60;
 
   /* Usar em menu: Área do logo, Background do menu */
-  --color-neutral-dark-40: #033803;
+  --color-neutral-dark-40: #2c3739;
 
   /* Texto */
-  --color-neutral-dark-60: #033803;
+  --color-neutral-dark-60: #1d2426;
 
   /* Usar em sombras (10% de opacidade) */
   --color-black-alpha-10: rgba(0, 0, 0, 0.1);
@@ -186,24 +187,24 @@
   --color-black: #000000;
 
   /* Background do Feedback de sucesso */
-  --color-success: #4CAD3B;
+  --color-success: #00b28e;
 
   /* Background do Feedback de atenção */
-  --color-warning: #046E04;
+  --color-warning: #ea9b3e;
 
-  --color-danger-light-40: #065206;
+  --color-danger-light-40: #cd5f58;
 
   /* Background do Feedback de erro, Borda de Input com erro */
-  --color-danger: #033803;
+  --color-danger: #c64840;
 
   /* Background disclaimer danger */
-  --color-danger-dark-5: #033803;
+  --color-danger-dark-5: #bb443c;
 
   /* Hover para botão danger */
-  --color-danger-dark-20: #000000;
+  --color-danger-dark-20: #9e3933;
 
   /* Estilo ativo para botão danger */
-  --color-danger-dark-40: #033803;
+  --color-danger-dark-40: #762b26;
 
   --color-transparent: transparent;
 
@@ -317,25 +318,25 @@
   --color-button-color-pressed: var(--color-secondary-dark-40);
 
   --color-button-background-color-disabled: var(--color-transparent);
-  --color-button-border-disabled: var(--color-neutral-light-60);
-  --color-button-color-disabled: var(--color-neutral-light-60);
+  --color-button-border-disabled: var(--color-neutral-light-40);
+  --color-button-color-disabled: var(--color-neutral-light-40);
   /**
    * Button Primary
   */
   --color-button-background-color-primary: var(--color-tertiary);
   --color-button-border-primary: var(--color-tertiary);
-  --color-button-color-primary: var(--color-neutral-dark-60);
+  --color-button-color-primary: var(--color-white);
 
   --color-button-background-color-primary-hover: var(--color-tertiary-dark-40);
   --color-button-border-primary-hover: var(--color-tertiary-dark-40);
-  --color-button-color-primary-hover: var(--color-neutral-dark-60);
+  --color-button-color-primary-hover: var(--color-white);
 
   --color-button-background-color-primary-pressed: var(--color-tertiary-dark-60);
   --color-button-border-primary-pressed: var(--color-tertiary-dark-60);
-  --color-button-color-primary-pressed: var(--color-neutral-dark-60);
+  --color-button-color-primary-pressed: var(--color-white);
 
-  --color-button-background-color-primary-disabled: var(--color-neutral-light-60);
-  --color-button-border-primary-disabled: var(--color-neutral-light-60);
+  --color-button-background-color-primary-disabled: var(--color-neutral-light-40);
+  --color-button-border-primary-disabled: var(--color-neutral-light-40);
   --color-button-color-primary-disabled: var(--color-white);
   /**
    * Button Danger
@@ -353,8 +354,8 @@
   --color-button-color-danger-pressed: var(--color-danger-dark-40);
 
   --color-button-background-color-danger-disabled: var(--color-transparent);
-  --color-button-border-danger-disabled: var(--color-neutral-light-60);
-  --color-button-color-danger-disabled: var(--color-neutral-light-60);
+  --color-button-border-danger-disabled: var(--color-neutral-light-40);
+  --color-button-color-danger-disabled: var(--color-neutral-light-40);
   /**
    * Button Link
   */
@@ -368,7 +369,7 @@
   --color-button-color-link-pressed: var(--color-primary-dark-40);
 
   --color-button-background-color-link-disabled: var(--color-transparent);
-  --color-button-color-link-disabled: var(--color-neutral-light-60);
+  --color-button-color-link-disabled: var(--color-neutral-light-40);
 
   /*------------------------------------*\
     BADGE
@@ -401,7 +402,7 @@
   \*------------------------------------*/
 
   --color-button-group-border-button: var(--color-primary);
-  --color-button-group-border-button-disabled: var(--color-neutral-light-60);
+  --color-button-group-border-button-disabled: var(--color-neutral-light-40);
 
   --color-button-group-background-selected: var(--color-neutral);
   --color-button-group-border-selected: var(--color-neutral);
@@ -412,12 +413,12 @@
   --color-button-group-border-neutral-hover: var(--color-neutral-dark-40);
   --color-button-group-color-neutral-hover: var(--color-white);
 
-  --color-button-group-background-color-neutral-pressed: var(--color-neutral-dark-60);
-  --color-button-group-border-neutral-pressed: var(--color-neutral-dark-60);
+  --color-button-group-background-color-neutral-pressed: var(--color-white);
+  --color-button-group-border-neutral-pressed: var(--color-white);
   --color-button-group-color-neutral-pressed: var(--color-white);
 
-  --color-button-group-background-color-neutral-disabled: var(--color-neutral-light-60);
-  --color-button-group-border-neutral-disabled: var(--color-neutral-light-60);
+  --color-button-group-background-color-neutral-disabled: var(--color-neutral-light-40);
+  --color-button-group-border-neutral-disabled: var(--color-neutral-light-40);
   --color-button-group-color-neutral-disabled: var(--color-white);
 
   /*------------------------------------*\
@@ -451,6 +452,9 @@
 
   --color-chart-background-color: var(--color-white);
   --color-chart-legend-wrapper-scrollbar: var(--color-primary-alpha-50);
+  --color-chart-axis-stroke: var(--color-neutral-light-80);
+  --color-chart-legend-text: var(--color-neutral);
+  --color-chart-axis-label-text: var(--color-neutral-dark-60);
 
   /**
    * Chart Types
@@ -458,6 +462,8 @@
   --color-chart-gauge-base-path-color: var(--color-neutral-light-80);
   --color-chart-gauge-text-content-focus: var(--color-secondary);
   --color-chart-gauge-text-description-color: var(--color-neutral);
+
+  --color-chart-line-point-fill: var(--color-white);
 
   /*------------------------------------*\
     CHECKBOX
@@ -594,6 +600,17 @@
   --color-field-icon-color-disabled: var(--color-neutral-light-60);
 
   /*------------------------------------*\
+    GAUGE
+  \*------------------------------------*/
+
+  --color-gauge-base-color: var(--color-neutral-light-80);
+  --color-gauge-description-text-color: var(--color-neutral);
+  --color-gauge-description-bottom-focus: var(--color-secondary);
+  --color-gauge-legend-scrollbar: var(--color-primary-alpha-50);
+  --color-gauge-legend-text: var(--color-neutral);
+  --color-gauge-pointer-color: var(--color-neutral);
+
+  /*------------------------------------*\
     INFO
   \*------------------------------------*/
 
@@ -648,6 +665,7 @@
   --color-lookup-search-background-color-text: var(--color-white);
   --color-lookup-search-border-text: var(--color-neutral-light-60);
   --color-lookup-search-border-text-focusable: var(--color-primary);
+  --color-lookup-advanced-search-link-color-text: var(--color-primary);
 
   /*------------------------------------*\
     MENU
@@ -880,6 +898,7 @@
   --color-popup-background-color-popup-item-selected: var(--color-primary);
   --color-popup-background-color-popup-item-selected-hover: var(--color-primary-dark-20);
   --color-popup-background-color-popup-item-selected-disabled: var(--color-neutral-light-60);
+  --color-popup-background-color-scrollbar: var(--color-primary);
 
   --color-popup-border-color-separator: var(--color-neutral-light-90);
 
