@@ -1,0 +1,22 @@
+<po-page-default [p-title]="tituloPagina" [p-breadcrumb]="breadcrumb" [p-actions]="actions">
+
+    <form class="po-ml-5">
+        <po-divider></po-divider>
+        <div class="po-row">
+            <po-input [(ngModel)]="formaPagamento.nome" [ngModelOptions]="{standalone: true}" class="po-md-5 "
+                p-auto-focus p-label="Nome" p-required p-icon="po-icon-user">
+            </po-input>
+        </div>
+        <div class="po-row">
+            <po-number [(ngModel)]="formaPagamento.qtdParcela" p-label="Quantidade de parcelas"
+                [ngModelOptions]="{standalone: true}" class="po-md-2 po-lp-1" p-clean>
+            </po-number>
+            <po-switch p-max="100" p-min="0" [hidden]="!formaPagamento.id" [ngModelOptions]="{standalone: true}"
+                [(ngModel)]="formaPagamento.ativo" name="Ativo" class="po-ml-2" p-label="Ativo?" p-label-off="Não"
+                p-label-on="Sim">
+            </po-switch>
+        </div>
+    </form>
+    <po-loading-overlay [hidden]="!loading" p-screen-lock="true">
+    </po-loading-overlay>
+</po-page-default>

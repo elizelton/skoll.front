@@ -1,0 +1,86 @@
+<po-page-default p-title="Novo Forncedor" [p-breadcrumb]="breadcrumb" [p-actions]="actions">
+    <form class="po-ml-5">
+        <h1 class="po-font-subtitle">Informações básicas</h1>
+        <po-divider></po-divider>
+        <div class="po-row">
+            <po-input p-auto-focus="true" class="po-md-5" [ngModelOptions]="{standalone: true}"
+                [(ngModel)]="fornecedor.nome" p-auto-focus p-label="Nome" p-required p-icon="po-icon-user">
+            </po-input>
+        </div>
+        <div class="po-row">
+            <po-email [ngModelOptions]="{standalone: true}" [(ngModel)]="fornecedor.email" p-label="E-mail"
+                class="po-md-4 po-lp-1">
+            </po-email>
+            <po-switch [ngModelOptions]="{standalone: true}" [(ngModel)]="fornecedor.ativo" name="Ativo" class="po-ml-2"
+                p-label="Ativo?" p-label-off="Não" p-label-on="Sim">
+            </po-switch>
+        </div>
+        <div class="po-row po-mb-5">
+            <po-input class="po-md-3 po-lp-1" [ngModelOptions]="{standalone: true}" [(ngModel)]="fornecedor.cpfCnpj"
+                name="cpfCnpj" p-auto-focus p-label="CPF / CNPJ" p-required (p-change-model)="cpfCnpfMask(this)">
+            </po-input>
+        </div>
+        <h1 class="po-font-subtitle">Endereço</h1>
+        <po-divider></po-divider>
+        <div class="po-row">
+            <po-input [ngModelOptions]="{standalone: true}" [(ngModel)]="fornecedor.logradouro" class="po-md-4"
+                p-auto-focus p-label="Logradouro" p-clean p-icon="po-icon-pin" p-required>
+            </po-input>
+        </div>
+        <div class="po-row">
+            <po-input [ngModelOptions]="{standalone: true}" [(ngModel)]="fornecedor.numero" class="po-md-2"
+                p-label="Número" p-clean></po-input>
+            <po-input [ngModelOptions]="{standalone: true}" [(ngModel)]="fornecedor.cep" class="po-md-2" p-auto-focus
+                p-label="CEP" p-mask="99.999-999" p-required>
+            </po-input>
+        </div>
+        <div class="po-row">
+            <po-input [ngModelOptions]="{standalone: true}" [(ngModel)]="fornecedor.complemento" class="po-md-4"
+                p-auto-focus p-label="Complemento" p-required>
+            </po-input>
+        </div>
+        <div class="po-row">
+            <po-input [ngModelOptions]="{standalone: true}" [(ngModel)]="fornecedor.bairro" class="po-md-4" p-auto-focus
+                p-label="Bairro" p-required>
+            </po-input>
+        </div>
+        <div class="po-row">
+            <po-combo p-clean [ngModelOptions]="{standalone: true}" [(ngModel)]="estado" class="po-md-4" name="state"
+                p-label="Estado" [p-options]="stateOptions" (p-change)="loadCidades()"></po-combo>
+
+        </div>
+        <div class="po-row  po-mb-5">
+            <po-combo p-clean [ngModelOptions]="{standalone: true}" [(ngModel)]="fornecedor.cidade.id"
+                [p-disabled]="!estado" class="po-md-4" p-auto-focus p-label="Cidade" p-required
+                [p-options]="cidadesOptions">
+            </po-combo>
+        </div>
+    </form>
+    <h1 class="po-font-subtitle" [hidden]="fornecedor.id">Telefones</h1>
+    <div class="po-row" [hidden]="fornecedor.id">
+        <po-button [hidden]="fornecedor.id" p-label="Adicionar Telefone" (p-click)="abrirModalTelefone()">
+        </po-button>
+    </div>
+    <po-divider [hidden]="fornecedor.id"></po-divider>
+    <po-table [hidden]="fornecedor.id" [p-columns]="colTel" [p-items]="itemsTel" p-striped p-container
+        p-hide-select-all="true" p-hide-text-overflow>
+    </po-table>
+
+
+    <po-modal p-title="Novo Telefone" [p-primary-action]="close" [p-secondary-action]="confirm" p-size="xl">
+        <div class="po-row">
+            <po-input [(ngModel)]="telefone.ddd" [ngModelOptions]="{standalone: true}" class="po-md-2" p-mask="99"
+                p-label="DDD">
+            </po-input>
+            <po-input [(ngModel)]="telefone.telefone" [ngModelOptions]="{standalone: true}" class="po-md-4"
+                p-mask="99999-9999" p-label="Número">
+            </po-input>
+            <po-select [(ngModel)]="telefone.tipoTelefone" [ngModelOptions]="{standalone: true}" class="po-md-3 po-ml-1"
+                name="tipoTelefone" p-label="Tipo" [p-options]="telefoneOptions">
+            </po-select>
+            <po-switch [(ngModel)]="telefone.whatsApp" [ngModelOptions]="{standalone: true}" name="Whatsapp"
+                class="po-ml-2" p-label="Whatsapp?" p-label-off="Não" p-label-on="Sim">
+            </po-switch>
+        </div>
+    </po-modal>
+</po-page-default>

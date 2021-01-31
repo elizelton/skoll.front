@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PoModalComponent, PoBreadcrumb, PoDynamicViewField } from '@po-ui/ng-components';
 import { PoPageDynamicSearchFilters, PoPageDynamicTableActions, PoPageDynamicTableCustomAction, PoPageDynamicTableCustomTableAction } from '@po-ui/ng-templates';
+import { environment } from 'src/environments/environment';
 import { ClienteService } from '../cliente.service';
 
 @Component({
@@ -12,14 +13,13 @@ export class ListarClienteComponent {
 
   @ViewChild('clienteDetailModal') clienteDetailModal: PoModalComponent;
 
-  readonly serviceApi = 'http://localhost:3000/usuarios';
+  readonly serviceApi = `${environment.apiURL}/cliente`
   detailedCliente;
   quickSearchWidth: number = 3;
 
   readonly actions: PoPageDynamicTableActions = {
     new: '/cliente/novo',
-    remove: true,
-    removeAll: true
+    remove: true
   };
 
   readonly breadcrumb: PoBreadcrumb = {

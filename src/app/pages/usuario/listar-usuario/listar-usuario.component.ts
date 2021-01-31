@@ -18,7 +18,8 @@ export class ListarUsuarioComponent implements OnInit {
 
   readonly actions: PoPageDynamicTableActions = {
     new: '/usuario/novo',
-    remove: true
+    remove: true,
+    edit: 'usuario/editar/:id'
   };
 
   public readonly filters: Array<PoPageDynamicSearchFilters> = [

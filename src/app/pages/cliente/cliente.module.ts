@@ -37,6 +37,9 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule
   ],
+  providers: [
+    
+  ],
   exports: [RouterModule],
 })
 export class ClienteModule {}

@@ -25,9 +25,10 @@ export class NovoUsuarioComponent {
   };
 
   public readonly fields: Array<PoDynamicFormField> = [
-    { property: 'nome', required: true, gridColumns: 4, errorMessage:'Nome é obrigatório' },
-    { property: 'situacao',  type: 'boolean',fieldValue: 'true', booleanTrue: 'Ativo', booleanFalse: 'Inativo', gridColumns: 2 },
-    { property: 'username', required: true, gridColumns: 3, divider: 'Dados de acesso' },
+    { property: 'nome', icon:'people',required: true, gridColumns: 4, errorMessage:'Nome é obrigatório' },
+    { property: 'situacao',  type: 'boolean',fieldValue: 'true', booleanTrue: 'Ativo', booleanFalse: 'Inativo',  gridColumns: 2 },
+    { property: 'username', label:'Nome do usuário',required: true, gridColumns: 3, divider: 'Dados de acesso' },
+    { property: 'email',type:'email', required: true, gridColumns: 3, errorMessage:'E-mail é obrigatório'},
     {property: 'senha', required: true, secret: true, gridColumns: 3}
   ];
 

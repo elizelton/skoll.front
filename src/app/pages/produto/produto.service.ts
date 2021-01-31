@@ -1,13 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Produto } from 'src/app/model/Produto.model';
+import { CrudService } from 'src/app/shared/crud-service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProdutoService {
+export class ProdutoService extends CrudService<Produto>{
 
-  constructor(public http: HttpClient) { }
-
+  constructor(public http: HttpClient) {
+    super(http,
+      `${environment.apiURL}/produto`);
+  }
 
   downloadCsv(endpoint) {
     this.http.get(endpoint).subscribe((data) => {

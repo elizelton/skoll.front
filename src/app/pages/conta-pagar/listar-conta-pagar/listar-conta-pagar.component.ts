@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { PoModalComponent, PoBreadcrumb, PoDynamicViewField } from '@po-ui/ng-components';
 import { PoPageDynamicTableActions, PoPageDynamicSearchFilters, PoPageDynamicTableCustomAction, PoPageDynamicTableCustomTableAction } from '@po-ui/ng-templates';
 import { ContratoService } from 'src/app/pages/contrato/contrato.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-listar-conta-pagar',
@@ -11,14 +12,13 @@ import { ContratoService } from 'src/app/pages/contrato/contrato.service';
 export class ListarContaPagarComponent implements OnInit {
   @ViewChild('userDetailModal') userDetailModal: PoModalComponent;
 
-  readonly serviceApi = 'http://localhost:3000/contratos';
+  readonly serviceApi = `${environment.apiURL}/contapagar`
   detailedUser;
   quickSearchWidth: number = 3;
 
   readonly actions: PoPageDynamicTableActions = {
-    new: '/contrato/novo',
-    remove: true,
-    removeAll: true
+    new: '/conta-pagar/novo',
+    remove: true
   };
 
   public readonly filters: Array<PoPageDynamicSearchFilters> = [
@@ -29,7 +29,7 @@ export class ListarContaPagarComponent implements OnInit {
   ];
 
   readonly breadcrumb: PoBreadcrumb = {
-    items: [{ label: 'Home', link: '/' }, { label: 'Contratos' }]
+    items: [{ label: 'Home', link: '/' }, { label: 'Contas a Pagar' }]
   };
 
   readonly SituacaoOptions: Array<object> = [

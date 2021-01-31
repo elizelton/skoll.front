@@ -59,6 +59,18 @@ const routes: Routes = [
       import('./pages/comissao/comissao.module').then((m) => m.ComissaoModule),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'fornecedor',
+    loadChildren: () =>
+      import('./pages/fornecedor/fornecedor.module').then((m) => m.FornecedorModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'forma-pagamento',
+    loadChildren: () =>
+      import('./pages/forma-pagamento/forma-pagamento.module').then((m) => m.FormaPagamentoModule),
+    canActivate: [AuthGuard]
+  }
 ];
 
 @NgModule({

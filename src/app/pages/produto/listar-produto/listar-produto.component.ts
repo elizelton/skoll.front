@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PoBreadcrumb, PoDynamicViewField, PoModalComponent } from '@po-ui/ng-components';
 import { PoPageDynamicSearchFilters, PoPageDynamicTableActions, PoPageDynamicTableCustomAction, PoPageDynamicTableCustomTableAction } from '@po-ui/ng-templates';
+import { environment } from 'src/environments/environment';
 import { ProdutoService } from '../produto.service';
 
 @Component({
@@ -12,14 +13,14 @@ export class ListarProdutoComponent implements OnInit {
 
   @ViewChild('produtoDetailModal') produtoDetailModal: PoModalComponent;
 
-  readonly serviceApi = 'http://localhost:3000/produto';
+  readonly serviceApi = `${environment.apiURL}/produto/`;
   detailedProduto;
   quickSearchWidth: number = 3;
 
   readonly actions: PoPageDynamicTableActions = {
     new: '/produto/novo',
+    edit: '/produto/editar/:id',
     remove: true,
-    removeAll: true
   };
 
   readonly breadcrumb: PoBreadcrumb = {
@@ -40,8 +41,14 @@ export class ListarProdutoComponent implements OnInit {
 
   readonly fields: Array<any> = [
     { property: 'id', key: true, visible: false, filter: true },
-    { property: 'produto', label: 'Produto', filter: true, gridColumns: 6 },
-    { property: 'situacao', tag: true, label: 'Situação', type: 'boolean', booleanTrue: 'Ativo', booleanFalse: 'Inativo', filter: true, gridColumns: 2 }
+    { property: 'nome', label: 'Nome', filter: true, gridColumns: 6 },
+    {
+      property: 'ativo', label: 'Situação', type: 'label', 
+      labels: [
+        { value: true, color: 'color-11', label: 'Ativo', tooltip: 'Situação do usuário' },
+        { value: false, color: 'color-07', label: 'Inativo', tooltip: 'Situação do usuário' }
+       ]
+    }
   ];
 
 

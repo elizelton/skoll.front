@@ -14,7 +14,7 @@ export class CrudService<T> {
         return this.http.get<T[]>(this.apiUrl);
     }
 
-    get(recordID: String): Observable<T> {
+    get(recordID: number): Observable<T> {
         return this.http.get<T>(this.apiUrl + '/' + recordID);
     }
 
@@ -22,12 +22,12 @@ export class CrudService<T> {
         return this.http.post<T>(this.apiUrl, record, this.httpOptions);
     }
 
-    update(recordID: string, record: T): Observable<T> {
+    update(recordID: number, record: T): Observable<T> {
         const apiurl = `${this.apiUrl}/${recordID}`;
         return this.http.put<T>(apiurl, record, this.httpOptions);
     }
 
-    delete(recordID: Number): Observable<Number> {
+    delete(recordID: number): Observable<Number> {
         const apiurl = `${this.apiUrl}/${recordID}`;
         return this.http.delete<number>(apiurl, this.httpOptions);
     }
