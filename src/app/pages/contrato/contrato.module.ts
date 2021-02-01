@@ -6,17 +6,20 @@ import { Routes } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { PoModule } from '@po-ui/ng-components';
 import { PoTemplatesModule } from '@po-ui/ng-templates';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {
     path: '',
     component: ListarContratoComponent,
-    // canActivate: [AuthGuard]
   },
   {
     path: 'novo',
     component: NovoContratoComponent,
-    // canActivate: [AuthGuard]
+  },
+  {
+    path: 'editar/:id',
+    component: NovoContratoComponent,
   },
 ];
 
@@ -27,6 +30,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     PoModule,
     PoTemplatesModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [RouterModule],
 })

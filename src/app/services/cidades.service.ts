@@ -16,6 +16,10 @@ export class CidadesService {
     return this.http.get<Cidade>(`${this.urlApi}/${estado}/estado`, this.httpOptions);
   }
 
+getCidadeById(cidade: Number){
+  return this.http.get<Cidade>(`${this.urlApi}/${cidade}`, this.httpOptions);
+}
+
   getEstados() {
     return [
       { label: 'Acre', value: 'AC' },

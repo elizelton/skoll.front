@@ -19,4 +19,5 @@ export class ServicoPrestadoService extends CrudService<ServicoPrestado> {
   getByProduto(recordID: number): Observable<ServicoPrestado> {
     return this.http.get<ServicoPrestado>(`${this.url}/${recordID}/produto`);
 }
+
 }

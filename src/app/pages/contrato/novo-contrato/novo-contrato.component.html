@@ -1,52 +1,78 @@
-<po-page-default p-title="Novo Contrato" [p-breadcrumb]="breadcrumb" [p-actions]="actions">
+<po-page-default [p-title]="tituloPagina" [p-breadcrumb]="breadcrumb" [p-actions]="actions">
 
 
   <po-tabs>
     <po-tab p-label="Dados" p-active="true">
       <form #form>
         <div class="po-row">
-          <po-lookup class="po-md-4" p-auto-focus p-label="Cliente" p-required p-icon="po-icon-user">
-          </po-lookup>
+          <po-combo [(ngModel)]="contrato.cliente.idCliente" [ngModelOptions]="{standalone: true}" class="po-md-4"
+            p-auto-focus p-label="Cliente" p-required p-icon="po-icon-user" [p-options]="clienteOptions" p-clean>
+          </po-combo>
+          <po-select [(ngModel)]="contrato.tipoDocumento" [ngModelOptions]="{standalone: true}"
+            p-label="Tipo de documento" class="po-md-2 po-lp-1" [p-options]="tipoDocumentoOptions">
+          </po-select>
         </div>
         <div class="po-row po-mt-2">
           <div class="po-row">
-            <po-datepicker class="po-md-2 po-lp-1" p-label="Inicio da vigência" p-clean p-format="dd/mm/yyyy" p-required
+            <po-datepicker [(ngModel)]="contrato.dataInicio" [ngModelOptions]="{standalone: true}"
+              class="po-md-2 po-lp-1" p-label="Inicio da vigência" p-clean p-format="dd/mm/yyyy" p-required
               p-min-date="2003-01-01">
             </po-datepicker>
-            <po-datepicker class="po-md-2 po-lp-1" p-label="Término da vigência" p-clean p-format="dd/mm/yyyy"
-              p-required p-min-date="2003-01-01">
+            <po-datepicker [(ngModel)]="contrato.dataTermino" [ngModelOptions]="{standalone: true}"
+              class="po-md-2 po-lp-1" p-label="Término da vigência" p-clean p-format="dd/mm/yyyy" p-required
+              p-min-date="2003-01-01">
             </po-datepicker>
-            <po-decimal p-label="Valor Total" class="po-md-2 po-lp-1" p-decimals-length="2" p-icon="po-icon-money">
+            <po-decimal [(ngModel)]="contrato.valorTotal" [ngModelOptions]="{standalone: true}" p-label="Valor Total"
+              class="po-md-2 po-lp-1" p-decimals-length="2" p-icon="po-icon-money">
             </po-decimal>
-            <po-number p-label="Total de Parcelas" min-value=1 class="po-md-2 po-lp-1">
+          </div>
+          <div class="po-row">
+            <po-combo [(ngModel)]="this.contrato.formaPagamento.id " [ngModelOptions]="{standalone: true}"
+              p-label="Forma de Pagamento" class="po-md-4" [p-options]="formaPagamentoOptions" p-clean>
+            </po-combo>
+            <po-number [(ngModel)]="contrato.numParcelas" [ngModelOptions]="{standalone: true}"
+              p-label="Total de Parcelas" min-value="1" class="po-md-2 po-lp-1">
             </po-number>
           </div>
           <div class="po-row">
-            <po-lookup p-label="Vendedor" class="po-md-4">
-            </po-lookup>
+            <po-combo [(ngModel)]="contrato.vendedor.id" [ngModelOptions]="{standalone: true}" p-label="Vendedor"
+              class="po-md-4" [p-options]="vendedorOptions" p-clean>
+            </po-combo>
+            <po-number [(ngModel)]="this.contrato.periodoMeses" [ngModelOptions]="{standalone: true}"
+              p-label="Quantidade de meses" min-value="1" class="po-md-2 po-lp-1">
+            </po-number>
           </div>
           <div class="po-row po-mb-5">
-            <po-textarea class="po-md-7" name="observacoes" p-label="Observações"> </po-textarea>
+            <po-textarea [(ngModel)]="this.contrato.observacoes" [ngModelOptions]="{standalone: true}" class="po-md-6"
+              name="observacoes" p-label="Observações"> </po-textarea>
           </div>
         </div>
       </form>
     </po-tab>
-    <po-tab p-label="Produtos">
+    <po-tab p-label="Produtos" [p-disabled]="!contrato.id" (p-click)="carregarDadosProdutos()">
       <div class="po-row">
-        <po-select class="po-md-3" name="tipoProduto" p-label="Produto" [p-options]="produtoOptions">
-        </po-select>
-        <po-select class="po-md-3 po-ml-1" name="tipoServico" p-label="Servico" [p-options]="ServicoOptions">
-        </po-select>
-        <po-number p-label="Quantidade" min-value=1 class="po-md-1 po-lp-1">
+        <po-combo p-clean [(ngModel)]="produtoSelecionado" [ngModelOptions]="{standalone: true}" class="po-md-3"
+          name="tipoProduto" p-label="Produto" [p-options]="produtoOptions" (p-change)="loadServicos()">
+        </po-combo>
+        <po-combo p-clean [(ngModel)]="contratoServico.servicoPrestado.id" [ngModelOptions]="{standalone: true}"
+          class="po-md-3 po-ml-1" name="tipoServico" p-label="Servico" [p-options]="servicoOptions">
+        </po-combo>
+        <po-number [(ngModel)]="contratoServico.quantidade" [ngModelOptions]="{standalone: true}" p-label="Quantidade"
+          min-value=1 class="po-md-1 po-lp-1" (p-change)="calcularServico()">
         </po-number>
-        <po-decimal p-label="Valor Únitario" class="po-md-2 po-lp-1" p-decimals-length="2" p-icon="po-icon-finance">
+        <po-decimal [(ngModel)]="contratoServico.valorUnitario" [ngModelOptions]="{standalone: true}"
+          p-label="Valor Únitario" class="po-md-2 po-lp-1" p-decimals-length="2" p-icon="po-icon-finance"
+          (p-change)="calcularServico()">
         </po-decimal>
-        <po-button p-label="Adicionar" class="po-mt-4" p-type="primary"> </po-button>
+        <po-decimal p-readonly [(ngModel)]="contratoServico.valorTotal" [ngModelOptions]="{standalone: true}"
+          p-label="Valor Total" class="po-md-2 po-lp-1" p-decimals-length="2" p-icon="po-icon-finance">
+        </po-decimal>
+        <po-button p-label="Adicionar" class="po-mt-4" (p-click)="adicionarServico()"> </po-button>
       </div>
-      <po-table [p-columns]="colProduto" [p-items]="itemsProduto" p-striped="true">
+      <po-table [p-columns]="colProduto" [p-items]="itemsContratoServico" p-striped="true">
       </po-table>
     </po-tab>
-    <po-tab p-label="Parcelas">
+    <po-tab p-label="Parcelas" [p-disabled]="!contrato.id">
       <div class="po-row">
 
       </div>
@@ -54,4 +80,14 @@
       </po-table>
     </po-tab>
   </po-tabs>
+
+  <po-modal [p-title]="tituloModalCancelamento" [p-primary-action]="confirm" [p-secondary-action]="close">
+    <form #optionsForm="ngForm">
+      <div class="po-row">
+        <po-switch [(ngModel)]="duplicarContratoCancelado" [ngModelOptions]="{standalone: true}" name="Whatsapp"
+          class="po-ml-2" p-label="Deseja Duplicar o contrato?" p-label-off="Não" p-label-on="Sim">
+        </po-switch>
+      </div>
+    </form>
+  </po-modal>
 </po-page-default>

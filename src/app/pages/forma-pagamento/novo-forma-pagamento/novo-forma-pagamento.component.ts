@@ -68,6 +68,7 @@ export class NovoFormaPagamentoComponent implements OnInit, OnDestroy {
       })
     }
     else {
+      this.formaPagamento.id = this.formaPagamento.id || 0
       this.subService = this.formaPagamentoService.insert(this.formaPagamento).subscribe({
         next: (res: FormaPagamento) => {
           this.formaPagamento.id = res.id;

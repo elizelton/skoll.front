@@ -24,6 +24,7 @@ export class EditarUsuarioComponent implements OnInit {
     { property: 'nome', required: true, gridColumns: 4, errorMessage: 'Nome é obrigatório' },
     { property: 'ativo', type: 'boolean', fieldValue: 'true', booleanTrue: 'Ativo', booleanFalse: 'Inativo', gridColumns: 2 },
     { property: 'userName', required: true, gridColumns: 3, divider: 'Dados de acesso' },
+    { property: 'E-mail', required: true, gridColumns: 3},
     { property: 'senha', required: true, secret: true, gridColumns: 3 }
   ];
 

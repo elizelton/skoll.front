@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PoBreadcrumb, PoDynamicViewField, PoModalComponent } from '@po-ui/ng-components';
 import { PoPageDynamicSearchFilters, PoPageDynamicTableActions, PoPageDynamicTableCustomAction, PoPageDynamicTableCustomTableAction } from '@po-ui/ng-templates';
+import { FormaPagamento } from 'src/app/model/FormaPagamento.model';
 import { environment } from 'src/environments/environment';
 import { FormaPagamentoService } from '../forma-pagamento.service';
 
@@ -14,8 +15,9 @@ export class ListarFormaPagamentoComponent implements OnInit {
   @ViewChild('userDetailModal') userDetailModal: PoModalComponent;
 
   readonly serviceApi = `${environment.apiURL}/formapagamento/`
-  detailedUser;
+  detailedFormaPagamento;
   quickSearchWidth: number = 3;
+  detalhesFormaPagamento: string
 
   readonly actions: PoPageDynamicTableActions = {
     new: '/forma-pagamento/novo',
@@ -53,9 +55,9 @@ export class ListarFormaPagamentoComponent implements OnInit {
   ];
 
   readonly detailFields: Array<PoDynamicViewField> = [
-    { property: 'ativo', tag: true, gridLgColumns: 4, divider: 'Dados pessoais' },
     { property: 'nome', gridLgColumns: 4 },
-    { property: 'username', label: 'Login', gridLgColumns: 4 }
+    { property: 'qtdParcela', label: 'Quantidade de Parcelas', gridLgColumns: 4 },
+    { property: 'ativoMascared', label: 'Situação', gridLgColumns: 4,  },
   ];
 
   pageCustomActions: Array<PoPageDynamicTableCustomAction> = [
@@ -76,7 +78,9 @@ export class ListarFormaPagamentoComponent implements OnInit {
   }
 
   private onClickUserDetail(FormaPagamento) {
-    this.detailedUser = FormaPagamento;
+    this.detalhesFormaPagamento = `#${FormaPagamento.id} - Detalhes da Forma de pagamento`
+    FormaPagamento.ativoMascared = FormaPagamento.ativo ? 'Ativo' : 'Inativo'
+    this.detailedFormaPagamento = FormaPagamento;
 
     this.userDetailModal.open();
   }

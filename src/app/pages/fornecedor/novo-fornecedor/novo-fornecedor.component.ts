@@ -1,9 +1,12 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import {
   PoBreadcrumb,
   PoComboOption,
+  PoDynamicFormComponent,
   PoDynamicFormFieldValidation,
+  PoLookupLiterals,
   PoModalAction,
   PoModalComponent,
   PoNotificationService,
@@ -28,21 +31,27 @@ import { FornecedorService } from '../fornecedor.service';
 })
 export class NovoFornecedorComponent implements OnInit, OnDestroy {
 
+
+  @ViewChild('dynamicForm', { static: true }) dynamicForm: PoDynamicFormComponent;
   public readonly serviceApi = environment.apiURL
 
+  reactiveForm: FormGroup;
 
   showEnderTel = false;
 
   fornecedor: Fornecedor
   nome: string
   estado: string
+  cidadeTemp: number
   cidadesOptions: PoComboOption
   telefone: Telefone = new Telefone();
   loading = false
-  tituloPagina: string = "Nova Forma de Pagamento"
+  tituloPagina: string
+  itemsTel = []
   private sub: Subscription;
   private subService: Subscription;
   constructor(
+    private fb: FormBuilder,
     private cidadesService: CidadesService,
     private fornecedorService: FornecedorService,
     private telefoneService: TelefoneService,
@@ -52,27 +61,42 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
 
     this.fornecedor = new Fornecedor();
     this.fornecedor.ativo = true;
+    this.fornecedor.bairro = ""
+    this.fornecedor.cep = ""
+    this.fornecedor.complemento = ""
+    this.fornecedor.cpfCnpj = ""
+    this.fornecedor.email = ""
+    this.fornecedor.logradouro = ""
     this.fornecedor.cidade = new Cidade()
-
+    this.fornecedor.nome = ""
+    this.fornecedor.numero = ""
+    this.fornecedor.tipoFornecedor = 1
+    this.fornecedor.telefones = []
   }
 
-  ngOnInit(): void {
-    this.sub = this.route.params.subscribe(params => {
-      this.fornecedor.id = +params['id'];
+  ngOnInit() {
 
-      if (this.fornecedor.id) {
+    this.estado = ''
+    this.sub = this.route.params.subscribe(params => {
+      this.fornecedor.idFornecedor = +params['id'];
+      if (this.fornecedor.idFornecedor) {
         this.loading = true
-        this.subService = this.fornecedorService.get(this.fornecedor.id).subscribe({
+        this.subService = this.fornecedorService.get(this.fornecedor.idFornecedor).subscribe({
           next: (res: Fornecedor) => {
             this.fornecedor = res;
-            this.tituloPagina = `Editar Fornecedor #${res.id}`
-            this.loading = false;
+            this.tituloPagina = `Editar Fornecedor #${res.idFornecedor}`
+            this.estado = res.cidade.estado
+            this.loadCidades()
+            this.cidadeTemp = this.fornecedor.cidade.id
+            this.getTelefones()
           }
         })
       }
-      this.estado = ''
-    });
+      else{
+        this.tituloPagina = "Novo Fornecedor"
+      }
 
+    });
   }
 
   ngOnDestroy(): void {
@@ -81,11 +105,12 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
       this.subService.unsubscribe();
   }
 
+
   public readonly breadcrumb: PoBreadcrumb = {
     items: [
       { label: 'Home', link: '/' },
-      { label: 'Fornecedores', link: '../../fornecedor' },
-      { label: 'Novo' },
+      { label: 'Fornecedores', link: '/fornecedor' },
+      { label: '' },
     ],
   };
 
@@ -95,61 +120,60 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
   readonly stateOptions: Array<PoRadioGroupOption> = this.cidadesService.getEstados()
 
   loadCidades() {
-    this.fornecedor.cidade.id = 0
+    this.fornecedor.cidade.id = this.fornecedor.cidade.id || 0
     this.cidadesService.getCidades(this.estado).subscribe(
       (res: any) => {
         this.cidadesOptions = res.map(function (item) {
           return { label: item.cidade, value: item.id }
         })
+        this.fornecedor.cidade.id = this.fornecedor.cidade.id || this.cidadeTemp
       }
     )
   }
 
   readonly telefoneOptions: Array<PoRadioGroupOption> = [
     { label: 'Residencial', value: 1 },
-    { label: 'Comercial', value: 2 }
+    { label: 'Comercial', value: 2 },
+    { label: 'Celular', value: 3 }
   ];
 
+  readonly tipoPessoaOptions: Array<any> = [
+    { label: 'Pessoa Fisica', value: 1 },
+    { label: 'Pessoa Juridica', value: 2 }
+  ]
+
+  isFormValid(): boolean {
+    return this.reactiveForm ? this.reactiveForm.invalid : false;
+  }
 
   public readonly actions: PoPageAction[] = [
-    { label: 'Salvar', action: this.salvar.bind(this) },
+    { label: 'Salvar', action: this.salvarFornecedor.bind(this) },
     { label: 'Cancelar', url: '/fornecedor' }
   ];
 
-  salvar() {
-    if (this.fornecedor.id) {
-      this.subService = this.fornecedorService.update(this.fornecedor.id, this.fornecedor).subscribe({
-        next: () => {
+  salvarFornecedor() {
+    this.fornecedorService.insert(this.fornecedor).subscribe()
+    if (this.fornecedor.idFornecedor) {
+      this.subService = this.fornecedorService.update(this.fornecedor.idFornecedor, this.fornecedor).subscribe({
+        next: (res: Fornecedor) => {
           this.poNotification.success('Fornecedor editado com sucesso!');
         }
       })
     }
     else {
+      this.fornecedor.id = this.fornecedor.id || 0
+      this.fornecedor.idFornecedor = this.fornecedor.idFornecedor || 0
       this.subService = this.fornecedorService.insert(this.fornecedor).subscribe({
         next: (res: Fornecedor) => {
           this.fornecedor.id = res.id;
+          this.fornecedor.idFornecedor = res.idFornecedor;
+          this.tituloPagina = `Editar Fornecedor #${res.idFornecedor}`
           this.poNotification.success('Fornecedor criado com sucesso!');
         }
       })
     }
-    this.fornecedorService.insert(this.fornecedor).subscribe()
-
   }
 
-
-
-  cpfCnpfMask(changeValue): PoDynamicFormFieldValidation {
-    debugger
-    if (String(changeValue.value).length <= 11) {
-      return {
-        field: { mask: '###.###.###', property: 'cpfCnpj' },
-      };
-    } else {
-      return {
-        field: { mask: '##.###.###/####-##', property: 'cpfCnpj' },
-      };
-    }
-  }
 
   colTel: PoTableColumn[] = [
     {
@@ -158,36 +182,33 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
     },
     {
       label: 'Número',
-      property: 'numero'
+      property: 'telefone'
     },
     {
       label: 'WhatsApp?',
-      property: 'whatsapp',
-      type: 'boolean', boolean: {
+      property: 'whatsApp',
+      type: 'boolean',
+      boolean: {
         trueLabel: 'Sim', falseLabel: 'Não'
       }
     },
     {
       label: 'Tipo',
-      property: 'tipo',
+      property: 'tipoTelefone',
       type: 'label',
       labels: [
         { value: 1, label: 'Residencial' },
         { value: 2, label: 'Comercial' },
+        { value: 3, label: 'Celular' },
       ]
     },
     {
       property: 'columnIcon', label: ' ', type: 'icon', action: console.log, icons: [
-        { value: 'delete', icon: 'po-icon-plus', color: 'color-06', action: console.log, tooltip: 'Adiciona um novo item' },
         { value: 'edit', icon: 'po-icon-edit', action: console.log },
         { value: 'delete', icon: 'po-icon-delete', color: 'color-12', action: console.log }
       ]
     },
   ]
-
-  itemsTel = [{ numero: '(42) 3213-3212', preferencial: true, whatsapp: false, tipo: 2, columnIcon: ['po-icon-edit', 'po-icon-delete'] },
-  { numero: '(42) 93230-2321', preferencial: false, whatsapp: true, tipo: 1, columnIcon: ['po-icon-edit', 'po-icon-delete'] },
-  { numero: '(41) 4324-4234', preferencial: false, whatsapp: false, tipo: 2, columnIcon: ['po-icon-edit', 'po-icon-delete'] },]
 
 
 
@@ -211,6 +232,7 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
       {
         next: () => {
           this.poModal.close();
+          this.getTelefones()
           this.loading = false
         },
         error: () => {
@@ -220,7 +242,17 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
     )
   }
 
-
+  getTelefones() {
+    this.telefoneService.getTelefonesByPessoa(this.fornecedor.id)
+      .subscribe({
+        next: (res: any) => {
+          this.itemsTel = res.map(function (item) {
+            return { columnIcon: ['po-icon-edit', 'po-icon-delete'], ...item }
+          })
+          this.loading = false;
+        }
+      })
+  }
 
   close: PoModalAction = {
     action: this.closeModal.bind(this),

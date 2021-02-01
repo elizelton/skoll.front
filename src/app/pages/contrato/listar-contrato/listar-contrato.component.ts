@@ -9,6 +9,7 @@ import {
   PoPageDynamicTableCustomAction,
   PoPageDynamicTableCustomTableAction,
 } from '@po-ui/ng-templates';
+import { environment } from 'src/environments/environment';
 import { ContratoService } from '../contrato.service';
 
 @Component({
@@ -32,14 +33,14 @@ export class ListarContratoComponent implements OnInit {
     this.userDetailModal.close();
   }
 
-  readonly serviceApi = 'http://localhost:3000/contratos';
+  readonly serviceApi = `${environment.apiURL}/contrato`;
   detailedContrato;
   quickSearchWidth: number = 3;
 
   readonly actions: PoPageDynamicTableActions = {
     new: '/contrato/novo',
+    edit: '/contrato/editar/:id',
     remove: true,
-    removeAll: true
   };
 
   public readonly filters: Array<PoPageDynamicSearchFilters> = [
@@ -60,7 +61,7 @@ export class ListarContratoComponent implements OnInit {
 
   readonly fields: Array<any> = [
     { property: 'id', type: "number", key: true, visible: true, filter: true },
-    { property: 'cliente', label: 'Cliente', filter: true, gridColumns: 6 },
+    { property: 'cliente.nome', label: 'Cliente', filter: true, gridColumns: 6 },
     {
       property: 'situacao', label: 'Situação', type: 'label',
       labels: [

@@ -42,6 +42,7 @@ export class ListarUsuarioComponent implements OnInit {
     { property: 'id', key: true, visible: true, filter: true },
     { property: 'nome', label: 'Nome', filter: true, gridColumns: 6 },
     { property: 'userName', label: 'Login', filter: true, gridColumns: 4 },
+    { property: 'email', label: 'E-mail', filter: true, gridColumns: 4 },
     {
       property: 'ativo', label: 'Situação', type: 'label', 
       labels: [
@@ -54,7 +55,8 @@ export class ListarUsuarioComponent implements OnInit {
   readonly detailFields: Array<PoDynamicViewField> = [
     { property: 'ativo', tag: true, gridLgColumns: 4, divider: 'Dados pessoais' },
     { property: 'nome', gridLgColumns: 4 },
-    { property: 'userName', label: 'Login', gridLgColumns: 4 }
+    { property: 'userName', label: 'Login', gridLgColumns: 4 },
+    { property: 'email', label: 'E-Mail', gridLgColumns: 4 }
   ];
 
   pageCustomActions: Array<PoPageDynamicTableCustomAction> = [

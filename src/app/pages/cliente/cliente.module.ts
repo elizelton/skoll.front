@@ -19,7 +19,7 @@ const routes: Routes = [
   },
   {
     path: 'editar/:id',
-    component: EditarClienteComponent,
+    component: NovoClienteComponent,
   },
 ];
 

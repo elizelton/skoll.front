@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Produto } from 'src/app/model/Produto.model';
 import { CrudService } from 'src/app/shared/crud-service';
 import { environment } from 'src/environments/environment';
@@ -8,10 +9,14 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class ProdutoService extends CrudService<Produto>{
-
+  urlApi = `${environment.apiURL}/Produto/`
   constructor(public http: HttpClient) {
     super(http,
       `${environment.apiURL}/produto`);
+  }
+
+  getProdutoComServico(): Observable<Produto> {
+    return this.http.get<Produto>(`${this.urlApi}/comserv`);
   }
 
   downloadCsv(endpoint) {

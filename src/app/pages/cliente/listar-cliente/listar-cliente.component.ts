@@ -19,6 +19,7 @@ export class ListarClienteComponent {
 
   readonly actions: PoPageDynamicTableActions = {
     new: '/cliente/novo',
+    edit: '/cliente/editar/:id',
     remove: true
   };
 
@@ -39,7 +40,7 @@ export class ListarClienteComponent {
   ];
 
   readonly fields: Array<any> = [
-    { property: 'id', key: true, visible: false, filter: true },
+    { property: 'idCliente', key: true, visible: false, filter: true },
     { property: 'nome', label: 'Nome', filter: true, gridColumns: 6 },
     { property: 'username', label: 'Login', filter: true, gridColumns: 4 },
     { property: 'situacao', tag: true, label: 'Situação', type: 'boolean', booleanTrue: 'Ativo', booleanFalse: 'Inativo', filter: true, gridColumns: 2 }

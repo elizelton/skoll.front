@@ -1,4 +1,4 @@
-<po-page-default p-title="Novo Cliente" [p-breadcrumb]="breadcrumb" [p-actions]="actions">
+<po-page-default [p-title]="tituloPagina" [p-breadcrumb]="breadcrumb" [p-actions]="actions">
     <form class="po-ml-5">
         <h1 class="po-font-subtitle">Informações básicas</h1>
         <po-divider></po-divider>
@@ -11,18 +11,30 @@
             <po-email [ngModelOptions]="{standalone: true}" [(ngModel)]="cliente.email" p-label="E-mail"
                 class="po-md-4 po-lp-1">
             </po-email>
-            <po-switch [ngModelOptions]="{standalone: true}" [(ngModel)]="cliente.ativo" name="Ativo" class="po-ml-2"
+            <po-switch [hidden]="!cliente.idCliente" [ngModelOptions]="{standalone: true}" [(ngModel)]="cliente.ativo" name="Ativo" class="po-ml-2"
                 p-label="Ativo?" p-label-off="Não" p-label-on="Sim">
             </po-switch>
         </div>
-        <div class="po-row po-mb-5">
-            <po-datepicker class="po-md-2 po-lp-1" [ngModelOptions]="{standalone: true}"
-                [(ngModel)]="cliente.nascimento" p-label="Data de Nascimento" p-clean p-format="dd/mm/yyyy" p-required
-                p-max-date="2003-01-01">
-            </po-datepicker>
-            <po-input class="po-md-3 po-lp-1" [ngModelOptions]="{standalone: true}" [(ngModel)]="cliente.cpfCnpj"
-                name="cpfCnpj" p-auto-focus p-label="CPF / CNPJ" p-required (p-change-model)="cpfCnpfMask(this)">
+        <div class="po-row">
+            <po-radio-group class="po-md-4 po-lp-1" name="cliente.tipo" p-label="Tipo" p-required
+                [ngModelOptions]="{standalone: true}" [(ngModel)]="cliente.tipoCliente" [p-options]="tipoPessoaOptions">
+            </po-radio-group>
+        </div>
+        <div [hidden]="cliente.tipoCliente == 1">
+            <po-input [hidden]="cliente.tipoCliente == 1" class="po-md-3 po-lp-1" [ngModelOptions]="{standalone: true}"
+                [(ngModel)]="cliente.cpfCnpj" name="cpfCnpj" p-auto-focus p-label="CNPJ" p-required
+                p-mask="99.999.999/9999-99">
             </po-input>
+        </div>
+        <div [hidden]="cliente.tipoCliente == 2" class="po-row po-mb-5">
+            <po-input [hidden]="cliente.tipoCliente == 2" class="po-md-3 po-lp-1" [ngModelOptions]="{standalone: true}"
+                [(ngModel)]="cliente.cpfCnpj" name="cpfCnpj" p-auto-focus p-label="CPF" p-required
+                p-mask="999.999.999-99">
+            </po-input>
+            <po-datepicker [hidden]="cliente.tipoCliente == 2" class="po-md-2 po-lp-1"
+                [ngModelOptions]="{standalone: true}" [(ngModel)]="cliente.nascimento" p-label="Data de Nascimento"
+                p-clean p-format="dd/mm/yyyy" p-required p-max-date="2003-01-01">
+            </po-datepicker>
         </div>
         <h1 class="po-font-subtitle">Endereço</h1>
         <po-divider></po-divider>
@@ -60,14 +72,15 @@
             </po-combo>
         </div>
     </form>
-    <h1 class="po-font-subtitle" [hidden]="cliente.id">Telefones</h1>
-    <div class="po-row" [hidden]="cliente.id">
-        <po-button [hidden]="cliente.id" p-label="Adicionar Telefone" (p-click)="abrirModalTelefone()">
+   
+    <div class="po-row" [hidden]="!cliente.id">
+        <h1 class="po-font-subtitle" [hidden]="!cliente.id">Telefones</h1>
+        <po-button p-small [hidden]="!cliente.id" class="po-ml-5" p-label="Adicionar Telefone" p-icon="po-icon-plus-circle" (p-click)="abrirModalTelefone()">
         </po-button>
     </div>
-    <po-divider [hidden]="cliente.id"></po-divider>
-    <po-table [hidden]="cliente.id" [p-columns]="colTel" [p-items]="itemsTel" p-striped p-container
-        p-hide-select-all="true" p-hide-text-overflow>
+    <po-divider [hidden]="!cliente.id"></po-divider>
+    <po-table [hidden]="!cliente.id" [p-columns]="colTel" [p-items]="itemsTel" p-striped p-container
+        p-hide-select-all="true" p-hide-text-overflow class="po-mb-5">
     </po-table>
 
 
@@ -87,4 +100,6 @@
             </po-switch>
         </div>
     </po-modal>
+    <po-loading-overlay [hidden]="!loading" p-screen-lock="true">
+    </po-loading-overlay>
 </po-page-default>

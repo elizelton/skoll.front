@@ -69,6 +69,7 @@ export class NovoVendedorComponent implements OnInit, OnDestroy {
       })
     }
     else {
+      this.vendedor.id = this.vendedor.id || 0
       this.subService = this.vendedorService.insert(this.vendedor).subscribe({
         next: (res: Vendedor) => {
           this.vendedor.id = res.id;

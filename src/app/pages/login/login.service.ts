@@ -36,6 +36,10 @@ export class LoginService {
     return (!!this.userSubject.getValue())
   }
 
+  getUsuarioLogado(): Usuario{
+    return (this.userSubject.getValue())
+  }
+
   logout(): void {
     localStorage.removeItem('usuario');
     this.userSubject.next(null);

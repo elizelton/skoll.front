@@ -3,16 +3,16 @@ import { HttpClient } from '@angular/common/http';
 import { PoTableColumn } from '@po-ui/ng-components';
 import { CrudService } from 'src/app/shared/crud-service';
 import { environment } from 'src/environments/environment';
-import { Contrato } from 'src/app/model/Contrato.model';
+import { ContratoParcelaPagamento } from 'src/app/model/ContratoParcelaPagamento.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ContratoService extends CrudService<Contrato>{ 
+export class ContratoParcelaPagamentoService extends CrudService<ContratoParcelaPagamento>{ 
 
   constructor(public http: HttpClient) {
     super(http,
-      `${environment.apiURL}/Contrato`);
+      `${environment.apiURL}/ContratoParcelaPagamento`);
   }
 
   downloadCsv(endpoint) {

@@ -1,4 +1,4 @@
-<po-page-default p-title="Novo Forncedor" [p-breadcrumb]="breadcrumb" [p-actions]="actions">
+<po-page-default [p-title]="tituloPagina" [p-breadcrumb]="breadcrumb" [p-actions]="actions">
     <form class="po-ml-5">
         <h1 class="po-font-subtitle">Informações básicas</h1>
         <po-divider></po-divider>
@@ -11,13 +11,25 @@
             <po-email [ngModelOptions]="{standalone: true}" [(ngModel)]="fornecedor.email" p-label="E-mail"
                 class="po-md-4 po-lp-1">
             </po-email>
-            <po-switch [ngModelOptions]="{standalone: true}" [(ngModel)]="fornecedor.ativo" name="Ativo" class="po-ml-2"
+            <po-switch [hidden]="!fornecedor.idFornecedor" [ngModelOptions]="{standalone: true}" [(ngModel)]="fornecedor.ativo" name="Ativo" class="po-ml-2"
                 p-label="Ativo?" p-label-off="Não" p-label-on="Sim">
             </po-switch>
         </div>
-        <div class="po-row po-mb-5">
-            <po-input class="po-md-3 po-lp-1" [ngModelOptions]="{standalone: true}" [(ngModel)]="fornecedor.cpfCnpj"
-                name="cpfCnpj" p-auto-focus p-label="CPF / CNPJ" p-required (p-change-model)="cpfCnpfMask(this)">
+        <div class="po-row">
+            <po-radio-group class="po-md-4 po-lp-1" name="fornecedor.tipoFornecedor" p-label="Tipo" p-required
+                [ngModelOptions]="{standalone: true}" [(ngModel)]="fornecedor.tipoFornecedor" [p-options]="tipoPessoaOptions">
+            </po-radio-group>
+        </div>
+        <div [hidden]="fornecedor.tipoFornecedor == 1">
+            <po-input [hidden]="fornecedor.tipoFornecedor == 1" class="po-md-3 po-lp-1" [ngModelOptions]="{standalone: true}"
+                [(ngModel)]="fornecedor.cpfCnpj" name="cpfCnpj" p-auto-focus p-label="CNPJ" p-required
+                p-mask="99.999.999/9999-99">
+            </po-input>
+        </div>
+        <div [hidden]="fornecedor.tipoFornecedor == 2" class="po-row po-mb-5">
+            <po-input [hidden]="fornecedor.tipoFornecedor == 2" class="po-md-3 po-lp-1" [ngModelOptions]="{standalone: true}"
+                [(ngModel)]="fornecedor.cpfCnpj" name="cpfCnpj" p-auto-focus p-label="CPF" p-required
+                p-mask="999.999.999-99">
             </po-input>
         </div>
         <h1 class="po-font-subtitle">Endereço</h1>
@@ -56,14 +68,14 @@
             </po-combo>
         </div>
     </form>
-    <h1 class="po-font-subtitle" [hidden]="fornecedor.id">Telefones</h1>
-    <div class="po-row" [hidden]="fornecedor.id">
-        <po-button [hidden]="fornecedor.id" p-label="Adicionar Telefone" (p-click)="abrirModalTelefone()">
+    <div class="po-row" [hidden]="!fornecedor.id">
+        <h1 class="po-font-subtitle" [hidden]="!fornecedor.id">Telefones</h1>
+        <po-button p-small [hidden]="!fornecedor.id" class="po-ml-5" p-label="Adicionar Telefone" p-icon="po-icon-plus-circle" (p-click)="abrirModalTelefone()">
         </po-button>
     </div>
-    <po-divider [hidden]="fornecedor.id"></po-divider>
-    <po-table [hidden]="fornecedor.id" [p-columns]="colTel" [p-items]="itemsTel" p-striped p-container
-        p-hide-select-all="true" p-hide-text-overflow>
+    <po-divider [hidden]="!fornecedor.id"></po-divider>
+    <po-table [hidden]="!fornecedor.id" [p-columns]="colTel" [p-items]="itemsTel" p-striped p-container
+        p-hide-select-all="true" p-hide-text-overflow class="po-mb-5">
     </po-table>
 
 
@@ -83,4 +95,6 @@
             </po-switch>
         </div>
     </po-modal>
+    <po-loading-overlay [hidden]="!loading" p-screen-lock="true">
+    </po-loading-overlay>
 </po-page-default>

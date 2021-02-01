@@ -3,17 +3,25 @@ import { HttpClient } from '@angular/common/http';
 import { PoTableColumn } from '@po-ui/ng-components';
 import { CrudService } from 'src/app/shared/crud-service';
 import { environment } from 'src/environments/environment';
-import { Contrato } from 'src/app/model/Contrato.model';
+import { ContratoServico } from 'src/app/model/ContratoServico.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ContratoService extends CrudService<Contrato>{ 
+export class ContratoServicoService extends CrudService<ContratoServico>{ 
+
+ private url = `${environment.apiURL}/ContratoServicoServico`
 
   constructor(public http: HttpClient) {
     super(http,
-      `${environment.apiURL}/Contrato`);
+      `${environment.apiURL}/ContratoServicoServico`);
   }
+
+  getByContrato(recordID: number): Observable<ContratoServico> {
+    return this.http.get<ContratoServico>(`${this.url}/${recordID}/contrato`);
+}
+
 
   downloadCsv(endpoint) {
     this.http.get(endpoint).subscribe(data => {
