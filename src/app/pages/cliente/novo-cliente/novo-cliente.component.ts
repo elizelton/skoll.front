@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import {
   PoBreadcrumb,
   PoComboOption,
+  PoDialogService,
   PoDynamicFormComponent,
   PoDynamicFormFieldValidation,
   PoLookupLiterals,
@@ -13,8 +14,10 @@ import {
   PoPageAction,
   PoRadioGroupOption,
   PoSwitchLabelPosition,
+  PoTableAction,
   PoTableColumn,
 } from '@po-ui/ng-components';
+import { PoPageDynamicTableActions } from '@po-ui/ng-templates';
 import { Subscription } from 'rxjs';
 import { Cidade } from 'src/app/model/Cidade.model';
 import { Cliente } from 'src/app/model/Cliente.model';
@@ -47,6 +50,8 @@ export class NovoClienteComponent implements OnInit, OnDestroy {
   telefone: Telefone = new Telefone();
   loading = false
   tituloPagina: string = "Novo Cliente"
+  modalTelefoneTitulo = "Novo Telefone"
+  showTelTable = true
   itemsTel = []
   private sub: Subscription;
   private subService: Subscription;
@@ -56,7 +61,8 @@ export class NovoClienteComponent implements OnInit, OnDestroy {
     private clienteService: ClienteService,
     private telefoneService: TelefoneService,
     private poNotification: PoNotificationService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public poDialog: PoDialogService
   ) {
 
     this.cliente = new Cliente();
@@ -90,6 +96,7 @@ export class NovoClienteComponent implements OnInit, OnDestroy {
             this.estado = res.cidade.estado
             this.loadCidades()
             this.cidadeTemp = this.cliente.cidade.id
+            this.cliente.cidade.id = null
             this.getTelefones()
           }
         })
@@ -125,7 +132,7 @@ export class NovoClienteComponent implements OnInit, OnDestroy {
         this.cidadesOptions = res.map(function (item) {
           return { label: item.cidade, value: item.id }
         })
-        this.cliente.cidade.id = this.cliente.cidade.id || this.cidadeTemp
+        this.cliente.cidade.id = this.cidadeTemp
       }
     )
   }
@@ -151,7 +158,6 @@ export class NovoClienteComponent implements OnInit, OnDestroy {
   ];
 
   salvarCliente() {
-    this.clienteService.insert(this.cliente).subscribe()
     if (this.cliente.idCliente) {
       this.subService = this.clienteService.update(this.cliente.idCliente, this.cliente).subscribe({
         next: (res: Cliente) => {
@@ -200,16 +206,52 @@ export class NovoClienteComponent implements OnInit, OnDestroy {
         { value: 2, label: 'Comercial' },
         { value: 3, label: 'Celular' },
       ]
-    },
-    {
-      property: 'columnIcon', label: ' ', type: 'icon', action: console.log, icons: [
-        { value: 'edit', icon: 'po-icon-edit', action: console.log },
-        { value: 'delete', icon: 'po-icon-delete', color: 'color-12', action: console.log }
-      ]
-    },
+    }
   ]
 
+  readonly actionsTel: Array<PoTableAction> = [
+    {
+      action: this.editarTelefone.bind(this),
+      icon: 'po-icon-edit',
+      label: 'Editar'
+    },
+    {
+      action: this.excluirTelefone.bind(this),
+      icon: 'po-icon-delete',
+      label: 'Excluir'
+    }
+  ];
 
+  excluirTelefone(telefone) {
+
+    this.poDialog.confirm({
+      title: "Confirmar Exclusão",
+      message: `Deseja remover o telefone?`,
+      confirm: () => {
+        this.telefoneService.delete(telefone.id)
+          .subscribe(
+            {
+              next: () => {
+                this.poNotification.success("Telefone removido com sucesso.");
+                this.getTelefones()
+              },
+              error: () => {
+                this.poNotification.error("Falha ao remover telefone.");
+              }
+            }
+          )
+      },
+      cancel: () => { undefined }
+    })
+  }
+
+  editarTelefone(telefone) {
+    this.modalTelefoneTitulo = "Editar Telefone"
+    this.telefone = new Telefone();
+    this.telefone = telefone;
+    this.poModal.open();
+
+  }
 
   @ViewChild(PoModalComponent, { static: true }) poModal: PoModalComponent;
 
@@ -227,9 +269,12 @@ export class NovoClienteComponent implements OnInit, OnDestroy {
 
   salvarTelefone() {
     this.loading = true
-    this.telefoneService.insert(this.telefone).subscribe(
-      {
+    debugger
+
+    if (this.telefone.id) {
+      this.subService = this.telefoneService.update(this.telefone.id, this.telefone).subscribe({
         next: () => {
+          this.poNotification.success('Telefone editado com sucesso!');
           this.poModal.close();
           this.getTelefones()
           this.loading = false
@@ -237,17 +282,33 @@ export class NovoClienteComponent implements OnInit, OnDestroy {
         error: () => {
           this.loading = false
         }
-      }
-    )
+      })
+    }
+    else {
+      this.telefone.id = this.telefone.id || 0
+      this.subService = this.telefoneService.insert(this.telefone).subscribe(
+        {
+          next: () => {
+            this.poModal.close();
+            this.getTelefones()
+            this.loading = false
+            this.poNotification.success('Telefone adicionado com sucesso!');
+          },
+          error: () => {
+            this.loading = false
+          }
+        }
+      )
+    }
   }
 
   getTelefones() {
     this.telefoneService.getTelefonesByPessoa(this.cliente.id)
       .subscribe({
-        next: (res: any) => {
-          this.itemsTel = res.map(function (item) {
-            return { columnIcon: ['po-icon-edit', 'po-icon-delete'], ...item }
-          })
+        next: (res: any[]) => {
+          this.itemsTel = res
+          if(res.length == 0)
+            this.showTelTable = false
           this.loading = false;
         }
       })

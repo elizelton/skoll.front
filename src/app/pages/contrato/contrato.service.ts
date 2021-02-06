@@ -10,9 +10,16 @@ import { Contrato } from 'src/app/model/Contrato.model';
 })
 export class ContratoService extends CrudService<Contrato>{ 
 
+  private url = `${environment.apiURL}/Contrato`
+
   constructor(public http: HttpClient) {
     super(http,
       `${environment.apiURL}/Contrato`);
+  }
+
+
+  gerarParcelas(id: number, diaVencimento: number, isPrimeira: boolean){
+    return this.http.put(`${this.url}/${id}/${diaVencimento}/${isPrimeira}/gerarparcelas`, null);
   }
 
   downloadCsv(endpoint) {

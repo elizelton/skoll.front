@@ -78,13 +78,13 @@
         <po-button p-small [hidden]="!cliente.id" class="po-ml-5" p-label="Adicionar Telefone" p-icon="po-icon-plus-circle" (p-click)="abrirModalTelefone()">
         </po-button>
     </div>
-    <po-divider [hidden]="!cliente.id"></po-divider>
-    <po-table [hidden]="!cliente.id" [p-columns]="colTel" [p-items]="itemsTel" p-striped p-container
-        p-hide-select-all="true" p-hide-text-overflow class="po-mb-5">
+    <po-divider [hidden]="!cliente.id && !showTelTable"></po-divider>
+    <po-table [hidden]="!cliente.id && !showTelTable" [p-columns]="colTel" [p-items]="itemsTel" p-striped p-container
+        p-hide-select-all="true" p-hide-text-overflow class="po-mb-5" [p-actions]="actionsTel">
     </po-table>
+    <div class="po-mb-5"></div>
 
-
-    <po-modal p-title="Novo Telefone" [p-primary-action]="close" [p-secondary-action]="confirm" p-size="xl">
+    <po-modal [p-title]="modalTelefoneTitulo" [p-primary-action]="close" [p-secondary-action]="confirm" p-size="xl">
         <div class="po-row">
             <po-input [(ngModel)]="telefone.ddd" [ngModelOptions]="{standalone: true}" class="po-md-2" p-mask="99"
                 p-label="DDD">

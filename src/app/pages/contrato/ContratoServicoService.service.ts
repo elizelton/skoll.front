@@ -11,11 +11,11 @@ import { Observable } from 'rxjs';
 })
 export class ContratoServicoService extends CrudService<ContratoServico>{ 
 
- private url = `${environment.apiURL}/ContratoServicoServico`
+ private url = `${environment.apiURL}/ContratoServico`
 
   constructor(public http: HttpClient) {
     super(http,
-      `${environment.apiURL}/ContratoServicoServico`);
+      `${environment.apiURL}/ContratoServico`);
   }
 
   getByContrato(recordID: number): Observable<ContratoServico> {

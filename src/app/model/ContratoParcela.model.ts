@@ -5,7 +5,7 @@ export class ContratoParcela {
     idContrato: number;
     numParcela: number;
     valorParcela: number;
-    dataVencimento: string;
+    dataVencimento: Date;
     situacao: number;
     comissao: number;
     ajuste: number;

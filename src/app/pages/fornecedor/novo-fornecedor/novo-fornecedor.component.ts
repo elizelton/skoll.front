@@ -88,6 +88,7 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
             this.estado = res.cidade.estado
             this.loadCidades()
             this.cidadeTemp = this.fornecedor.cidade.id
+            this.fornecedor.cidade.id = null
             this.getTelefones()
           }
         })
@@ -126,7 +127,7 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
         this.cidadesOptions = res.map(function (item) {
           return { label: item.cidade, value: item.id }
         })
-        this.fornecedor.cidade.id = this.fornecedor.cidade.id || this.cidadeTemp
+        this.fornecedor.cidade.id = this.cidadeTemp
       }
     )
   }

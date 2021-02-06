@@ -57,10 +57,6 @@ export class ListarProdutoComponent implements OnInit {
     { label: 'Download .csv', action: this.produtoService.downloadCsv.bind(this.produtoService, this.serviceApi) }
   ];
 
-  tableCustomActions: Array<PoPageDynamicTableCustomTableAction> = [
-    { label: 'Editar', action:  console.log }
-  ];
-
   constructor(private produtoService: ProdutoService) {}
   ngOnInit(): void {
   }

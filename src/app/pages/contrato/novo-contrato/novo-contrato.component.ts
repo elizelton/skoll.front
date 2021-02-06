@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { PoBreadcrumb, PoDynamicFormField, PoDynamicFormFieldChanged, PoDynamicFormValidation, PoNotificationService, PoPageAction, PoTableColumn, PoRadioGroupOption, PoComboOption, PoSelectOption } from '@po-ui/ng-components';
+import { PoBreadcrumb, PoDynamicFormField, PoDynamicFormFieldChanged, PoDynamicFormValidation, PoNotificationService, PoPageAction, PoTableColumn, PoRadioGroupOption, PoComboOption, PoSelectOption, PoDialogService, PoModalComponent, PoModalAction, PoTableAction } from '@po-ui/ng-components';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Cliente } from 'src/app/model/Cliente.model';
@@ -21,6 +21,9 @@ import { ContratoService } from '../contrato.service';
 import { ContratoParcelaService } from '../contratoParcela.service';
 import { ContratoParcelaPagamentoService } from '../contratoParcelaPagamento.service';
 import { ContratoServicoService } from '../ContratoServicoService.service';
+import * as moment from 'moment';
+import { ContratoParcela } from 'src/app/model/ContratoParcela.model';
+import { ContratoParcelaPagamento } from 'src/app/model/ContratoParcelaPagamento.model';
 
 @Component({
   selector: 'app-novo-contrato',
@@ -36,8 +39,10 @@ export class NovoContratoComponent implements OnInit {
 
   public readonly actions: PoPageAction[] = [
     { label: 'Salvar', action: this.salvarContrato.bind(this) },
-    { label: 'Gerar Parcelas' },
-    { label: 'Cancelar', url: '/contrato' }
+    { label: 'Voltar', url: '/contrato', type: 'danger' },
+    { label: 'Gerar Parcelas', action: this.gerarParcelasContratoModal.bind(this), disabled: true },
+    { label: 'Cancelar Contrato', action: this.gerarParcelasContratoModal.bind(this), disabled: true },
+
   ];
 
 
@@ -50,7 +55,7 @@ export class NovoContratoComponent implements OnInit {
   validateFields: Array<string> = ['state'];
 
 
-  columns: PoTableColumn[] = [
+  parcelasColumns: PoTableColumn[] = [
     {
       label: 'Número',
       property: 'numParcela',
@@ -77,8 +82,8 @@ export class NovoContratoComponent implements OnInit {
       type: 'label',
       labels: [
         { value: 1, color: 'color-08', label: 'Pendente', tooltip: 'Situação da parcela' },
-        { value: 2, color: 'color-11', label: 'Pago', tooltip: 'Situação da parcela' },
-        { value: 3, color: 'color-07', label: 'Vencido', tooltip: 'Situação do parcela' }
+        { value: 3, color: 'color-11', label: 'Pago', tooltip: 'Situação da parcela' },
+        { value: 2, color: 'color-03', label: 'Pago Parcialmente', tooltip: 'Situação do parcela' }
       ]
     },
     {
@@ -89,21 +94,44 @@ export class NovoContratoComponent implements OnInit {
     }
   ]
 
-  items = [{ numParcela: 1, valorParcela: 232.23, dataVencimento: '2020-07-03', dataPagamento: '', situacao: 3, comissao: 23.43 },
-  { numParcela: 1, valorParcela: 232.23, dataVencimento: '2020-08-03', dataPagamento: '2020-08-01', situacao: 2, comissao: 23.43 },
-  { numParcela: 2, valorParcela: 232.23, dataVencimento: '2020-09-03', dataPagamento: '2020-91-01', situacao: 2, comissao: 23.43 },
-  { numParcela: 3, valorParcela: 232.23, dataVencimento: '2020-10-03', dataPagamento: '', situacao: 1, comissao: 23.43 },
-  { numParcela: 4, valorParcela: 232.23, dataVencimento: '2020-11-03', dataPagamento: '', situacao: 1, comissao: 23.43 },
+  PagamentosColumns: PoTableColumn[] = [
+    {
+      label: 'Número',
+      property: 'id',
+      type: 'number'
+    },
+    {
+      label: 'Valor Pago',
+      property: 'valorPagamento',
+      type: 'currency',
+      format: 'BRL'
+    }, {
+      label: 'Juros',
+      property: 'juros',
+      type: 'currency',
+      format: 'BRL'
+    },
+    {
+      label: 'Data Pagamento',
+      property: 'dataPagamento',
+      type: 'date'
+    },
+    {
+      label: 'Comissão',
+      property: 'comissao',
+      type: 'currency',
+      format: 'BRL'
+    }
   ]
 
   colProduto: PoTableColumn[] = [
     {
       label: 'Produto',
-      property: 'servicoPrestado.produto.nome'
+      property: 'produtoNome'
     },
     {
       label: 'Servico',
-      property: 'servicoPrestado.nome',
+      property: 'servicoNome',
     },
     {
       label: 'Quantidade',
@@ -143,7 +171,8 @@ export class NovoContratoComponent implements OnInit {
     private produtoService: ProdutoService,
     private servicoPrestadoService: ServicoPrestadoService,
     private loginService: LoginService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private poDialog: PoDialogService
   ) { }
   clienteOptions: any
   vendedorOptions: any
@@ -154,7 +183,14 @@ export class NovoContratoComponent implements OnInit {
   contratoServico: ContratoServico
   itemsContratoServico: any
   loading = false
-  tituloModalCancelamento: string 
+  tituloPagina
+  contrato: Contrato
+  tituloModalCancelamento: string
+  tituloModalGerarParcela: string
+  parcelasItems
+  tituloModalPagarParcela = "Novo Pagamento de Parcela"
+  gerarParcelasOptions = { isPrimeira: true, diaVencimento: null }
+  hoje = new Date()
   private sub: Subscription;
 
   tipoDocumentoOptions: PoSelectOption[] = [
@@ -165,8 +201,10 @@ export class NovoContratoComponent implements OnInit {
       label: "Único", value: 2
     }
   ]
-  tituloPagina
-  contrato: Contrato
+
+  @ViewChild(PoModalComponent, { static: true }) poModal: PoModalComponent;
+
+
   ngOnInit() {
 
     this.contrato = new Contrato()
@@ -177,48 +215,30 @@ export class NovoContratoComponent implements OnInit {
     this.contrato.formaPagamento.id = 0
     this.contrato.vendedor.id = 0
     this.contrato.dataInicio = new Date()
-    this.contrato.dataTermino = new Date()
+    this.contrato.dataTermino = moment(this.contrato.dataInicio).add(1, 'months').toDate()
     this.contrato.observacoes = ""
     this.contrato.valorTotal = 0
-    this.contrato.numParcelas = 0
+    this.contrato.numParcelas = null
     this.contrato.ativo = true
-    this.contrato.periodoMeses = 0
+    this.contrato.periodoMeses = 1
     this.contrato.tipoDocumento = 0
+    this.contrato.qntdExemplares = 0
+    this.contrato.juros = 0
     this.contrato.usuario = new Usuario()
     this.contrato.usuario.id = this.loginService.getUsuarioLogado().id;
     this.contratoServico = new ContratoServico()
     this.contratoServico.servicoPrestado = new ServicoPrestado()
     this.contratoServico.servicoPrestado.id = 0
-    this.sub = this.route.params.subscribe(params => {
-      this.contrato.id = +params['id'];
-      if (this.contrato.id) {
-        this.loading = true
-        let subService = this.contratoService.get(this.contrato.id).subscribe({
-          next: (res: Contrato) => {
-            this.contrato = res;
-            this.tituloPagina = `Editar Contrato #${res.id}`
-            this.contrato.dataInicio = new Date(res.dataInicio)
-            this.contrato.dataTermino = new Date(res.dataTermino)
-            this.tipoDocumentoOptions = [
-              {
-                label: "Cancelado", value: 3
-              },
-              ...this.tipoDocumentoOptions
-            ]
-            this.carregarContratoServicos()
-            subService.unsubscribe()
-          }
-        })
-      }
-
-    });
-
+    this.parcelaModal = new ContratoParcela()
+    this.parcelaModal.dataVencimento = new Date()
+    this.parcelaModal.valorParcela = 0;
     let subCliente$ = this.clienteService.getAll()
       .subscribe({
         next: (res: any) => {
           this.clienteOptions = res.items.map(function (item) {
             return { label: item.nome, value: item.idCliente }
           })
+          this.contrato.cliente.idCliente = this.contrato.cliente.idCliente
           subCliente$.unsubscribe();
         }
       })
@@ -235,13 +255,45 @@ export class NovoContratoComponent implements OnInit {
       .subscribe({
         next: (res: any) => {
           this.formaPagamentoOptions = res.items.map(function (item) {
-            return { label: item.nome, value: item.id }
+            return { label: item.nome, value: item.id, qtdParcela: item.qtdParcela }
           })
           subFormaPagamento$.unsubscribe();
         }
       })
+
+    this.sub = this.route.params.subscribe(params => {
+      this.contrato.id = +params['id'];
+      if (this.contrato.id) {
+        this.loading = true
+        let subService = this.contratoService.get(this.contrato.id).subscribe({
+          next: (res: Contrato) => {
+            this.contrato = res;
+            this.tituloPagina = `Editar Contrato #${res.id}`
+            this.breadcrumb.items[2].label = "Editar"
+            this.contrato.dataInicio = new Date(res.dataInicio)
+            this.contrato.dataTermino = new Date(res.dataTermino)
+            this.tipoDocumentoOptions = [
+              {
+                label: "Cancelado", value: 3
+              },
+              ...this.tipoDocumentoOptions
+            ]
+            this.actions[2].disabled = false;
+            this.carregarContratoServicos()
+            this.getContratoParcelas()
+            subService.unsubscribe()
+          }
+        })
+      }
+
+    });
   }
 
+  carregarNumParcelas() {
+    if (this.contrato.formaPagamento.id && !this.contrato.numParcelas)
+      this.contrato.numParcelas = this.formaPagamentoOptions
+        .find(x => x.value == this.contrato.formaPagamento.id)?.qtdParcela
+  }
 
   salvarContrato() {
     this.contratoService.insert(this.contrato).subscribe()
@@ -249,6 +301,7 @@ export class NovoContratoComponent implements OnInit {
       let subService = this.contratoService.update(this.contrato.id, this.contrato).subscribe({
         next: (res: Contrato) => {
           this.poNotification.success('Contrato editado com sucesso!');
+          this.actions[2].disabled = false;
           subService.unsubscribe();
         }
       })
@@ -260,10 +313,16 @@ export class NovoContratoComponent implements OnInit {
           this.contrato.id = res.id;
           this.tituloPagina = `Editar Contrato #${res.id}`
           this.poNotification.success('Contrato criado com sucesso!');
+          this.actions[2].disabled = false;
           subService$.unsubscribe();
         }
       })
     }
+  }
+
+  calcularData() {
+    if (this.contrato.periodoMeses)
+      this.contrato.dataTermino = moment(this.contrato.dataInicio).add(this.contrato.periodoMeses, 'months').toDate()
   }
 
   carregarDadosProdutos() {
@@ -278,26 +337,44 @@ export class NovoContratoComponent implements OnInit {
       })
   }
 
-carregarContratoServicos(){
-  let sub = this.contratoServicoService.getByContrato(this.contrato.id)
-  .subscribe(
-    {
-      next: (res: ContratoServico) =>{
-        this.itemsContratoServico = res
-        sub.unsubscribe()
-      }
-    }
-  )
-}
+  getContratoParcelas() {
+    this.contratoParcelaService.getParcelas(this.contrato.id)
+      .subscribe({
+        next: (res: any[]) => {
+          if (res.length)
+            this.parcelasItems = res
+          else
+            this.actions[2].disabled = true;
+        }
+      })
+  }
 
-  loadServicos() {
+  carregarContratoServicos() {
+    let sub = this.contratoServicoService.getByContrato(this.contrato.id)
+      .subscribe(
+        {
+          next: (res: any) => {
+            this.itemsContratoServico = res.map(function (item) {
+              return { produtoNome: item.servicoPrestado.produto.nome, servicoNome: item.servicoPrestado.nome, ...item }
+            })
+            sub.unsubscribe()
+          }
+        }
+      )
+  }
+
+  loadServicos(servicoId: number) {
+    debugger
     if (this.produtoSelecionado) {
       let subServicos$ = this.servicoPrestadoService.getByProduto(this.produtoSelecionado)
         .subscribe({
           next: (res: any) => {
             this.servicoOptions = res.map(function (item) {
-              return { label: item.nome, value: item.id }
+              return { label: item.nome, value: item.id, valorUnitario: item.valorUnitario }
             })
+            if (servicoId) {
+              this.contratoServico.servicoPrestado.id = servicoId
+            }
             subServicos$.unsubscribe();
           }
         })
@@ -308,23 +385,152 @@ carregarContratoServicos(){
     this.contratoServico.valorTotal = this.contratoServico.quantidade * this.contratoServico.valorUnitario
   }
 
+  readonly actionsProduto: Array<PoTableAction> = [
+    {
+      action: this.editarServico.bind(this),
+      icon: 'po-icon-edit',
+      label: 'Editar'
+    },
+    {
+      action: this.excluirServico.bind(this),
+      icon: 'po-icon-delete',
+      label: 'Excluir'
+    }
+  ];
+
+  editarServico(servico) {
+    this.contratoServico = servico;
+    //  this.contratoServico.servicoPrestado.id = 0
+    this.contratoServico.id = null
+    this.servicoPrestadoService.get(servico.servicoPrestado.id)
+      .subscribe({
+        next: (res: ServicoPrestado) => {
+          this.produtoSelecionado = res.produto.id
+          this.loadServicos(servico.servicoPrestado.id)
+        }
+      })
+  }
+
+  excluirServico() {
+
+  }
 
   adicionarServico() {
     this.contratoServico.idContrato = this.contrato.id
     let sub = this.contratoServicoService.insert(this.contratoServico)
-    .subscribe({
-      next: () => {
-        this.carregarContratoServicos()
-        sub.unsubscribe();
-      }
-    })
+      .subscribe({
+        next: () => {
+          this.carregarContratoServicos()
+          this.poNotification.success("Serviço adicionado com sucesso.")
+          this.actions[1].disabled = false;
+          sub.unsubscribe();
+        }
+      })
   }
 
-  onChangeFields(changedValue: PoDynamicFormFieldChanged): PoDynamicFormValidation {
-    return {};
+  readonly actionsParcelas: Array<PoTableAction> = [
+    {
+      action: this.lancarPagamentoParcela.bind(this),
+      icon: 'po-icon-finance',
+      label: 'Lançar Pagamento',
+    }
+  ];
+
+  @ViewChild('modalLancarParcela') modalLancarParcela: PoModalComponent;
+  parcelaModal: ContratoParcela
+  parcelaPagamento: ContratoParcelaPagamento = { dataPagamento: new Date(), valorPagamento: 0 }
+  valorMaximoPagamento = 0
+  lancarPagamentoParcela(parcela) {
+    this.parcelaModal = new ContratoParcela()
+    this.parcelaModal = parcela
+    this.tituloModalPagarParcela = `Novo Pagamento de Parcela#${parcela.id}`
+
+    this.valorMaximoPagamento = parcela.valorParcela
+
+    this.parcelaPagamento.idContratoParcela = parcela.id
+    this.parcelaModal.dataVencimento = new Date(parcela.dataVencimento)
+    this.modalLancarParcela.open()
   }
 
-  onLoadFields(value: any) {
-    return this.contratoService.getUserDocument(value);
+  validaValorParcela() {
+    if (this.parcelaPagamento.valorPagamento
+      && this.parcelaPagamento.valorPagamento > 0
+      && this.parcelaPagamento.valorPagamento <= this.valorMaximoPagamento)
+      this.confirmPagarParcela.disabled = false
+    else
+      this.confirmPagarParcela.disabled = true
   }
+
+  contemPagamentos(row, index: number) {
+    return row.pagamentos.length > 0;
+  }
+
+  close: PoModalAction = {
+    action: this.closeModal.bind(this),
+    label: 'Cancelar',
+    danger: true,
+  };
+
+  confirmGerarParcela: PoModalAction = {
+    action: this.gerarParcelaConfirmacao.bind(this),
+    label: 'Gerar parcelas',
+    disabled: true,
+    loading: this.loading
+  };
+
+  confirmPagarParcela: PoModalAction = {
+    action: this.pagarParcelaConfirmacao.bind(this),
+    label: 'Realizar Pagamento',
+    disabled: true,
+    loading: this.loading
+  };
+
+  closeModal() {
+    this.poModal.close();
+    this.modalLancarParcela.close();
+  }
+
+  pagarParcelaConfirmacao() {
+    this.contratoParcelaPagamentoService.insert(this.parcelaPagamento)
+      .subscribe({
+        next: () => {
+          this.poNotification.success('Parcela paga com sucesso!')
+          this.closeModal()
+          this.getContratoParcelas()
+        }
+      })
+  }
+
+  gerarParcelaConfirmacao() {
+    this.contratoService.gerarParcelas(
+      this.contrato.id,
+      this.gerarParcelasOptions.diaVencimento,
+      this.gerarParcelasOptions.isPrimeira)
+      .subscribe({
+        next: () => {
+          this.poNotification.success('Parcelas geradas com sucesso!')
+          this.closeModal()
+          this.getContratoParcelas()
+        }
+      })
+  }
+
+  carregarValorUnitario() {
+    this.contratoServico.valorUnitario = this.servicoOptions
+      .find(x => x.id = this.contratoServico.servicoPrestado.id)?.valorUnitario
+  }
+
+  validarDia() {
+    if (this.gerarParcelasOptions.diaVencimento > 0 && this.gerarParcelasOptions.diaVencimento < 31)
+      this.confirmGerarParcela.disabled = false
+    else
+      this.confirmGerarParcela.disabled = true;
+
+  }
+
+  gerarParcelasContratoModal() {
+    this.tituloModalGerarParcela = `Gerar Parcelas Contrato#${this.contrato.id}`
+    this.poModal.open();
+  }
+
 }

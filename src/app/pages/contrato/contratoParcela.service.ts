@@ -9,10 +9,16 @@ import { ContratoParcela } from 'src/app/model/ContratoParcela.model';
   providedIn: 'root'
 })
 export class ContratoParcelaService extends CrudService<ContratoParcela>{ 
+  
+  private url = `${environment.apiURL}/ContratoParcela`
 
   constructor(public http: HttpClient) {
     super(http,
       `${environment.apiURL}/ContratoParcela`);
+  }
+
+  getParcelas(id: number){
+    return this.http.get(`${this.url}/${id}/contrato`);
   }
 
   downloadCsv(endpoint) {

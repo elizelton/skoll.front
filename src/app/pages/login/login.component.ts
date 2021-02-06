@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { PoPageLoginLiterals } from '@po-ui/ng-templates';
 import { first } from 'rxjs/operators';
 import { LoginService } from './login.service';
 
@@ -30,6 +31,12 @@ export class LoginComponent implements OnInit {
         }
       });
   }
+
+  customLiterals: PoPageLoginLiterals = {
+    loginPlaceholder: 'Insira seu usuário de acesso',
+    passwordPlaceholder: 'Insira sua senha de acesso',
+    submitLabel: 'Acessar o sistema'
+  };
 
   ngOnInit(): void {
     document.querySelector('div.po-page-background-footer').setAttribute("hidden", "true")

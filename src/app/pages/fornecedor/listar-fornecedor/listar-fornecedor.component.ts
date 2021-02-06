@@ -19,6 +19,7 @@ export class ListarFornecedorComponent {
 
   readonly actions: PoPageDynamicTableActions = {
     new: '/fornecedor/novo',
+    edit: '/fornecedor/editar/:id',
     remove: true
   };
 

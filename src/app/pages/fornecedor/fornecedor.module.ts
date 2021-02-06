@@ -16,6 +16,10 @@ const routes: Routes = [
   {
     path: 'novo',
     component: NovoFornecedorComponent,
+  },
+  {
+    path: 'editar/:id',
+    component: NovoFornecedorComponent,
   }
 ];
 
