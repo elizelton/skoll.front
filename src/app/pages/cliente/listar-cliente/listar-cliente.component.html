@@ -4,8 +4,7 @@
   p-keep-filters
   p-title="Clientes"
   [p-actions]="actions"
-  [p-page-custom-actions]="pageCustomActions"
-  [p-table-custom-actions]="tableCustomActions"
+ 
   [p-breadcrumb]="breadcrumb"
   [p-fields]="fields"
   [p-service-api]="serviceApi"
@@ -13,6 +12,6 @@
 >
 </po-page-dynamic-table>
 
-<po-modal #clienteDetailModal p-title="Detalhes do Cliente">
+<po-modal #clienteDetailModal [p-title]="tituloDetalhesCliente">
   <po-dynamic-view [p-fields]="detailFields" [p-value]="detailedCliente"> </po-dynamic-view>
 </po-modal>

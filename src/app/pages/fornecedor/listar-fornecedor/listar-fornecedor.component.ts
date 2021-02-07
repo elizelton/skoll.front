@@ -42,14 +42,21 @@ export class ListarFornecedorComponent {
   readonly fields: Array<any> = [
     { property: 'id', key: true, visible: false, filter: true },
     { property: 'nome', label: 'Nome', filter: true, gridColumns: 6 },
-    { property: 'username', label: 'Login', filter: true, gridColumns: 4 },
-    { property: 'situacao', tag: true, label: 'Situação', type: 'boolean', booleanTrue: 'Ativo', booleanFalse: 'Inativo', filter: true, gridColumns: 2 }
+    { property: 'cpfCnpj', label: 'CPF/CNPJ', filter: true, gridColumns: 6 },
+    { property: 'email', label: 'E-mail', filter: true, gridColumns: 4 },
+    {
+      property: 'ativo', label: 'Situação', type: 'label',
+      labels: [
+        { value: true, color: 'color-11', label: 'Ativo', tooltip: 'Situação do fornecedor' },
+        { value: false, color: 'color-07', label: 'Cancelado', tooltip: 'Situação do fornecedor' }
+      ]
+    },
   ];
 
   readonly detailFields: Array<PoDynamicViewField> = [
     { property: 'situacao', tag: true, gridLgColumns: 4, divider: 'Dados pessoais' },
     { property: 'nome', gridLgColumns: 4 },
-    { property: 'username', label: 'Login', gridLgColumns: 4 }
+    { property: 'email', label: 'Email', gridLgColumns: 4 }
   ];
 
   pageCustomActions: Array<PoPageDynamicTableCustomAction> = [

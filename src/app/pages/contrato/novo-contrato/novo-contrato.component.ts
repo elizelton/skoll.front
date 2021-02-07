@@ -272,12 +272,14 @@ export class NovoContratoComponent implements OnInit {
             this.breadcrumb.items[2].label = "Editar"
             this.contrato.dataInicio = new Date(res.dataInicio)
             this.contrato.dataTermino = new Date(res.dataTermino)
-            this.tipoDocumentoOptions = [
-              {
-                label: "Cancelado", value: 3
-              },
-              ...this.tipoDocumentoOptions
-            ]
+              if(this.contrato.tipoDocumento === 3){
+                this.tipoDocumentoOptions = [
+                  {
+                    label: "Cancelado", value: 3
+                  },
+                  ...this.tipoDocumentoOptions
+                ]
+            }
             this.actions[2].disabled = false;
             this.carregarContratoServicos()
             this.getContratoParcelas()
@@ -440,6 +442,7 @@ export class NovoContratoComponent implements OnInit {
   parcelaModal: ContratoParcela
   parcelaPagamento: ContratoParcelaPagamento = { dataPagamento: new Date(), valorPagamento: 0 }
   valorMaximoPagamento = 0
+  
   lancarPagamentoParcela(parcela) {
     this.parcelaModal = new ContratoParcela()
     this.parcelaModal = parcela

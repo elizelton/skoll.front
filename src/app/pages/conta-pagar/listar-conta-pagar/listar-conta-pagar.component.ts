@@ -18,6 +18,7 @@ export class ListarContaPagarComponent implements OnInit {
 
   readonly actions: PoPageDynamicTableActions = {
     new: '/conta-pagar/novo',
+    edit: '/conta-pagar/editar/:id',
     remove: true
   };
 
@@ -66,11 +67,6 @@ export class ListarContaPagarComponent implements OnInit {
     { label: 'Download .csv', action: this.contratoService.downloadCsv.bind(this.contratoService, this.serviceApi) }
   ];
 
-  tableCustomActions: Array<PoPageDynamicTableCustomTableAction> = [
-    {label: 'Lançar Pagamento'},
-    {label: 'Adicionar Produto'},
-    { label: 'Detalhes', action: this.onClickUserDetail.bind(this) }
-  ];
 
   constructor(private contratoService: ContratoService) { }
   ngOnInit(): void {

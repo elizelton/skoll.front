@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import {
   PoBreadcrumb,
   PoComboOption,
+  PoDialogService,
   PoDynamicFormComponent,
   PoDynamicFormFieldValidation,
   PoLookupLiterals,
@@ -13,6 +14,7 @@ import {
   PoPageAction,
   PoRadioGroupOption,
   PoSwitchLabelPosition,
+  PoTableAction,
   PoTableColumn,
 } from '@po-ui/ng-components';
 import { Subscription } from 'rxjs';
@@ -47,6 +49,7 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
   telefone: Telefone = new Telefone();
   loading = false
   tituloPagina: string
+  modalTelefoneTitulo = "Novo Telefone"
   itemsTel = []
   private sub: Subscription;
   private subService: Subscription;
@@ -56,7 +59,8 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
     private fornecedorService: FornecedorService,
     private telefoneService: TelefoneService,
     private poNotification: PoNotificationService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public poDialog: PoDialogService
   ) {
 
     this.fornecedor = new Fornecedor();
@@ -93,7 +97,7 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
           }
         })
       }
-      else{
+      else {
         this.tituloPagina = "Novo Fornecedor"
       }
 
@@ -111,7 +115,7 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
     items: [
       { label: 'Home', link: '/' },
       { label: 'Fornecedores', link: '/fornecedor' },
-      { label: '' },
+      { label: 'Novo' },
     ],
   };
 
@@ -169,6 +173,7 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
           this.fornecedor.id = res.id;
           this.fornecedor.idFornecedor = res.idFornecedor;
           this.tituloPagina = `Editar Fornecedor #${res.idFornecedor}`
+          this.breadcrumb.items[2].label = "Editar"
           this.poNotification.success('Fornecedor criado com sucesso!');
         }
       })
@@ -211,7 +216,49 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
     },
   ]
 
+  readonly actionsTel: Array<PoTableAction> = [
+    {
+      action: this.editarTelefone.bind(this),
+      icon: 'po-icon-edit',
+      label: 'Editar'
+    },
+    {
+      action: this.excluirTelefone.bind(this),
+      icon: 'po-icon-delete',
+      label: 'Excluir'
+    }
+  ];
 
+  excluirTelefone(telefone) {
+
+    this.poDialog.confirm({
+      title: "Confirmar Exclusão",
+      message: `Deseja remover o telefone?`,
+      confirm: () => {
+        this.telefoneService.delete(telefone.id)
+          .subscribe(
+            {
+              next: () => {
+                this.poNotification.success("Telefone removido com sucesso.");
+                this.getTelefones()
+              },
+              error: () => {
+                this.poNotification.error("Falha ao remover telefone.");
+              }
+            }
+          )
+      },
+      cancel: () => { undefined }
+    })
+  }
+
+  editarTelefone(telefone) {
+    this.modalTelefoneTitulo = "Editar Telefone"
+    this.telefone = new Telefone();
+    this.telefone = telefone;
+    this.poModal.open();
+
+  }
 
   @ViewChild(PoModalComponent, { static: true }) poModal: PoModalComponent;
 
@@ -229,9 +276,10 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
 
   salvarTelefone() {
     this.loading = true
-    this.telefoneService.insert(this.telefone).subscribe(
-      {
+    if (this.telefone.id) {
+      this.subService = this.telefoneService.update(this.telefone.id, this.telefone).subscribe({
         next: () => {
+          this.poNotification.success('Telefone editado com sucesso!');
           this.poModal.close();
           this.getTelefones()
           this.loading = false
@@ -239,17 +287,31 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
         error: () => {
           this.loading = false
         }
-      }
-    )
+      })
+    }
+    else {
+      this.telefone.id = this.telefone.id || 0
+      this.subService = this.telefoneService.insert(this.telefone).subscribe(
+        {
+          next: () => {
+            this.poModal.close();
+            this.getTelefones()
+            this.loading = false
+            this.poNotification.success('Telefone adicionado com sucesso!');
+          },
+          error: () => {
+            this.loading = false
+          }
+        }
+      )
+    }
   }
 
   getTelefones() {
     this.telefoneService.getTelefonesByPessoa(this.fornecedor.id)
       .subscribe({
         next: (res: any) => {
-          this.itemsTel = res.map(function (item) {
-            return { columnIcon: ['po-icon-edit', 'po-icon-delete'], ...item }
-          })
+          this.itemsTel = res
           this.loading = false;
         }
       })

@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListarContaPagarComponent } from './listar-conta-pagar/listar-conta-pagar.component';
 import { NovoContaPagarComponent } from './novo-conta-pagar/novo-conta-pagar.component';
-import { EditarContaPagarComponent } from './editar-conta-pagar/editar-conta-pagar.component';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PoModule } from '@po-ui/ng-components';
@@ -20,11 +19,16 @@ const routes: Routes = [
     component: NovoContaPagarComponent,
     // canActivate: [AuthGuard]
   },
+  {
+    path: 'editar/:id',
+    component: NovoContaPagarComponent,
+    // canActivate: [AuthGuard]
+  },
 ];
 
 
 @NgModule({
-  declarations: [ListarContaPagarComponent, NovoContaPagarComponent, EditarContaPagarComponent],
+  declarations: [ListarContaPagarComponent, NovoContaPagarComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

@@ -44,6 +44,7 @@ export class NovoVendedorComponent implements OnInit, OnDestroy {
           next: (res: Vendedor) => {
             this.vendedor = res;
             this.tituloPagina = `Editar Vendedor #${res.id}`
+            this.breadcrumb.items[2].label = "Editar"
             this.loading = false;
           }
         })
@@ -56,7 +57,7 @@ export class NovoVendedorComponent implements OnInit, OnDestroy {
     items: [
       { label: 'Home', link: '/' },
       { label: 'Vendedores', link: '/vendedor' },
-      { label: '' },
+      { label: 'Novo' },
     ],
   };
 

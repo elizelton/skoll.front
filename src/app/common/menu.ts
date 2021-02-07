@@ -52,7 +52,19 @@ export default function menu(): Array<PoMenuItem> {
         {
             label: 'Relatórios',
             icon: 'po-icon-print',
-            link: 'relatorio'
+            link: 'relatorio',
+            subItems: [
+                {
+                    label: 'Parcelas a vencer',
+                    icon: 'po-icon-print',
+                    link: 'relatorio',
+                },
+                {
+                    label: 'Contrato vendedor',
+                    icon: 'po-icon-print',
+                    link: 'relatorio',
+                }
+            ]
         },
         {
             label: 'Usuários',

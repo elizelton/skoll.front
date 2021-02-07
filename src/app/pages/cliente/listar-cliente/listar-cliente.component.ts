@@ -32,24 +32,26 @@ export class ListarClienteComponent {
     { value: '0', label: 'Inativo' },
   ];
 
-  public readonly filters: Array<PoPageDynamicSearchFilters> = [
-    { property: 'hireStatus', label: 'Hire Status', gridColumns: 6 },
-    { property: 'name', gridColumns: 6 },
-    { property: 'city', gridColumns: 6 },
-    { property: 'job', label: 'Job Description', gridColumns: 6 }
-  ];
-
   readonly fields: Array<any> = [
-    { property: 'idCliente', key: true, visible: false, filter: true },
+    { property: 'id', key: true, visible: false, filter: true },
     { property: 'nome', label: 'Nome', filter: true, gridColumns: 6 },
-    { property: 'username', label: 'Login', filter: true, gridColumns: 4 },
-    { property: 'situacao', tag: true, label: 'Situação', type: 'boolean', booleanTrue: 'Ativo', booleanFalse: 'Inativo', filter: true, gridColumns: 2 }
+    { property: 'cpfCnpj', label: 'CPF/CNPJ', filter: true, gridColumns: 6 },
+    { property: 'email', label: 'E-mail', filter: true, gridColumns: 4 },
+    {
+      property: 'ativo', label: 'Situação', type: 'label',
+      labels: [
+        { value: true, color: 'color-11', label: 'Ativo', tooltip: 'Situação do fornecedor' },
+        { value: false, color: 'color-07', label: 'Cancelado', tooltip: 'Situação do fornecedor' }
+      ]
+    },
   ];
 
   readonly detailFields: Array<PoDynamicViewField> = [
-    { property: 'situacao', tag: true,  gridLgColumns: 4, divider: 'Dados pessoais' },
-    { property: 'nome', gridLgColumns: 4 },
-    { property: 'username', label: 'Login', gridLgColumns: 4 }
+    { property: 'id', key: true, visible: false },
+    { property: 'nome', label: 'Nome', gridColumns: 6 },
+    { property: 'cpfCnpj', label: 'CPF/CNPJ', gridColumns: 6 },
+    { property: 'email', label: 'E-mail', gridColumns: 4 },
+    { property: 'ativoMascared', label: 'Situação', gridLgColumns: 4,  }
   ];
 
   pageCustomActions: Array<PoPageDynamicTableCustomAction> = [
@@ -68,10 +70,11 @@ export class ListarClienteComponent {
   printPage() {
     window.print();
   }
-
+  tituloDetalhesCliente
   private onClickUserDetail(cliente) {
     this.detailedCliente = cliente;
-
+    this.tituloDetalhesCliente = `#${cliente.id} - Detalhes do Cliente`
+    cliente.ativoMascared = cliente.ativo ? 'Ativo' : 'Inativo'
     this.clienteDetailModal.open();
   }
 

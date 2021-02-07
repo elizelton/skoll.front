@@ -1,1 +1,111 @@
-<p>novo-conta-pagar works!</p>
+<po-page-default [p-title]="tituloPagina" [p-breadcrumb]="breadcrumb" [p-actions]="actions">
+
+
+    <po-tabs>
+        <po-tab p-label="Dados" p-active="true">
+            <form #form>
+                <div class="po-row">
+                    <po-combo [(ngModel)]="contaPagar.fornecedor.idFornecedor" [ngModelOptions]="{standalone: true}"
+                        class="po-md-4" p-auto-focus p-label="Fornecedor" p-required p-icon="po-icon-user"
+                        [p-options]="forncedorOptions" p-clean>
+                    </po-combo>
+                </div>
+                <div class="po-row">
+                    <po-switch [ngModelOptions]="{standalone: true}" [(ngModel)]="pagamentoMensal" name="Ativo"
+                        class="po-ml-2" p-label="Pagamento será mensal?" p-label-off="Não" p-label-on="Sim">
+                    </po-switch>
+                </div>
+                <div class="po-row">
+                    <po-decimal [hidden]="pagamentoMensal" [(ngModel)]="contaPagar.valorTotal"
+                        [ngModelOptions]="{standalone: true}" p-label="Valor Total" class="po-md-2 po-lp-1"
+                        p-decimals-length="2" p-icon="po-icon-money">
+                    </po-decimal>
+                    <po-decimal [hidden]="!pagamentoMensal" [(ngModel)]="contaPagar.valorMensal"
+                        [ngModelOptions]="{standalone: true}" p-label="Valor Mensal" class="po-md-2 po-lp-1"
+                        p-decimals-length="2" p-icon="po-icon-money">
+                    </po-decimal>
+                    <po-decimal p-readonly [(ngModel)]="contaPagar.juros" [ngModelOptions]="{standalone: true}"
+                        p-label="Juros" class="po-md-2 po-lp-1" p-decimals-length="2" p-icon="po-icon-money">
+                    </po-decimal>
+                </div>
+                <div class="po-row po-mt-2">
+                    <div class="po-row">
+                        <po-number [(ngModel)]="contaPagar.diaInicial" [ngModelOptions]="{standalone: true}"
+                            class="po-md-2 po-lp-1" p-label="Dia Inicial" p-clean p-required>
+                        </po-number>
+                        <po-combo [(ngModel)]="contaPagar.mesInicial" [ngModelOptions]="{standalone: true}"
+                            p-label="Mês Inicial" class="po-md-3" [p-options]="mesOptions" p-clean>
+                        </po-combo>
+                    </div>
+                    <div class="po-row">
+                        <po-number [(ngModel)]="contaPagar.numParcelas" [ngModelOptions]="{standalone: true}"
+                            p-label="Total de Parcelas" min-value="1" class="po-md-2 po-lp-1">
+                        </po-number>
+                        <po-decimal p-readonly [(ngModel)]="contaPagar.ajuste" [ngModelOptions]="{standalone: true}"
+                            p-label="Valor de ajuste" class="po-md-2 po-lp-1" p-decimals-length="2"
+                            p-icon="po-icon-money">
+                        </po-decimal>
+                    </div>
+                    <div class="po-row">
+                        <po-input [hidden]="!pagamentoMensal" [(ngModel)]="contaPagar.diasPagamento"
+                            [ngModelOptions]="{standalone: true}" p-label="Dias de Pagamento" class="po-md-2 po-lp-1">
+                        </po-input>
+                    </div>
+                    <div class="po-row po-mb-5">
+                        <po-textarea [(ngModel)]="this.contaPagar.observacoes" [ngModelOptions]="{standalone: true}"
+                            class="po-md-6" name="observacoes" p-label="Observações"> </po-textarea>
+                    </div>
+                </div>
+            </form>
+        </po-tab>
+        <po-tab p-label="Parcelas" [p-disabled]="(!contaPagar.id && !parcelasItems)">
+            <po-table [p-columns]="parcelasColumns" [p-items]="parcelasItems" [p-actions]="actionsParcelas" p-striped>
+                <ng-template p-table-row-template let-rowItem let-i="rowIndex"
+                    [p-table-row-template-arrow-direction]="'left'" [p-table-row-template-show]="contemPagamentos">
+                    <po-widget p-title="Pagamentos Parcela#{{ rowItem.id }}">
+                        <po-table [p-columns]="PagamentosColumns" [p-items]="rowItem.pagamentos" p-striped>
+                        </po-table>
+                    </po-widget>
+                </ng-template>
+            </po-table>
+        </po-tab>
+    </po-tabs>
+
+    <po-modal #modalLancarParcela [p-title]="tituloModalPagarParcela" [p-primary-action]="confirmPagarParcela"
+        [p-secondary-action]="close">
+        <div class="po-row">
+            <po-datepicker [(ngModel)]="parcelaModal.dataVencimento" class="po-md-4 po-lp-1"
+                p-label="Data de Vencimento" p-clean p-format="dd/mm/yyyy" p-readonly>
+            </po-datepicker>
+            <po-decimal [(ngModel)]="parcelaModal.valorParcela" p-label="Valor Devido" class="po-md-4 po-lp-1"
+                p-decimals-length="2" p-icon="po-icon-money" p-readonly>
+            </po-decimal>
+        </div>
+        <div class="po-row">
+            <po-datepicker [(ngModel)]="parcelaPagamento.dataPagamento" [p-min-date]="hoje" class="po-md-4 po-lp-1"
+                p-label="Data de Pagamento" p-clean p-format="dd/mm/yyyy" p-required>
+            </po-datepicker>
+            <po-decimal [(ngModel)]="parcelaPagamento.valorPagamento" p-label="Valor de Pagamento"
+                class="po-md-4 po-lp-1" p-decimals-length="2" p-icon="po-icon-money" (p-change)="validaValorParcela()">
+            </po-decimal>
+            <po-decimal [(ngModel)]="parcelaPagamento.juros" p-label="Juros" class="po-md-4 po-lp-1"
+                p-decimals-length="2" p-icon="po-icon-money">
+            </po-decimal>
+        </div>
+    </po-modal>
+
+    <po-modal #modalLancarParcelaAjuste [p-title]="tituloModalPagarParcelaAjuste" [p-primary-action]="confirmPagarParcelaAjuste"
+        [p-secondary-action]="close">
+        <div class="po-row">
+            <po-datepicker [(ngModel)]="parcelaAjuste.dataVencimento" class="po-md-4 po-lp-1"
+                p-label="Data de Vencimento" p-clean p-format="dd/mm/yyyy" [p-min-date]="hoje">
+            </po-datepicker>
+            <po-decimal [(ngModel)]="parcelaAjuste.valorDif" p-label="Valor" class="po-md-4 po-lp-1"
+                p-decimals-length="2" p-icon="po-icon-money">
+            </po-decimal>
+        </div>
+    </po-modal>
+
+    <po-loading-overlay [hidden]="!loading" p-screen-lock="true">
+    </po-loading-overlay>
+</po-page-default>

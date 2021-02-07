@@ -42,6 +42,7 @@ export class NovoFormaPagamentoComponent implements OnInit, OnDestroy {
           next: (res: FormaPagamento) => {
             this.formaPagamento = res;
             this.tituloPagina = `Editar Forma de Pagamento #${res.id}`
+            this.breadcrumb.items[2].label = "Editar"
             this.loading = false;
           }
         })
@@ -55,7 +56,7 @@ export class NovoFormaPagamentoComponent implements OnInit, OnDestroy {
     items: [
       { label: 'Home', link: '/' },
       { label: 'Formas de Pagamamento', link: '/forma-pagamento' },
-      { label: ''}
+      { label: 'Novo'}
     ],
   };
 

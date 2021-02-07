@@ -6,8 +6,6 @@ import {
   PoComboOption,
   PoDialogService,
   PoDynamicFormComponent,
-  PoDynamicFormFieldValidation,
-  PoLookupLiterals,
   PoModalAction,
   PoModalComponent,
   PoNotificationService,
@@ -17,7 +15,6 @@ import {
   PoTableAction,
   PoTableColumn,
 } from '@po-ui/ng-components';
-import { PoPageDynamicTableActions } from '@po-ui/ng-templates';
 import { Subscription } from 'rxjs';
 import { Cidade } from 'src/app/model/Cidade.model';
 import { Cliente } from 'src/app/model/Cliente.model';
@@ -92,6 +89,7 @@ export class NovoClienteComponent implements OnInit, OnDestroy {
           next: (res: Cliente) => {
             this.cliente = res;
             this.tituloPagina = `Editar Cliente #${res.idCliente}`
+            this.breadcrumb.items[2].label = "Editar"
             this.cliente.nascimento = new Date(this.cliente.nascimento)
             this.estado = res.cidade.estado
             this.loadCidades()
@@ -116,7 +114,7 @@ export class NovoClienteComponent implements OnInit, OnDestroy {
     items: [
       { label: 'Home', link: '/' },
       { label: 'Clientes', link: '/cliente' },
-      { label: '' },
+      { label: 'Novo' },
     ],
   };
 
@@ -269,8 +267,6 @@ export class NovoClienteComponent implements OnInit, OnDestroy {
 
   salvarTelefone() {
     this.loading = true
-    debugger
-
     if (this.telefone.id) {
       this.subService = this.telefoneService.update(this.telefone.id, this.telefone).subscribe({
         next: () => {

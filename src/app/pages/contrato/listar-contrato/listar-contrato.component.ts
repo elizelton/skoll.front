@@ -63,17 +63,17 @@ export class ListarContratoComponent implements OnInit {
     { property: 'id', type: "number", key: true, visible: true, filter: true },
     { property: 'cliente.nome', label: 'Cliente', filter: true, gridColumns: 6 },
     {
-      property: 'situacao', label: 'Situação', type: 'label',
+      property: 'ativo', label: 'Situação', type: 'label',
       labels: [
-        { value: 1, color: 'color-11', label: 'Ativo', tooltip: 'Situação do contrato' },
-        { value: 2, color: 'color-07', label: 'Cancelado', tooltip: 'Situação do contrato' },
-        { value: 3, color: 'color-08', label: 'Vencido', tooltip: 'Situação do contrato' }
+        { value: true, color: 'color-11', label: 'Ativo', tooltip: 'Situação do contrato' },
+        { value: false, color: 'color-07', label: 'Cancelado', tooltip: 'Situação do contrato' }
       ]
     },
     { property: 'dataInicio', label: 'Data inicio', type: 'date', filter: true, gridColumns: 3 },
     { property: 'dataTermino', label: 'Data Término', type: 'date', filter: true, gridColumns: 3 },
     { property: 'NomeVendedor', label: 'Vendedor', filter: true, gridColumns: 4 },
     { property: 'numParcelas', label: 'Quantidade de parcelas', type: 'number', filter: true, gridColumns: 4 },
+    { property: 'juros', label: 'Juros', type: 'currency', format: 'BRL', filter: true, gridColumns: 4 },
     { property: 'valorTotal', label: 'Valor Total', type: 'currency', format: 'BRL', filter: true, gridColumns: 4 },
 
   ];
@@ -85,13 +85,10 @@ export class ListarContratoComponent implements OnInit {
   ];
 
   pageCustomActions: Array<PoPageDynamicTableCustomAction> = [
-    { label: 'Imprimir', action: this.printPage.bind(this) },
-    { label: 'Download .csv', action: this.contratoService.downloadCsv.bind(this.contratoService, this.serviceApi) }
+  
   ];
 
   tableCustomActions: Array<PoPageDynamicTableCustomTableAction> = [
-    { label: 'Lançar Pagamento', action: this.onClickParcelaLancamento.bind(this) },
-    { label: 'Adicionar Produto' },
     { label: 'Detalhes', action: this.onClickUserDetail.bind(this) }
   ];
 

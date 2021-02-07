@@ -3,11 +3,11 @@
         <po-toolbar [p-profile]="profile" p-title="SKOLL" [p-profile-actions]="profileActions"
             [p-notification-actions]="notificationActions" p-shadow="true" [p-notification-number]="2">
         </po-toolbar>
-        <po-menu [p-menus]="menus" p-collapsed>
+        <po-menu [p-menus]="menus" p-collapsed="true">
             <div *p-menu-header-template class="po-p-2 po-font-title sample-menu-header-text-color">
-                <p>Bem vindo,</p>
+                <p class="po-font-title">Bem vindo,</p>
                 <p>
-                    <b>{{ usuario.nome.split(' ')[0]}}</b>
+                    <b class="po-font-subtitle po-font-text-bold po-font-text-uppercase">{{ usuario.nome}}</b>
                 </p>
             </div>
         </po-menu>

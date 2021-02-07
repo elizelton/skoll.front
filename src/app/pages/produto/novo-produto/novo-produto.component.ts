@@ -53,6 +53,7 @@ export class NovoProdutoComponent implements OnInit, OnDestroy {
           next: (res: Produto) => {
             this.produto = res;
             this.tituloPagina = `Editar Produto #${res.id}`
+            this.breadcrumb.items[2].label = "Editar"
             this.loading = false;
           }
         })
@@ -67,7 +68,7 @@ export class NovoProdutoComponent implements OnInit, OnDestroy {
   }
 
   readonly breadcrumb: PoBreadcrumb = {
-    items: [{ label: 'Home', link: '/' }, { label: 'Produtos', link: '/produto' }, { label: '' }]
+    items: [{ label: 'Home', link: '/' }, { label: 'Produtos', link: '/produto' }, { label: 'Novo' }]
   };
 
 
