@@ -22,6 +22,11 @@ export class ContratoService extends CrudService<Contrato>{
     return this.http.put(`${this.url}/${id}/${diaVencimento}/${isPrimeira}/gerarparcelas`, null);
   }
 
+  cancelarContrato(id: number, novoCliente?: number){
+    return this.http.put(`${this.url}/${id}/${novoCliente}/cancelar`, null);
+  }
+
+
   downloadCsv(endpoint) {
     this.http.get(endpoint).subscribe(data => {
       const csvStr = this.parseJsonToCsv(data['items']);

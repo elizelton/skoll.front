@@ -27,9 +27,7 @@ export class NovoContaPagarComponent implements OnInit {
     { label: 'Salvar', action: this.salvarContaPagar.bind(this) },
     { label: 'Voltar', url: '/conta-pagar', type: 'danger' },
     { label: 'Gerar Parcelas', action: this.gerarParcelasContaPagar.bind(this), disabled: true },
-    { label: 'Gerar Parcela de Ajuste', action: this.gerarParcelasAjuste.bind(this), disabled: false },
-    { label: 'Cancelar ContaPagar', action: this.gerarParcelasModal.bind(this), disabled: false },
-
+    { label: 'Gerar Parcela de Ajuste', action: this.gerarParcelasAjuste.bind(this), disabled: true },
   ];
 
 
@@ -38,6 +36,8 @@ export class NovoContaPagarComponent implements OnInit {
   }
 
   gerarParcelasAjuste(){
+    this.parcelaAjuste.dataVencimento=new Date()
+    this.parcelaAjuste.valorDif = 0
     this.modalLancarParcelaAjuste.open()
   }
 
@@ -61,7 +61,14 @@ export class NovoContaPagarComponent implements OnInit {
       property: 'valorParcela',
       type: 'currency',
       format: 'BRL'
-    }, {
+    },
+    {
+      label: 'Valor Ajuste',
+      property: 'ajuste',
+      type: 'currency',
+      format: 'BRL'
+    },
+     {
       label: 'Data Vencimento',
       property: 'dataVencimento',
       type: 'date'
@@ -157,25 +164,33 @@ export class NovoContaPagarComponent implements OnInit {
     this.parcelaModal = new ContaPagarParcela()
     this.parcelaModal.dataVencimento = new Date()
     this.parcelaModal.valorParcela = 0;
+    
     this.loading = true
     let subFornecedor$ = this.fornecedorService.getAll()
       .subscribe({
         next: (res: any) => {
           this.forncedorOptions = res.items.map(function (item) {
-            return { label: item.nome, value: item.id }
+            return { label: item.nome, value: item.idFornecedor }
           })
+          this.loading = false
           subFornecedor$.unsubscribe();
 
           this.sub = this.route.params.subscribe(params => {
             this.contaPagar.id = +params['id'];
             if (this.contaPagar.id) {
+              this.loading = true
               let subService = this.contaPagarService.get(this.contaPagar.id).subscribe({
                 next: (res: ContaPagar) => {
                   this.contaPagar = res;
                   this.tituloPagina = `Editar Conta a Pagar #${res.id}`
                   this.breadcrumb.items[2].label = "Editar"
-                  this.contaPagar.dataTermino = new Date(res.dataTermino)
+                 
+                  if(res.valorMensal > 0)
+                    this.pagamentoMensal = true
+                 
+                    this.contaPagar.dataTermino = new Date(res.dataTermino)
                   this.actions[2].disabled = false;
+                  this.actions[3].disabled = false;
                   this.getContaPagarParcelas()
                   subService.unsubscribe()
                   this.loading = false
@@ -266,9 +281,14 @@ export class NovoContaPagarComponent implements OnInit {
     this.parcelaModal = parcela
     this.tituloModalPagarParcela = `Novo Pagamento de Parcela#${parcela.id}`
 
+    if(parcela.valorParcela == 0){
+      parcela.valorParcela = parcela.ajuste
+    }
     this.valorMaximoPagamento = parcela.valorParcela
 
+
     this.parcelaPagamento.idContaPagarParcela = parcela.id
+
     this.parcelaModal.dataVencimento = new Date(parcela.dataVencimento)
     this.modalLancarParcela.open()
   }
@@ -292,6 +312,8 @@ export class NovoContaPagarComponent implements OnInit {
           this.tituloPagina = `Editar ContaPagar #${res.id}`
           this.poNotification.success('Conta a pagar criada com sucesso!');
           this.actions[2].disabled = false;
+          this.breadcrumb.items[2].label = "Editar"
+          this.actions[3].disabled = false;
           subService$.unsubscribe();
         }
       })

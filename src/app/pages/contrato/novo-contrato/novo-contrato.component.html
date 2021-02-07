@@ -80,7 +80,7 @@
         </po-decimal>
         <po-button p-label="Adicionar" class="po-mt-4" (p-click)="adicionarServico()"> </po-button>
       </div>
-      <po-table [p-columns]="colProduto" [p-items]="itemsContratoServico" p-striped="true" [p-actions]="actionsProduto" >
+      <po-table [p-columns]="colProduto" [p-items]="itemsContratoServico" p-striped="true" [p-actions]="actionsProduto">
       </po-table>
     </po-tab>
     <po-tab p-label="Parcelas" [p-disabled]="(!contrato.id && !parcelasItems)">
@@ -130,4 +130,16 @@
     <po-loading-overlay [hidden]="!loading" p-screen-lock="true">
     </po-loading-overlay>
   </po-modal>
+
+  <po-modal #modalSelecionarClienteCancelamento p-title="Selecione um novo cliente" [p-primary-action]="confirmGerarNovoContrato"
+    [p-secondary-action]="closeCancelarNovoCliente">
+    <div class="po-row">
+      <po-combo [(ngModel)]="novoClienteId" [ngModelOptions]="{standalone: true}"
+        p-auto-focus p-label="Cliente" p-required p-icon="po-icon-user" [p-options]="clienteOptions" p-clean>
+      </po-combo>
+    </div>
+  </po-modal>
+
+  <po-loading-overlay [hidden]="!loading" p-screen-lock="true">
+  </po-loading-overlay>
 </po-page-default>

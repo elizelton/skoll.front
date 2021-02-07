@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { PoBreadcrumb, PoDynamicFormField, PoDynamicFormFieldChanged, PoDynamicFormValidation, PoNotificationService, PoPageAction, PoTableColumn, PoRadioGroupOption, PoComboOption, PoSelectOption, PoDialogService, PoModalComponent, PoModalAction, PoTableAction } from '@po-ui/ng-components';
+import { PoBreadcrumb, PoDynamicFormField, PoDynamicFormFieldChanged, PoDynamicFormValidation, PoNotificationService, PoPageAction, PoTableColumn, PoRadioGroupOption, PoComboOption, PoSelectOption, PoDialogService, PoModalComponent, PoModalAction, PoTableAction, PoDialogType } from '@po-ui/ng-components';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Cliente } from 'src/app/model/Cliente.model';
@@ -41,18 +41,12 @@ export class NovoContratoComponent implements OnInit {
     { label: 'Salvar', action: this.salvarContrato.bind(this) },
     { label: 'Voltar', url: '/contrato', type: 'danger' },
     { label: 'Gerar Parcelas', action: this.gerarParcelasContratoModal.bind(this), disabled: true },
-    { label: 'Cancelar Contrato', action: this.gerarParcelasContratoModal.bind(this), disabled: true },
+    { label: 'Cancelar Contrato', action: this.cancelarContratoModal.bind(this), disabled: true },
 
   ];
 
 
   private statusSubscription: Subscription;
-
-
-  @ViewChild('form', { static: true }) form: FormControl;
-
-  person = {};
-  validateFields: Array<string> = ['state'];
 
 
   parcelasColumns: PoTableColumn[] = [
@@ -66,31 +60,17 @@ export class NovoContratoComponent implements OnInit {
       property: 'valorParcela',
       type: 'currency',
       format: 'BRL'
-    }, {
+    },
+    {
+      label: 'Valor Ajuste',
+      property: 'ajuste',
+      type: 'currency',
+      format: 'BRL'
+    },
+    {
       label: 'Data Vencimento',
       property: 'dataVencimento',
       type: 'date'
-    },
-    {
-      label: 'Data Pagamento',
-      property: 'dataPagamento',
-      type: 'date'
-    },
-    {
-      label: 'Situação',
-      property: 'situacao',
-      type: 'label',
-      labels: [
-        { value: 1, color: 'color-08', label: 'Pendente', tooltip: 'Situação da parcela' },
-        { value: 3, color: 'color-11', label: 'Pago', tooltip: 'Situação da parcela' },
-        { value: 2, color: 'color-03', label: 'Pago Parcialmente', tooltip: 'Situação do parcela' }
-      ]
-    },
-    {
-      label: 'Comissão',
-      property: 'comissao',
-      type: 'currency',
-      format: 'BRL'
     }
   ]
 
@@ -190,6 +170,7 @@ export class NovoContratoComponent implements OnInit {
   parcelasItems
   tituloModalPagarParcela = "Novo Pagamento de Parcela"
   gerarParcelasOptions = { isPrimeira: true, diaVencimento: null }
+  novoClienteId = 0
   hoje = new Date()
   private sub: Subscription;
 
@@ -203,6 +184,7 @@ export class NovoContratoComponent implements OnInit {
   ]
 
   @ViewChild(PoModalComponent, { static: true }) poModal: PoModalComponent;
+
 
 
   ngOnInit() {
@@ -272,15 +254,17 @@ export class NovoContratoComponent implements OnInit {
             this.breadcrumb.items[2].label = "Editar"
             this.contrato.dataInicio = new Date(res.dataInicio)
             this.contrato.dataTermino = new Date(res.dataTermino)
-              if(this.contrato.tipoDocumento === 3){
-                this.tipoDocumentoOptions = [
-                  {
-                    label: "Cancelado", value: 3
-                  },
-                  ...this.tipoDocumentoOptions
-                ]
+            if (this.contrato.tipoDocumento === 3) {
+              this.tipoDocumentoOptions = [
+                {
+                  label: "Cancelado", value: 3
+                },
+                ...this.tipoDocumentoOptions
+              ]
             }
             this.actions[2].disabled = false;
+            this.actions[3].disabled = false;
+            this.loading = false
             this.carregarContratoServicos()
             this.getContratoParcelas()
             subService.unsubscribe()
@@ -295,6 +279,42 @@ export class NovoContratoComponent implements OnInit {
     if (this.contrato.formaPagamento.id && !this.contrato.numParcelas)
       this.contrato.numParcelas = this.formaPagamentoOptions
         .find(x => x.value == this.contrato.formaPagamento.id)?.qtdParcela
+  }
+
+
+  cancelarContratoModal() {
+    this.poDialog.confirm({
+      title: "Confirmar Ação",
+      message: `Deseja cancelar o contrato?`,
+      confirm: () => {
+        this.cancelarContratoConfirmacao()
+      },
+      cancel: () => { undefined }
+    })
+  }
+
+  cancelarContratoConfirmacao() {
+    this.poDialog.openDialog(PoDialogType.Confirm, {
+      title: "Confirmar Ação",
+      message: `Deseja copiar os dados para um novo contrato?`,
+      confirm: () => {
+        this.modalSelecionarClienteCancelamento.open()
+      },
+      cancel: () => {
+        this.contratoService.cancelarContrato(this.contrato.id, 0)
+          .subscribe({
+            next: () => {
+              this.poNotification.success("Contrato cancelado com sucesso.");
+              this.ngOnInit()
+            }
+          })
+      },
+      literals: {
+        confirm: "Copiar para um novo cliente",
+        cancel: "Apenas cancelar"
+      }
+
+    })
   }
 
   salvarContrato() {
@@ -315,6 +335,7 @@ export class NovoContratoComponent implements OnInit {
           this.contrato.id = res.id;
           this.tituloPagina = `Editar Contrato #${res.id}`
           this.poNotification.success('Contrato criado com sucesso!');
+          this.breadcrumb.items[2].label = "Editar"
           this.actions[2].disabled = false;
           subService$.unsubscribe();
         }
@@ -340,13 +361,12 @@ export class NovoContratoComponent implements OnInit {
   }
 
   getContratoParcelas() {
+    this.loading = true
     this.contratoParcelaService.getParcelas(this.contrato.id)
       .subscribe({
         next: (res: any[]) => {
-          if (res.length)
-            this.parcelasItems = res
-          else
-            this.actions[2].disabled = true;
+          this.parcelasItems = res
+          this.loading = false
         }
       })
   }
@@ -439,10 +459,12 @@ export class NovoContratoComponent implements OnInit {
   ];
 
   @ViewChild('modalLancarParcela') modalLancarParcela: PoModalComponent;
+  @ViewChild('modalSelecionarClienteCancelamento') modalSelecionarClienteCancelamento: PoModalComponent;
+
   parcelaModal: ContratoParcela
   parcelaPagamento: ContratoParcelaPagamento = { dataPagamento: new Date(), valorPagamento: 0 }
   valorMaximoPagamento = 0
-  
+
   lancarPagamentoParcela(parcela) {
     this.parcelaModal = new ContratoParcela()
     this.parcelaModal = parcela
@@ -488,9 +510,32 @@ export class NovoContratoComponent implements OnInit {
     loading: this.loading
   };
 
+  confirmGerarNovoContrato: PoModalAction = {
+    action: this.gerarNovoContratoConfirmacao.bind(this),
+    label: 'Confirmar Cancelamento',
+    loading: this.loading
+  };
+
+  closeCancelarNovoCliente: PoModalAction = {
+    action: this.closeModal.bind(this),
+    label: 'Cancelar ação',
+    danger: true,
+  };
+
+  gerarNovoContratoConfirmacao() {
+    this.contratoService.cancelarContrato(this.contrato.id, this.novoClienteId)
+    .subscribe({
+      next: () => {
+        this.poNotification.success("Contrato cancelado com sucesso.");
+        this.ngOnInit()
+      }
+    })
+  }
+
   closeModal() {
     this.poModal.close();
     this.modalLancarParcela.close();
+    this.modalSelecionarClienteCancelamento.close();
   }
 
   pagarParcelaConfirmacao() {
@@ -528,7 +573,6 @@ export class NovoContratoComponent implements OnInit {
       this.confirmGerarParcela.disabled = false
     else
       this.confirmGerarParcela.disabled = true;
-
   }
 
   gerarParcelasContratoModal() {
