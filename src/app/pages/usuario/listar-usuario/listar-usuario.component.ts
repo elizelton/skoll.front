@@ -52,17 +52,6 @@ export class ListarUsuarioComponent implements OnInit {
     }
   ];
 
-  readonly detailFields: Array<PoDynamicViewField> = [
-    { property: 'ativo', tag: true, gridLgColumns: 4, divider: 'Dados pessoais' },
-    { property: 'nome', gridLgColumns: 4 },
-    { property: 'userName', label: 'Login', gridLgColumns: 4 },
-    { property: 'email', label: 'E-Mail', gridLgColumns: 4 }
-  ];
-
-  pageCustomActions: Array<PoPageDynamicTableCustomAction> = [
-    { label: 'Imprimir', action: this.printPage.bind(this) },
-    { label: 'Download .csv', action: this.usuarioService.downloadCsv.bind(this.usuarioService, this.serviceApi) }
-  ];
 
   tableCustomActions: Array<PoPageDynamicTableCustomTableAction> = [
     { label: 'Detalhes', action: this.onClickUserDetail.bind(this) }

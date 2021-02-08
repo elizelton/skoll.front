@@ -1,12 +1,12 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListarUsuarioComponent } from './listar-usuario/listar-usuario.component';
 import { NovoUsuarioComponent } from './novo-usuario/novo-usuario.component';
-import { EditarUsuarioComponent } from './editar-usuario/editar-usuario.component';
-import { RouterModule, Routes } from '@angular/router';
-import { UsuarioService } from './usuario.service';
-import { PoTemplatesModule } from '@po-ui/ng-templates';
+import { Routes, RouterModule } from '@angular/router';
 import { PoModule } from '@po-ui/ng-components';
+import { PoTemplatesModule } from '@po-ui/ng-templates';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 const routes: Routes = [
   {
     path: '',
@@ -19,24 +19,20 @@ const routes: Routes = [
   },
   {
     path: 'editar/:id',
-    component: EditarUsuarioComponent,
+    component: NovoUsuarioComponent,
   },
 ];
 
+
 @NgModule({
-  providers: [UsuarioService],
-  declarations: [
-    ListarUsuarioComponent,
-    NovoUsuarioComponent,
-    EditarUsuarioComponent,
-  ],
+  declarations: [ListarUsuarioComponent, NovoUsuarioComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
     PoModule,
     PoTemplatesModule,
-  ],
-  exports: [RouterModule],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    FormsModule,
+    ReactiveFormsModule
+  ]
 })
-export class UsuarioModule {}
+export class UsuarioModule { }

@@ -53,7 +53,7 @@ export class AppComponent {
 
   profile: PoToolbarProfile = {
     avatar: '../assets/img/user.png',
-    subtitle: this.getUsuario()?.UserName,
+    subtitle: this.getUsuario()?.userName,
     title: this.getUsuario()?.Nome,
   };
   profileActions: Array<PoToolbarAction> = [
@@ -142,6 +142,7 @@ export class AppComponent {
         },
         {
           label: 'Comissão pagas ao vendedor',
+          action: this.abrirModalComissaoVendedor.bind(this)
         },
         {
           label: 'Parcelas a receber',
@@ -167,6 +168,7 @@ export class AppComponent {
   @ViewChild('ContratoPorVendedorModal') contratoPorVendedorModal: PoModalComponent;
   @ViewChild('ParcelaReceberModal') parcelaReceberModal: PoModalComponent;
   @ViewChild('RelParcelasModal') relParcelasModal: PoModalComponent;
+  @ViewChild('ComissaoVendedorModal') comissaoVendedorModal: PoModalComponent;
   @ViewChild('ModalForm', { static: true }) parcelaAPagarForm: NgForm;
 
 
@@ -180,6 +182,23 @@ export class AppComponent {
   abrirModalParcelaReceber() {
     this.dataAte = new Date()
     this.parcelaReceberModal.open()
+  }
+
+  abrirModalComissaoVendedor() {
+    this.dataInicio = new Date()
+    this.dataAte = moment(new Date()).endOf("month").toDate()
+    let subVendedor$ = this.vendedorService.getAll()
+      .subscribe({
+        next: (res: any) => {
+          this.vendedorOptions = res.items.map(function (item) {
+            return { label: item.nome, value: item.id }
+          })
+
+          this.comissaoVendedorModal.open()
+          subVendedor$.unsubscribe();
+        }
+      })
+
   }
 
   abrirModalRelParcelas() {
@@ -237,6 +256,8 @@ export class AppComponent {
     this.contratoPorClienteModal.close()
     this.contratoPorVendedorModal.close()
     this.parcelaReceberModal.close()
+    this.relParcelasModal.close()
+    this.comissaoVendedorModal.close()
     this.idCliente = 0
     this.idVendedor = 0
   }
@@ -371,5 +392,27 @@ export class AppComponent {
       }
       )
   }
+
+  confirmComissaoVendedorModal: PoModalAction = {
+    action: this.gerarComissaoVendedor.bind(this),
+    label: 'Gerar relatório',
+  };
+
+  gerarComissaoVendedor() {
+    this.relatorioService.GerarComissaoVendedor(
+      this.idVendedor,
+      moment(this.dataInicio).format("YYYY-MM-DD"),
+      moment(this.dataAte).format("YYYY-MM-DD"))
+      .subscribe({
+        next: (response: any) => {
+          const url = window.URL.createObjectURL(response);
+          window.open(url);
+        },
+        error: () => {
+          this.poNotification.error("Não encontrado resultados.")
+        }
+      })
+  }
+
 
 }

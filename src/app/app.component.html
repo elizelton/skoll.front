@@ -77,9 +77,9 @@
             </po-combo>
         </div>
         <div class="po-row">
-            <po-input [(ngModel)]="dataInicio" [ngModelOptions]="{standalone: true}" class="po-md-4 po-lp-1"
+            <po-datepicker [(ngModel)]="dataInicio" [ngModelOptions]="{standalone: true}" class="po-md-4 po-lp-1"
                 p-label="Data Início" p-clean p-clean p-format="dd/mm/yyyy" p-required>
-            </po-input>
+            </po-datepicker>
             <po-datepicker [(ngModel)]="dataAte" [ngModelOptions]="{standalone: true}" class="po-md-4 po-lp-1"
                 p-label="Data até" p-clean p-clean p-format="dd/mm/yyyy" p-required>
             </po-datepicker>
@@ -103,6 +103,26 @@
 <po-modal #RelParcelasModal p-title="Relatório de Pagamentos e recebimentos de parcelas" [p-primary-action]="close"
     [p-secondary-action]="confirmRelParcelas">
     <form #ModalForm="ngForm">
+        <div class="po-row">
+            <po-datepicker [(ngModel)]="dataInicio" [ngModelOptions]="{standalone: true}" class="po-md-4 po-lp-1"
+                p-label="Data Início" p-clean p-clean p-format="dd/mm/yyyy" p-required>
+            </po-datepicker>
+            <po-datepicker [(ngModel)]="dataAte" [ngModelOptions]="{standalone: true}" class="po-md-4 po-lp-1"
+                p-label="Data até" p-clean p-clean p-format="dd/mm/yyyy" p-required>
+            </po-datepicker>
+        </div>
+    </form>
+</po-modal>
+
+
+<po-modal #ComissaoVendedorModal p-title="Relatório de Comissão por vendedor" [p-primary-action]="close"
+    [p-secondary-action]="confirmComissaoVendedorModal">
+    <form #ModalForm="ngForm">
+        <div class="po-row">
+            <po-combo [(ngModel)]="idVendedor" [ngModelOptions]="{standalone: true}" class="po-md-8" p-auto-focus
+                p-label="Vendedor" p-required p-icon="po-icon-user" [p-options]="vendedorOptions" p-clean>
+            </po-combo>
+        </div>
         <div class="po-row">
             <po-datepicker [(ngModel)]="dataInicio" [ngModelOptions]="{standalone: true}" class="po-md-4 po-lp-1"
                 p-label="Data Início" p-clean p-clean p-format="dd/mm/yyyy" p-required>

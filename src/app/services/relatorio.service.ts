@@ -37,4 +37,9 @@ export class RelatorioService {
   ImprimirRecibo(idParcela: number, valor: number, valorExtenso: string, imprimirObs: boolean) {
     return this.http.get(`${this.urlApi}/${idParcela}/${valor}/${valorExtenso}/${imprimirObs}/ImprimeRecibo`, { headers: this.headers, responseType: 'blob' });
   }
+
+  
+  GerarComissaoVendedor(idVendedor: number, inicio: string, fim: string) {
+    return this.http.get(`${this.urlApi}/${idVendedor}/${inicio}/${fim}/relcomissao`, { headers: this.headers, responseType: 'blob' });
+  }
 }

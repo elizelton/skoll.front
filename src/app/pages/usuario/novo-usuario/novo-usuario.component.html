@@ -1,9 +1,29 @@
-<po-page-dynamic-edit
-  p-auto-router
-  p-title="Novo usuário"
-  [p-actions]="actions"
-  [p-breadcrumb]="breadcrumb"
-  [p-fields]="fields"
-  [p-service-api]="serviceApi"
->
-</po-page-dynamic-edit>
+<po-page-default [p-title]="tituloPagina" [p-breadcrumb]="breadcrumb" [p-actions]="actions">
+
+  <form class="po-ml-5">
+    <po-divider></po-divider>
+    <div class="po-row">
+      <po-input [(ngModel)]="usuario.Nome" [ngModelOptions]="{standalone: true}" class="po-md-4 " p-auto-focus
+        p-label="Nome" p-required p-icon="po-icon-user">
+      </po-input>
+      <po-input [(ngModel)]="usuario.userName" [ngModelOptions]="{standalone: true}" class="po-md-4 " p-auto-focus
+        p-label="Login" p-required p-icon="po-icon-user">
+      </po-input>
+    </div>
+    <div class="po-row">
+      <po-email [(ngModel)]="usuario.email" p-label="E-mail" [ngModelOptions]="{standalone: true}"
+        class="po-md-4 po-lp-1">
+      </po-email>
+      <po-password [(ngModel)]="usuario.senha" p-label="Senha" [ngModelOptions]="{standalone: true}"
+        class="po-md-4 po-lp-1">
+      </po-password>
+    </div>
+    <div class="po-row">
+      <po-switch p-max="100" p-min="0" [hidden]="!usuario.id" [ngModelOptions]="{standalone: true}"
+        [(ngModel)]="usuario.ativo" name="Ativo" class="po-ml-2" p-label="Ativo?" p-label-off="Não" p-label-on="Sim">
+      </po-switch>
+    </div>
+  </form>
+  <po-loading-overlay [hidden]="!loading" p-screen-lock="true">
+  </po-loading-overlay>
+</po-page-default>
