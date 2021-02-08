@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   apiURL: 'http://localhost:4200/api',
-  apiURLAuth: 'http://localhost:4200/auth'
+  apiURLAuth: 'http://localhost:4200/auth',
+  apiURLEsqueciSenha: 'http://localhost:4200/esquecisenha'
 };
 
 /*

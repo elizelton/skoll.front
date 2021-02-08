@@ -33,10 +33,10 @@ export class ListarClienteComponent {
   ];
 
   readonly fields: Array<any> = [
-    { property: 'id', key: true, visible: false, filter: true },
-    { property: 'nome', label: 'Nome', filter: true, gridColumns: 6 },
-    { property: 'cpfCnpj', label: 'CPF/CNPJ', filter: true, gridColumns: 6 },
-    { property: 'email', label: 'E-mail', filter: true, gridColumns: 4 },
+    { property: 'idCliente', key: true, visible: false, filter: false },
+    { property: 'nome', label: 'Nome', filter: false, gridColumns: 6 },
+    { property: 'cpfCnpj', label: 'CPF/CNPJ', filter: false, gridColumns: 6 },
+    { property: 'email', label: 'E-mail', filter: false, gridColumns: 4 },
     {
       property: 'ativo', label: 'Situação', type: 'label',
       labels: [
@@ -47,7 +47,7 @@ export class ListarClienteComponent {
   ];
 
   readonly detailFields: Array<PoDynamicViewField> = [
-    { property: 'id', key: true, visible: false },
+    { property: 'idCliente', key: true, visible: false },
     { property: 'nome', label: 'Nome', gridColumns: 6 },
     { property: 'cpfCnpj', label: 'CPF/CNPJ', gridColumns: 6 },
     { property: 'email', label: 'E-mail', gridColumns: 4 },
@@ -70,7 +70,9 @@ export class ListarClienteComponent {
   printPage() {
     window.print();
   }
+
   tituloDetalhesCliente
+  
   private onClickUserDetail(cliente) {
     this.detailedCliente = cliente;
     this.tituloDetalhesCliente = `#${cliente.id} - Detalhes do Cliente`

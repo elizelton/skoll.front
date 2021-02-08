@@ -38,10 +38,10 @@ export class ListarVendedorComponent implements OnInit {
   ];
 
   readonly fields: Array<any> = [
-    { property: 'id', key: true, visible: true, filter: true },
-    { property: 'nome', label: 'Nome', filter: true, gridColumns: 6 },
-    { property: 'codigo', label: 'Código', filter: true, gridColumns: 4 },
-    { property: 'percComis', type: 'number', format: '', label: 'Percentual de comissão', filter: true, gridColumns: 4 },
+    { property: 'id', key: true, visible: true, filter: false },
+    { property: 'nome', label: 'Nome', filter: false, gridColumns: 6 },
+    { property: 'codigo', label: 'Código', filter: false, gridColumns: 4 },
+    { property: 'percComis', type: 'number', format: '', label: 'Percentual de comissão', filter: false, gridColumns: 4 },
     {
       property: 'ativo', label: 'Situação', type: 'label', 
       labels: [

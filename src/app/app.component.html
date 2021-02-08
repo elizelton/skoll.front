@@ -1,7 +1,6 @@
 <div class="po-wrapper" *ngIf="usuario">
     <nav>
-        <po-toolbar [p-profile]="profile" p-title="SKOLL" [p-profile-actions]="profileActions"
-            [p-notification-actions]="notificationActions" p-shadow="true" [p-notification-number]="2">
+        <po-toolbar [p-profile]="profile" p-title="SKOLL" [p-profile-actions]="profileActions" p-shadow="true">
         </po-toolbar>
         <po-menu [p-menus]="menus" p-collapsed="true">
             <div *p-menu-header-template class="po-p-2 po-font-title sample-menu-header-text-color">
@@ -16,3 +15,101 @@
 </div>
 <router-outlet *ngIf="!usuario">
 </router-outlet>
+
+
+<po-modal #ParcelaAPagarModal p-title="Relatório de Parcela a Pagar" [p-primary-action]="close"
+    [p-secondary-action]="confirmParcelaAPagar">
+    <form #ModalForm="ngForm">
+        <div class="po-row">
+            <po-datepicker [(ngModel)]="this.dataAte" [ngModelOptions]="{standalone: true}" class="po-md-4 po-lp-1"
+                p-label="Data até" p-clean p-clean p-format="dd/mm/yyyy" p-required>
+            </po-datepicker>
+        </div>
+    </form>
+</po-modal>
+
+
+<po-modal #ContratoPorClienteModal p-title="Relatório de contrato por cliente" [p-primary-action]="close"
+    [p-secondary-action]="confirmContratoPorCliente">
+    <form #ModalForm="ngForm">
+        <div class="po-row">
+            <po-combo [(ngModel)]="idCliente" [ngModelOptions]="{standalone: true}" class="po-md-8" p-auto-focus
+                p-label="Cliente" p-required p-icon="po-icon-user" [p-options]="clienteOptions" p-clean>
+            </po-combo>
+        </div>
+        <div class="po-row">
+            <po-datepicker [(ngModel)]="dataInicio" [ngModelOptions]="{standalone: true}" class="po-md-4 po-lp-1"
+                p-label="Data Início" p-clean p-clean p-format="dd/mm/yyyy" p-required>
+            </po-datepicker>
+            <po-datepicker [(ngModel)]="dataAte" [ngModelOptions]="{standalone: true}" class="po-md-4 po-lp-1"
+                p-label="Data até" p-clean p-clean p-format="dd/mm/yyyy" p-required>
+            </po-datepicker>
+        </div>
+    </form>
+</po-modal>
+
+
+<po-modal #ContratoPorVendedorModal p-title="Relatório de contrato por vendedor" [p-primary-action]="close"
+    [p-secondary-action]="confirmContratoPorVendedor">
+    <form #ModalForm="ngForm">
+        <div class="po-row">
+            <po-combo [(ngModel)]="idVendedor" [ngModelOptions]="{standalone: true}" class="po-md-8" p-auto-focus
+                p-label="Vendedor" p-required p-icon="po-icon-user" [p-options]="vendedorOptions" p-clean>
+            </po-combo>
+        </div>
+        <div class="po-row">
+            <po-input [(ngModel)]="dataInicio" [ngModelOptions]="{standalone: true}" class="po-md-4 po-lp-1"
+                p-label="Data Início" p-clean p-clean p-format="dd/mm/yyyy" p-required>
+            </po-input>
+            <po-datepicker [(ngModel)]="dataAte" [ngModelOptions]="{standalone: true}" class="po-md-4 po-lp-1"
+                p-label="Data até" p-clean p-clean p-format="dd/mm/yyyy" p-required>
+            </po-datepicker>
+        </div>
+    </form>
+</po-modal>
+
+<po-modal #ComissaoPagasVendedorModal p-title="Relatório de comissões pagas ao Vendedor" [p-primary-action]="close"
+    [p-secondary-action]="confirmComissaoPagasVendedor">
+    <form #ModalForm="ngForm">
+        <div class="po-row">
+            <po-combo [(ngModel)]="idVendedor" [ngModelOptions]="{standalone: true}" class="po-md-8" p-auto-focus
+                p-label="Vendedor" p-required p-icon="po-icon-user" [p-options]="vendedorOptions" p-clean>
+            </po-combo>
+        </div>
+        <div class="po-row">
+            <po-input [(ngModel)]="dataInicio" [ngModelOptions]="{standalone: true}" class="po-md-4 po-lp-1"
+                p-label="Data Início" p-clean p-clean p-format="dd/mm/yyyy" p-required>
+            </po-input>
+            <po-datepicker [(ngModel)]="dataAte" [ngModelOptions]="{standalone: true}" class="po-md-4 po-lp-1"
+                p-label="Data até" p-clean p-clean p-format="dd/mm/yyyy" p-required>
+            </po-datepicker>
+        </div>
+    </form>
+</po-modal>
+
+<po-modal #ParcelaReceberModal p-title="Relatório de Parcelas a receber" [p-primary-action]="close"
+    [p-secondary-action]="confirmParcelaAReceber">
+    <form #ModalForm="ngForm">
+        <div class="po-row">
+            <div class="po-row">
+                <po-datepicker [(ngModel)]="this.dataAte" [ngModelOptions]="{standalone: true}" class="po-md-4 po-lp-1"
+                    p-label="Data até" p-clean p-clean p-format="dd/mm/yyyy" p-required>
+                </po-datepicker>
+            </div>
+        </div>
+    </form>
+</po-modal>
+
+<po-modal #RelParcelasModal p-title="Relatório de Pagamentos e recebimentos de parcelas" [p-primary-action]="close"
+    [p-secondary-action]="confirmRelParcelas">
+    <form #ModalForm="ngForm">
+        <div class="po-row">
+            <po-datepicker [(ngModel)]="dataInicio" [ngModelOptions]="{standalone: true}" class="po-md-4 po-lp-1"
+                p-label="Data Início" p-clean p-clean p-format="dd/mm/yyyy" p-required>
+            </po-datepicker>
+            <po-datepicker [(ngModel)]="dataAte" [ngModelOptions]="{standalone: true}" class="po-md-4 po-lp-1"
+                p-label="Data até" p-clean p-clean p-format="dd/mm/yyyy" p-required>
+            </po-datepicker>
+        </div>
+    </form>
+</po-modal>

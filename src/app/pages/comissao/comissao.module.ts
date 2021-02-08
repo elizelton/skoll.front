@@ -4,6 +4,7 @@ import { ListarComissaoComponent } from './listar-comissao/listar-comissao.compo
 import { RouterModule, Routes } from '@angular/router';
 import { PoModule } from '@po-ui/ng-components';
 import { PoTemplatesModule } from '@po-ui/ng-templates';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {
@@ -20,6 +21,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     PoModule,
     PoTemplatesModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [RouterModule],
 })

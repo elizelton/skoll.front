@@ -24,6 +24,7 @@ import { ContratoServicoService } from '../ContratoServicoService.service';
 import * as moment from 'moment';
 import { ContratoParcela } from 'src/app/model/ContratoParcela.model';
 import { ContratoParcelaPagamento } from 'src/app/model/ContratoParcelaPagamento.model';
+import { RelatorioService } from 'src/app/services/relatorio.service';
 
 @Component({
   selector: 'app-novo-contrato',
@@ -68,10 +69,26 @@ export class NovoContratoComponent implements OnInit {
       format: 'BRL'
     },
     {
+      label: 'Valor Comissão',
+      property: 'comissao',
+      type: 'currency',
+      format: 'BRL'
+    },
+    {
       label: 'Data Vencimento',
       property: 'dataVencimento',
       type: 'date'
-    }
+    },
+    {
+      label: 'Situação',
+      property: 'situacao',
+      type: 'label',
+      labels: [
+        { value: 1, color: 'color-08', label: 'Pendente', tooltip: 'Situação da parcela' },
+        { value: 3, color: 'color-11', label: 'Pago', tooltip: 'Situação da parcela' },
+        { value: 2, color: 'color-03', label: 'Pago Parcialmente', tooltip: 'Situação do parcela' }
+      ]
+    },
   ]
 
   PagamentosColumns: PoTableColumn[] = [
@@ -129,14 +146,7 @@ export class NovoContratoComponent implements OnInit {
       property: 'valorTotal',
       type: 'currency',
       format: 'BRL'
-    },
-    {
-      property: 'columnIcon', label: ' ', type: 'icon', width: '100px', action: console.log, icons: [
-        { value: 'delete', icon: 'po-icon-plus', color: 'color-06', action: console.log, tooltip: 'Adiciona um novo item' },
-        { value: 'edit', icon: 'po-icon-edit', action: console.log },
-        { value: 'delete', icon: 'po-icon-delete', color: 'color-12', action: console.log }
-      ]
-    },
+    }
   ]
 
   constructor(
@@ -152,7 +162,8 @@ export class NovoContratoComponent implements OnInit {
     private servicoPrestadoService: ServicoPrestadoService,
     private loginService: LoginService,
     private route: ActivatedRoute,
-    private poDialog: PoDialogService
+    private poDialog: PoDialogService,
+    private relatorioService: RelatorioService
   ) { }
   clienteOptions: any
   vendedorOptions: any
@@ -163,7 +174,7 @@ export class NovoContratoComponent implements OnInit {
   contratoServico: ContratoServico
   itemsContratoServico: any
   loading = false
-  tituloPagina
+  tituloPagina = "Novo Contrato"
   contrato: Contrato
   tituloModalCancelamento: string
   tituloModalGerarParcela: string
@@ -176,7 +187,7 @@ export class NovoContratoComponent implements OnInit {
 
   tipoDocumentoOptions: PoSelectOption[] = [
     {
-      label: "Renovavel", value: 1,
+      label: "Renovável", value: 1,
     },
     {
       label: "Único", value: 2
@@ -203,7 +214,7 @@ export class NovoContratoComponent implements OnInit {
     this.contrato.numParcelas = null
     this.contrato.ativo = true
     this.contrato.periodoMeses = 1
-    this.contrato.tipoDocumento = 0
+    this.contrato.tipoDocumento = 1
     this.contrato.qntdExemplares = 0
     this.contrato.juros = 0
     this.contrato.usuario = new Usuario()
@@ -433,8 +444,15 @@ export class NovoContratoComponent implements OnInit {
       })
   }
 
-  excluirServico() {
-
+  excluirServico(servico) {
+    this.contratoServicoService
+      .delete(servico.id)
+      .subscribe({
+        next: () => {
+          this.poNotification.success("Serviço excluído com sucesso!")
+          this.carregarContratoServicos()
+        }
+      })
   }
 
   adicionarServico() {
@@ -455,26 +473,41 @@ export class NovoContratoComponent implements OnInit {
       action: this.lancarPagamentoParcela.bind(this),
       icon: 'po-icon-finance',
       label: 'Lançar Pagamento',
+    },
+    {
+      action: this.imprimirRecibo.bind(this),
+      icon: 'po-icon-print',
+      label: 'Imprimir recibo',
     }
   ];
 
   @ViewChild('modalLancarParcela') modalLancarParcela: PoModalComponent;
   @ViewChild('modalSelecionarClienteCancelamento') modalSelecionarClienteCancelamento: PoModalComponent;
+  @ViewChild('modalImprimirRecibo') modalImprimirRecibo: PoModalComponent;
 
   parcelaModal: ContratoParcela
   parcelaPagamento: ContratoParcelaPagamento = { dataPagamento: new Date(), valorPagamento: 0 }
   valorMaximoPagamento = 0
+  tituloModalImprimirRecibo
 
   lancarPagamentoParcela(parcela) {
     this.parcelaModal = new ContratoParcela()
     this.parcelaModal = parcela
-    this.tituloModalPagarParcela = `Novo Pagamento de Parcela#${parcela.id}`
+    this.tituloModalPagarParcela = `Contrato#${this.contrato.id} - Novo Pagamento de Parcela#${parcela.id}`
 
     this.valorMaximoPagamento = parcela.valorParcela
 
     this.parcelaPagamento.idContratoParcela = parcela.id
     this.parcelaModal.dataVencimento = new Date(parcela.dataVencimento)
     this.modalLancarParcela.open()
+  }
+  recibo = { idParcela: 0, valor: 0, valorExtenso: "", imprimirObs: false }
+
+  imprimirRecibo(parcela) {
+    this.tituloModalImprimirRecibo = `Impressão de recibo - Parcela#${parcela.id}`
+    this.recibo.valor = parcela.valorParcela
+    this.recibo.idParcela = parcela.id
+    this.modalImprimirRecibo.open()
   }
 
   validaValorParcela() {
@@ -522,20 +555,46 @@ export class NovoContratoComponent implements OnInit {
     danger: true,
   };
 
+  confirmImprimirRecibo: PoModalAction = {
+    action: this.imprimirReciboConfirmacao.bind(this),
+    label: 'Imprimir recibo',
+    loading: this.loading
+  };
+
   gerarNovoContratoConfirmacao() {
     this.contratoService.cancelarContrato(this.contrato.id, this.novoClienteId)
-    .subscribe({
-      next: () => {
-        this.poNotification.success("Contrato cancelado com sucesso.");
-        this.ngOnInit()
-      }
-    })
+      .subscribe({
+        next: () => {
+          this.poNotification.success("Contrato cancelado com sucesso.");
+          this.ngOnInit()
+        }
+      })
+  }
+
+  imprimirReciboConfirmacao() {
+    this.relatorioService.ImprimirRecibo(
+      this.recibo.idParcela,
+      this.recibo.valor,
+      this.recibo.valorExtenso,
+      this.recibo.imprimirObs
+    )
+      .subscribe({
+        next: (response: any) => {
+          const url = window.URL.createObjectURL(response);
+          window.open(url);
+        },
+        error: () => {
+          this.poNotification.error("Não encontrado resultados.")
+        }
+      })
   }
 
   closeModal() {
     this.poModal.close();
     this.modalLancarParcela.close();
     this.modalSelecionarClienteCancelamento.close();
+    this.modalImprimirRecibo.close()
+    this.recibo = { idParcela: 0, valor: 0, valorExtenso: "", imprimirObs: false }
   }
 
   pagarParcelaConfirmacao() {
@@ -557,6 +616,7 @@ export class NovoContratoComponent implements OnInit {
       .subscribe({
         next: () => {
           this.poNotification.success('Parcelas geradas com sucesso!')
+          this.ngOnInit()
           this.closeModal()
           this.getContratoParcelas()
         }

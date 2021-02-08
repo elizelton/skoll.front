@@ -1,9 +1,15 @@
-<po-page-login 
-    (p-login-submit)="logar($event)" 
-    p-hide-remember-user
-    [p-loading]="loading"
-    p-contact-email="string"
-    p-recovery="recuperar-senha"
-    p-product-name="Skoll Sistema de Gestão"
-    [p-literals]="customLiterals">
+<po-page-login (p-login-submit)="logar($event)" p-hide-remember-user [p-loading]="loading" p-contact-email="string"
+    [p-recovery]="passwordRecovery.bind(this)" p-product-name="Skoll Sistema de Gestão" [p-literals]="customLiterals">
 </po-page-login>
+<po-modal #RecuperarSenhaModal p-title="Esqueceu sua senha?" [p-primary-action]="close"
+    [p-secondary-action]="confirmEnviarSenha" p-size="sm">
+    <form #optionsForm="ngForm">
+        <div class="po-row">
+            <h1 class="po-font-text">Para recuperar sua senha vamos enviar um e-mail com instruções.</h1>
+        </div>
+        <div class="po-row">
+            <po-email [ngModelOptions]="{standalone: true}" [(ngModel)]="emailRecuperacao" name="emailRecuperacao"
+                p-label="Informe seu endereço de e-mail"> </po-email>
+        </div>
+    </form>
+</po-modal>

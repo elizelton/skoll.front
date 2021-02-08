@@ -1,31 +1,35 @@
 <po-page-default p-title="Pagamento de Comissão" [p-breadcrumb]="breadcrumb">
     <form #form>
         <div class="po-row">
-            <po-lookup class="po-md-4" p-auto-focus p-label="Vendedor" p-required p-icon="po-icon-user">
-            </po-lookup>
+            <po-combo [(ngModel)]="idVendedor" [ngModelOptions]="{standalone: true}" class="po-md-6" p-auto-focus
+                p-label="Vendedor" p-required p-icon="po-icon-user" [p-options]="vendedorOptions" p-clean>
+            </po-combo>
         </div>
         <div class="po-row">
-            <po-datepicker class="po-md-2" p-label="Periodo de" p-clean p-format="dd/mm/yyyy" p-required
-                p-min-date="2003-01-01">
+            <po-datepicker [(ngModel)]="dataDe" [ngModelOptions]="{standalone: true}" class="po-md-2"
+                p-label="Periodo de" p-clean p-format="dd/mm/yyyy" p-required p-min-date="2003-01-01">
             </po-datepicker>
-            <po-datepicker class="po-md-2" p-label="Até" p-clean p-format="dd/mm/yyyy" p-required
-                p-min-date="2003-01-01">
+            <po-datepicker [(ngModel)]="dataAte" [ngModelOptions]="{standalone: true}" class="po-md-2" p-label="Até"
+                p-clean p-format="dd/mm/yyyy" p-required p-min-date="2003-01-01">
             </po-datepicker>
             <!-- </div>
         <div class="po-row"> -->
-            <po-radio-group name="filtro" p-label="Filtrar Por" class="po-ml-5" [p-options]="[
+            <po-radio-group [(ngModel)]="tipoFiltro" name="filtro" [ngModelOptions]="{standalone: true}"
+                p-label="Filtrar Por" class="po-ml-5" [p-options]="[
               { label: 'Venda', value: '1' },
               { label: 'Pagamento', value: '2' }
             ]">
             </po-radio-group>
         </div>
         <div class="po-row po-mb-5 po-mt-2">
-            <po-button class="po-md-2" p-label="Aplicar filtros" p-type="primary" p-small> </po-button>
+            <po-button class="po-md-2" p-label="Aplicar filtros" p-type="primary" p-small (p-click)="aplicarFiltro()">
+            </po-button>
         </div>
 
     </form>
     <po-table p-height="390" p-hide-columns-manager p-sort="true" [p-columns]="columns" [p-items]="items"
-        [p-striped]="true" p-selectable (p-selected)="sumTotal($event)" (p-unselected)="decreaseTotal($event)">
+        [p-striped]="true" p-selectable (p-selected)="sumTotal($event)" (p-unselected)="decreaseTotal($event)"
+        p-hide-select-all="true">
     </po-table>
     <po-divider></po-divider>
 
@@ -38,9 +42,8 @@
     </po-info>
 
     <div class="po-row">
-        <po-button class="po-md-3" p-disabled="{{ total === 0 }}" p-label="Pagar Contratos selecionados"
-            p-click="pagamentoModal.open()"> </po-button>
-        <po-button class="po-md-3" p-label="Pagar Todos os Contratos"> </po-button>
+        <po-button class="po-md-3" [p-disabled]="!total" p-label="Pagar Contratos selecionados"
+            (p-click)="realizarPagamento()"> </po-button>
     </div>
 
     <po-modal #pagamentoModal p-title="Data de Pagamento">

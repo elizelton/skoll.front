@@ -39,20 +39,11 @@ export class ListarContaPagarComponent implements OnInit {
   ];
 
   readonly fields: Array<any> = [
-    { property: 'id',type:"number", key: true, visible: true, filter: true },
-    {
-      property: 'situacao', label: 'Situação', type: 'label',
-      labels: [
-        { value: 1, color: 'color-11', label: 'Ativo', tooltip: 'Situação do contrato' },
-        { value: 2, color: 'color-07', label: 'Cancelado', tooltip: 'Situação do contrato' },
-        { value: 3, color: 'color-08', label: 'Vencido', tooltip: 'Situação do contrato' }
-      ]
-    },
-    { property: 'dataInicio', label: 'Data inicio', type: 'date', filter: true, gridColumns: 6 },
-    { property: 'dataTermino', label: 'Data Término', type: 'date', filter: true, gridColumns: 4 },
-    { property: 'NomeVendedor', label: 'Vendedor', filter: true, gridColumns: 4 },
-    { property: 'numParcelas', label: 'Quantidade de parcelas', type: 'number', filter: true, gridColumns: 4 },
-    { property: 'valorTotal', label: 'Valor Total', type: 'currency', format: 'BRL', filter: true, gridColumns: 4 },
+    { property: 'id', key: true, visible: true, filter: false },
+    { property: 'nomeFornecedor', label: 'Vendedor', filter: false, gridColumns: 4 },
+    { property: 'numParcelas', label: 'Quantidade de parcelas', type: 'number', filter: false, gridColumns: 4 },
+    { property: 'valorMensal', label: 'Valor Mensal', type: 'currency', format: 'BRL', filter: false, gridColumns: 4 },
+    { property: 'valorTotal', label: 'Valor Total', type: 'currency', format: 'BRL', filter: false, gridColumns: 4 },
 
   ];
 

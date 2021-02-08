@@ -14,5 +14,13 @@
     "pathRewrite": {
       "^/auth": "/autenticacao"
     }
+  },
+  "/esquecisenha": {
+    "target": "https://localhost:5001",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/esquecisenha": "/esquecisenha"
+    }
   }
 }

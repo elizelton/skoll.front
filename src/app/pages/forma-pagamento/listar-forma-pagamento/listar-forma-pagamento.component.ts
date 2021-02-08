@@ -42,22 +42,22 @@ export class ListarFormaPagamentoComponent implements OnInit {
   ];
 
   readonly fields: Array<any> = [
-    { property: 'id', key: true, visible: true, filter: true },
-    { property: 'nome', label: 'Nome', filter: true, gridColumns: 6 },
-    { property: 'qtdParcela', type: 'number', format: '', label: 'Quantidade de parcelas', filter: true, gridColumns: 4 },
+    { property: 'id', key: true, visible: true, filter: false },
+    { property: 'nome', label: 'Nome', filter: false, gridColumns: 6 },
+    { property: 'qtdParcela', type: 'number', format: '', label: 'Quantidade de parcelas', filter: false, gridColumns: 4 },
     {
-      property: 'ativo', label: 'Situação', type: 'label', 
+      property: 'ativo', label: 'Situação', type: 'label',
       labels: [
         { value: true, color: 'color-11', label: 'Ativo', tooltip: 'Situação do usuário' },
         { value: false, color: 'color-07', label: 'Inativo', tooltip: 'Situação do usuário' }
-       ]
+      ]
     }
   ];
 
   readonly detailFields: Array<PoDynamicViewField> = [
     { property: 'nome', gridLgColumns: 4 },
     { property: 'qtdParcela', label: 'Quantidade de Parcelas', gridLgColumns: 4 },
-    { property: 'ativoMascared', label: 'Situação', gridLgColumns: 4,  },
+    { property: 'ativoMascared', label: 'Situação', gridLgColumns: 4, },
   ];
 
   pageCustomActions: Array<PoPageDynamicTableCustomAction> = [

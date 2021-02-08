@@ -45,4 +45,8 @@ export class LoginService {
     this.userSubject.next(null);
     this.router.navigateByUrl('/login');
   }
+
+  recuperarSenha(email: string){
+    return this.http.put(`${environment.apiURLEsqueciSenha}`, { email })
+  }
 }

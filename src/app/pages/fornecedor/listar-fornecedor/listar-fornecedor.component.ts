@@ -40,10 +40,10 @@ export class ListarFornecedorComponent {
   ];
 
   readonly fields: Array<any> = [
-    { property: 'id', key: true, visible: false, filter: true },
-    { property: 'nome', label: 'Nome', filter: true, gridColumns: 6 },
-    { property: 'cpfCnpj', label: 'CPF/CNPJ', filter: true, gridColumns: 6 },
-    { property: 'email', label: 'E-mail', filter: true, gridColumns: 4 },
+    { property: 'idFornedor', key: true, visible: false, filter: false },
+    { property: 'nome', label: 'Nome', filter: false, gridColumns: 6 },
+    { property: 'cpfCnpj', label: 'CPF/CNPJ', filter: false, gridColumns: 6 },
+    { property: 'email', label: 'E-mail', filter: false, gridColumns: 4 },
     {
       property: 'ativo', label: 'Situação', type: 'label',
       labels: [

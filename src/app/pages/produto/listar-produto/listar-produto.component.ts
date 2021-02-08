@@ -40,8 +40,8 @@ export class ListarProdutoComponent implements OnInit {
   ];
 
   readonly fields: Array<any> = [
-    { property: 'id', key: true, visible: false, filter: true },
-    { property: 'nome', label: 'Nome', filter: true, gridColumns: 6 },
+    { property: 'id', key: true, visible: false, filter: false },
+    { property: 'nome', label: 'Nome', filter: false, gridColumns: 6 },
     {
       property: 'ativo', label: 'Situação', type: 'label', 
       labels: [

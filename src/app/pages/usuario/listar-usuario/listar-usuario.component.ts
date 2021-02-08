@@ -39,10 +39,10 @@ export class ListarUsuarioComponent implements OnInit {
   ];
 
   readonly fields: Array<any> = [
-    { property: 'id', key: true, visible: true, filter: true },
-    { property: 'nome', label: 'Nome', filter: true, gridColumns: 6 },
-    { property: 'userName', label: 'Login', filter: true, gridColumns: 4 },
-    { property: 'email', label: 'E-mail', filter: true, gridColumns: 4 },
+    { property: 'id', key: true, visible: true, filter: false },
+    { property: 'nome', label: 'Nome', filter: false, gridColumns: 6 },
+    { property: 'userName', label: 'Login', filter: false, gridColumns: 4 },
+    { property: 'email', label: 'E-mail', filter: false, gridColumns: 4 },
     {
       property: 'ativo', label: 'Situação', type: 'label', 
       labels: [

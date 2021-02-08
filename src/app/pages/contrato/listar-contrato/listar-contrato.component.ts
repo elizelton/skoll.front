@@ -60,8 +60,8 @@ export class ListarContratoComponent implements OnInit {
   ];
 
   readonly fields: Array<any> = [
-    { property: 'id', type: "number", key: true, visible: true, filter: true },
-    { property: 'cliente.nome', label: 'Cliente', filter: true, gridColumns: 6 },
+    { property: 'id', type: "number", key: true, visible: true, filter: false },
+    { property: 'nomeCliente', label: 'Cliente', filter: false, gridColumns: 6 },
     {
       property: 'ativo', label: 'Situação', type: 'label',
       labels: [
@@ -69,12 +69,13 @@ export class ListarContratoComponent implements OnInit {
         { value: false, color: 'color-07', label: 'Cancelado', tooltip: 'Situação do contrato' }
       ]
     },
-    { property: 'dataInicio', label: 'Data inicio', type: 'date', filter: true, gridColumns: 3 },
-    { property: 'dataTermino', label: 'Data Término', type: 'date', filter: true, gridColumns: 3 },
-    { property: 'NomeVendedor', label: 'Vendedor', filter: true, gridColumns: 4 },
-    { property: 'numParcelas', label: 'Quantidade de parcelas', type: 'number', filter: true, gridColumns: 4 },
-    { property: 'juros', label: 'Juros', type: 'currency', format: 'BRL', filter: true, gridColumns: 4 },
-    { property: 'valorTotal', label: 'Valor Total', type: 'currency', format: 'BRL', filter: true, gridColumns: 4 },
+    { property: 'dataInicio', label: 'Data inicio', type: 'date', filter: false, gridColumns: 3 },
+    { property: 'dataTermino', label: 'Data Término', type: 'date', filter: false, gridColumns: 3 },
+    { property: 'nomeVendedor', label: 'Vendedor', filter: false, gridColumns: 4 },
+    { property: 'qntdExemplares', label: 'Quantidade de exemplares', filter: false, gridColumns: 4 },
+    { property: 'numParcelas', label: 'Quantidade de parcelas', type: 'number', filter: false, gridColumns: 4 },
+    { property: 'juros', label: 'Juros', type: 'currency', format: 'BRL', filter: false, gridColumns: 4 },
+    { property: 'valorTotal', label: 'Valor Total', type: 'currency', format: 'BRL', filter: false, gridColumns: 4 },
 
   ];
 
@@ -85,7 +86,7 @@ export class ListarContratoComponent implements OnInit {
   ];
 
   pageCustomActions: Array<PoPageDynamicTableCustomAction> = [
-  
+
   ];
 
   tableCustomActions: Array<PoPageDynamicTableCustomTableAction> = [
@@ -126,12 +127,5 @@ export class ListarContratoComponent implements OnInit {
     this.detailedContrato = contrato;
 
     this.userDetailModal.open();
-  }
-
-  private onClickParcelaLancamento(contrato) {
-    this.detailedContrato = contrato;
-    this.DataParcela = '2020-10-12';
-    this.ValorParcela = 323.32;
-      this.modalLancarParcela.open();
   }
 }

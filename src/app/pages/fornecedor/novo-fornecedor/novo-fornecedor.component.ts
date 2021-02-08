@@ -62,7 +62,6 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     public poDialog: PoDialogService
   ) {
-
     this.fornecedor = new Fornecedor();
     this.fornecedor.ativo = true;
     this.fornecedor.bairro = ""

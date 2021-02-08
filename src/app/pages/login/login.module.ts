@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PoModule } from '@po-ui/ng-components';
 import { PoTemplatesModule } from '@po-ui/ng-templates';
 import { AuthGuard } from 'src/app/auth/auth.guard';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {
@@ -20,6 +21,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     PoModule,
     PoTemplatesModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: []

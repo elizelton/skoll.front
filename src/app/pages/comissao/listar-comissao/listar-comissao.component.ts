@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { PoBreadcrumb, PoModalAction, PoModalComponent, PoTableColumn } from '@po-ui/ng-components';
+import { PoBreadcrumb, PoDialogService, PoModalAction, PoModalComponent, PoNotificationService, PoTableColumn } from '@po-ui/ng-components';
+import { VendedorService } from '../../vendedor/vendedor.service';
+import { ComissaoService } from '../comissao.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-listar-comissao',
@@ -14,21 +17,12 @@ export class ListarComissaoComponent implements OnInit {
   total = 0;
   totalCount = 0;
   columns: Array<PoTableColumn> = [
-    { property: 'contratoId', label: 'Contrato', type: 'number', width: '8%' },
+    { property: 'idContrato', label: 'Contrato', type: 'number', width: '8%' },
     { property: 'cliente', label: 'Cliente', width: '30%' },
     { property: 'vendedor', label: 'Vendedor', width: '30%' },
-    { property: 'dataPagamento', label: 'Data de Pagamento', width: '10%' },
-    { property: 'totalComissao', label: 'Total de Comissão', width: '10%', type: 'currency', format: 'BRL' },
-    {
-      property: 'situacao',
-      type: 'label',
-      label: 'Situação',
-      width: '10%',
-      labels: [
-        { value: 0, color: 'color-08', label: 'Pendente' },
-        { value: 1, color: 'color-11', label: 'Pago' },
-      ]
-    }];
+    { property: 'percComis', label: 'Percentual de Comissão', width: '15%', type: 'currency', format: 'BRL' },
+    { property: 'valorComissao', label: 'Valor de Comissão', width: '15%', type: 'currency', format: 'BRL' }
+  ];
 
   closeModal() {
     this.pagamentoModal.close();
@@ -51,126 +45,54 @@ export class ListarComissaoComponent implements OnInit {
   };
 
   decreaseTotal(row: any) {
-    if (row.totalComissao) {
-      this.total -= row.totalComissao;
+    if (row.valorComissao) {
+      this.total -= row.valorComissao;
     }
-    this.totalCount--;
+
+    let index = this.listaContrato.indexOf(row.idContrato);
+    if (index !== -1) {
+      this.listaContrato.splice(index, 1);
+    }
+
+    this.totalCount = this.totalCount > 0 ? this.totalCount - 1 : 0;
   }
 
   sumTotal(row: any) {
-    if (row.totalComissao) {
-      this.total += row.totalComissao;
+    if (row.valorComissao) {
+      this.total += row.valorComissao;
     }
+
+    this.listaContrato.push(row.idContrato)
     this.totalCount++;
   }
-  items: Array<any> = [
-    {
-      "contratoId": 1,
-      "cliente": "Bryan Sérgio Pires",
-      "dataPagamento": "",
-      "vendedor": "pele",
-      "totalComissao": 232.32,
-      "situacao": 0
-    },
-    {
-      "contratoId": 2,
-      "cliente": "Jose das coves",
-      "vendedor": "pele",
-      "dataPagamento": "",
-      "totalComissao": 232.32,
-      "situacao": 0
-    },
-    {
-      "contratoId": 3,
-      "cliente": "Fernando Pereira",
-      "vendedor": "pele",
-      "dataPagamento": "",
-      "totalComissao": 232.32,
-      "situacao": 0
-    },
-    {
-      "contratoId": 4,
-      "cliente": "Bruno Ferreira Silva",
-      "vendedor": "pele",
-      "dataPagamento": "",
-      "totalComissao": 243.32,
-      "situacao": 0
-    },
-    {
-      "contratoId": 5,
-      "cliente": "Amanda Maria Nunes",
-      "vendedor": "pele",
-      "dataPagamento": "",
-      "totalComissao": 42.32,
-      "situacao": 0
-    },
-    {
-      "contratoId": 6,
-      "cliente": "Beatriz Silva",
-      "vendedor": "pele",
-      "dataPagamento": "",
-      "totalComissao": 532.34,
-      "situacao": 0
-    },
-    {
-      "contratoId": 7,
-      "cliente": "Jose das Coves",
-      "vendedor": "pele",
-      "dataPagamento": "",
-      "totalComissao": 123.33,
-      "situacao": 0
-    },
-    {
-      "contratoId": 8,
-      "cliente": "Fulano de Tal",
-      "vendedor": "pele",
-      "dataPagamento": "",
-      "totalComissao": 232.32,
-      "situacao": 0
-    },
-    {
-      "contratoId": 9,
-      "cliente": "Beltrano de Tal",
-      "vendedor": "pele",
-      "dataPagamento": "",
-      "totalComissao": 233,
-      "situacao": 0
-    },
-    {
-      "contratoId": 10,
-      "cliente": "Bryan Sérgio Pires",
-      "vendedor": "pele",
-      "dataPagamento": "",
-      "totalComissao": 343,
-      "situacao": 0
-    },
-    {
-      "contratoId": 11,
-      "cliente": "Sicrano de Tal",
-      "vendedor": "pele",
-      "dataPagamento": "",
-      "totalComissao": 232.32,
-      "situacao": 0
-    },
-    {
-      "contratoId": 12,
-      "cliente": "Bryan Sérgio Pires",
-      "vendedor": "pele",
-      "dataPagamento": "",
-      "totalComissao": 523,
-      "situacao": 0
-    },
-    {
-      "contratoId": 13,
-      "cliente": "Mario Bros",
-      "vendedor": "pele",
-      "dataPagamento": "",
-      "totalComissao": 1232,
-      "situacao": 0
-    },
-  ]
 
-  constructor() { }
+  items: any
+
+  vendedorOptions
+  idVendedor
+  dataDe
+  dataAte
+  tipoFiltro
+  listaContrato = []
+
+  constructor(
+    private vendedorService: VendedorService,
+    private comissaoService: ComissaoService,
+    public poDialog: PoDialogService,
+    private poNotification: PoNotificationService
+  ) {
+    let subVendedor$ = this.vendedorService.getAll()
+      .subscribe({
+        next: (res: any) => {
+          this.vendedorOptions = res.items.map(function (item) {
+            return { label: item.nome, value: item.id }
+          })
+          subVendedor$.unsubscribe();
+        }
+      })
+    this.dataDe = new Date()
+    this.dataAte = moment(new Date()).endOf("month").toDate()
+  }
 
   readonly breadcrumb: PoBreadcrumb = {
     items: [{ label: 'Home', link: '/' }, { label: 'Comissão' }]
@@ -181,4 +103,52 @@ export class ListarComissaoComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  aplicarFiltro() {
+    this.listaContrato = []
+    this.totalCount = 0
+    this.total = 0
+    this.comissaoService.getComissao(
+      this.idVendedor,
+      moment(this.dataDe).format("YYYY-MM-DD"),
+      moment(this.dataAte).format("YYYY-MM-DD"),
+      this.tipoFiltro
+    )
+      .subscribe({
+        next: (res: any) => {
+          if (res) {
+            if (res.items.length)
+              this.items = res.items
+            else
+              this.poNotification.warning("Não encontrado registro para os filtros selecionados")
+          }
+        },
+        error: () => {
+          this.poNotification.error("Verifique os filtros selecionados.")
+        }
+      })
+  }
+
+
+  realizarPagamento() {
+    this.poDialog.confirm({
+      title: "Confirmar Operação",
+      message: `Confirma pagamento dos contratos selecionados?`,
+      confirm: () => {
+        this.comissaoService.pagamentoComissao(
+          this.idVendedor,
+          this.tipoFiltro,
+          this.listaContrato
+        )
+          .subscribe({
+            next: () => {
+              this.poNotification.success("Pagamentos realizados com sucesso")
+              this.aplicarFiltro()
+            }
+          })
+      },
+      cancel: () => { undefined }
+    })
+
+
+  }
 }

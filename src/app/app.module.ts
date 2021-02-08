@@ -15,6 +15,7 @@ import { TelefoneService } from './services/telefone.service';
 import { VendedorService } from './pages/vendedor/vendedor.service';
 import { ProdutoService } from './pages/produto/produto.service';
 import { ServicoPrestadoService } from './pages/produto/servico-prestado.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -25,7 +26,9 @@ import { ServicoPrestadoService } from './pages/produto/servico-prestado.service
     BrowserModule,
     AppRoutingModule,
     PoModule,
-    PoTemplatesModule
+    PoTemplatesModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     LoginService,
