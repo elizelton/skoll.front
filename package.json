@@ -8,6 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "heroku-prebuild": "rm -f package-lock.json",
     "heroku-postbuild": "ng build --prod --proxy-config proxy.conf.json"
   },
   "engines": {
