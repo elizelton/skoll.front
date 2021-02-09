@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "heroku-prebuild": "rm -f package-lock.json",
-    "heroku-postbuild": "ls /app/.heroku/node/lib/node_modules/@angular/cli/node_modules/ & cp -Rf skoll.theme/dist/*  /app/.heroku/node/lib/node_modules/@angular/cli/node_modules/@po-ui/style/ & ng build --prod"
+    "heroku-postbuild": "ng build --prod"
   },
   "engines": {
     "node": "14.x",
