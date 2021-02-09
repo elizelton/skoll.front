@@ -10,6 +10,10 @@
     "e2e": "ng e2e",
     "heroku-postbuild": "ng build --prod --proxy-config proxy.conf.json"
   },
+  "engines": {
+    "node": "14.x",
+    "npm": "6.x"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~11.0.5",
