@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "https://localhost:5001/api",
+    "target": "https://skollback.herokuapp.com/api",
     "secure": false,
     "changeOrigin": true,
     "pathRewrite": {
@@ -8,7 +8,7 @@
     }
   },
   "/auth": {
-    "target": "https://localhost:5001",
+    "target": "https://skollback.herokuapp.com",
     "secure": false,
     "changeOrigin": true,
     "pathRewrite": {
@@ -16,7 +16,7 @@
     }
   },
   "/esquecisenha": {
-    "target": "https://localhost:5001",
+    "target": "https://skollback.herokuapp.com",
     "secure": false,
     "changeOrigin": true,
     "pathRewrite": {

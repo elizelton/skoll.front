@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
-  apiURL: 'http://localhost:8080/api',
-  apiURLAuth: 'http://localhost:8080/auth'
+  apiURL: 'https://skollweb.herokuapp.com/api',
+  apiURLAuth: 'https://skollweb.herokuapp.com/auth',
+  apiURLEsqueciSenha: 'https://skollweb.herokuapp.com/esquecisenha'
 };
