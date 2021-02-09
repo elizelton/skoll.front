@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   apiURL: 'https://skollback.herokuapp.com/api',
-  apiURLAuth: 'https://skollback.herokuapp.com/auth',
+  apiURLAuth: 'https://skollback.herokuapp.com/autenticacao',
   apiURLEsqueciSenha: 'https://skollback.herokuapp.com/esquecisenha'
 };
 
