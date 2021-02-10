@@ -23,12 +23,12 @@ export class CrudService<T> {
     }
 
     update(recordID: number, record: T): Observable<T> {
-        const apiurl = `${this.apiUrl}/${recordID}`;
+        const apiurl = `${this.apiUrl}/${recordID}`.replace('//','/');
         return this.http.put<T>(apiurl, record, this.httpOptions);
     }
 
     delete(recordID: number): Observable<Number> {
-        const apiurl = `${this.apiUrl}/${recordID}`;
+        const apiurl = `${this.apiUrl}/${recordID}`.replace('//','/');
         return this.http.delete<number>(apiurl, this.httpOptions);
     }
 
