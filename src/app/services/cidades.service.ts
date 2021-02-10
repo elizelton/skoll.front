@@ -9,7 +9,7 @@ import { Cidade } from '../model/Cidade.model';
 export class CidadesService {
 
   httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-  urlApi = `${environment.apiURL}/Cidade/`
+  urlApi = `${environment.apiURL}/Cidade`
   constructor(private http: HttpClient) { }
 
   getCidades(estado: string) {
