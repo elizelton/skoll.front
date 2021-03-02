@@ -63,12 +63,6 @@ export class NovoContratoComponent implements OnInit {
       format: 'BRL'
     },
     {
-      label: 'Valor Ajuste',
-      property: 'ajuste',
-      type: 'currency',
-      format: 'BRL'
-    },
-    {
       label: 'Valor Comissão',
       property: 'comissao',
       type: 'currency',

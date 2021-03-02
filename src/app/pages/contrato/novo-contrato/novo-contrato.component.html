@@ -72,7 +72,7 @@
           min-value=1 class="po-md-1 po-lp-1" (p-change)="calcularServico()">
         </po-number>
         <po-decimal [(ngModel)]="contratoServico.valorUnitario" [ngModelOptions]="{standalone: true}"
-          p-label="Valor Únitario" class="po-md-2 po-lp-1" p-decimals-length="2" p-icon="po-icon-finance"
+          p-label="Valor Unitário" class="po-md-2 po-lp-1" p-decimals-length="2" p-icon="po-icon-finance"
           (p-change)="calcularServico()">
         </po-decimal>
         <po-decimal p-readonly [(ngModel)]="contratoServico.valorTotal" [ngModelOptions]="{standalone: true}"
