@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { PoBreadcrumb, PoDialogService, PoModalAction, PoModalComponent, PoNotificationService, PoTableColumn } from '@po-ui/ng-components';
+import { PoBreadcrumb, PoDialogService, PoModalAction, PoModalComponent, PoNotificationService, PoTableColumn, PoTableLiterals } from '@po-ui/ng-components';
 import { VendedorService } from '../../vendedor/vendedor.service';
 import { ComissaoService } from '../comissao.service';
 import * as moment from 'moment';
@@ -23,6 +23,10 @@ export class ListarComissaoComponent implements OnInit {
     { property: 'percComis', label: 'Percentual de Comissão', width: '15%', type: 'currency', format: 'BRL' },
     { property: 'valorComissao', label: 'Valor de Comissão', width: '15%', type: 'currency', format: 'BRL' }
   ];
+
+  customLiterals: PoTableLiterals = {
+    noData: 'Sem contratos. Verifique os filtros.'
+  };
 
   closeModal() {
     this.pagamentoModal.close();
@@ -62,18 +66,17 @@ export class ListarComissaoComponent implements OnInit {
       this.total += row.valorComissao;
     }
 
-    this.listaContrato.push(row.idContrato)
+    this.listaContrato.push(row.idContrato);
     this.totalCount++;
   }
 
-  items: any
-
-  vendedorOptions
-  idVendedor
-  dataDe
-  dataAte
-  tipoFiltro
-  listaContrato = []
+  items: any;
+  vendedorOptions;
+  idVendedor;
+  dataDe;
+  dataAte;
+  tipoFiltro;
+  listaContrato = [];
 
   constructor(
     private vendedorService: VendedorService,
@@ -85,13 +88,12 @@ export class ListarComissaoComponent implements OnInit {
       .subscribe({
         next: (res: any) => {
           this.vendedorOptions = res.items.map(function (item) {
-            return { label: item.nome, value: item.id }
-          })
+            return { label: item.nome, value: item.id };
+          });
           subVendedor$.unsubscribe();
         }
       })
-    this.dataDe = new Date()
-    this.dataAte = moment(new Date()).endOf("month").toDate()
+    this.limparFiltros();
   }
 
   readonly breadcrumb: PoBreadcrumb = {
@@ -104,9 +106,9 @@ export class ListarComissaoComponent implements OnInit {
   }
 
   aplicarFiltro() {
-    this.listaContrato = []
-    this.totalCount = 0
-    this.total = 0
+    this.listaContrato = [];
+    this.totalCount = 0;
+    this.total = 0;
     this.comissaoService.getComissao(
       this.idVendedor,
       moment(this.dataDe).format("YYYY-MM-DD"),
@@ -116,18 +118,30 @@ export class ListarComissaoComponent implements OnInit {
       .subscribe({
         next: (res: any) => {
           if (res) {
-            if (res.items.length)
-              this.items = res.items
-            else
-              this.poNotification.warning("Não encontrado registro para os filtros selecionados")
+            if (res.items.length) {
+              this.items = res.items;
+            }
+            else {
+              this.poNotification.warning("Não encontrado registro para os filtros selecionados");
+            }
           }
         },
         error: () => {
-          this.poNotification.error("Verifique os filtros selecionados.")
+          this.poNotification.error({message: "Verifique os filtros selecionados."});
         }
       })
   }
 
+  limparFiltros() {
+    this.idVendedor = 0;
+    this.dataDe = new Date();
+    this.tipoFiltro = 0;
+    this.listaContrato = [];
+    this.totalCount = 0;
+    this.total = 0;
+    this.items = null;
+    this.dataAte = moment(new Date()).endOf("month").toDate()
+  }
 
   realizarPagamento() {
     this.poDialog.confirm({
@@ -141,8 +155,8 @@ export class ListarComissaoComponent implements OnInit {
         )
           .subscribe({
             next: () => {
-              this.poNotification.success("Pagamentos realizados com sucesso")
-              this.aplicarFiltro()
+              this.limparFiltros();
+              this.poNotification.success("Pagamentos realizados com sucesso");
             }
           })
       },

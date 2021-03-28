@@ -11,7 +11,7 @@ import { VendedorService } from '../vendedor.service';
 export class ListarVendedorComponent implements OnInit {
   @ViewChild('userDetailModal') userDetailModal: PoModalComponent;
 
-  readonly serviceApi = `${environment.apiURL}/vendedor/`
+  readonly serviceApi = `${environment.apiURL}/vendedor`
   detailedUser;
   quickSearchWidth: number = 3;
 

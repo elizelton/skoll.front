@@ -121,7 +121,7 @@ export class NovoContratoComponent implements OnInit {
       property: 'produtoNome'
     },
     {
-      label: 'Servico',
+      label: 'Serviço',
       property: 'servicoNome',
     },
     {
@@ -323,7 +323,6 @@ export class NovoContratoComponent implements OnInit {
   }
 
   salvarContrato() {
-    this.contratoService.insert(this.contrato).subscribe()
     if (this.contrato.id) {
       let subService = this.contratoService.update(this.contrato.id, this.contrato).subscribe({
         next: (res: Contrato) => {
@@ -391,7 +390,6 @@ export class NovoContratoComponent implements OnInit {
   }
 
   loadServicos(servicoId: number) {
-    debugger
     if (this.produtoSelecionado) {
       let subServicos$ = this.servicoPrestadoService.getByProduto(this.produtoSelecionado)
         .subscribe({

@@ -13,7 +13,7 @@ export class ListarProdutoComponent implements OnInit {
 
   @ViewChild('produtoDetailModal') produtoDetailModal: PoModalComponent;
 
-  readonly serviceApi = `${environment.apiURL}/produto/`;
+  readonly serviceApi = `${environment.apiURL}/produto`;
   detailedProduto;
   quickSearchWidth: number = 3;
 

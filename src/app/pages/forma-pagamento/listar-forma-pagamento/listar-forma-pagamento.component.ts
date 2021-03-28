@@ -14,7 +14,7 @@ export class ListarFormaPagamentoComponent implements OnInit {
 
   @ViewChild('userDetailModal') userDetailModal: PoModalComponent;
 
-  readonly serviceApi = `${environment.apiURL}/formapagamento/`
+  readonly serviceApi = `${environment.apiURL}/formapagamento`
   detailedFormaPagamento;
   quickSearchWidth: number = 3;
   detalhesFormaPagamento: string

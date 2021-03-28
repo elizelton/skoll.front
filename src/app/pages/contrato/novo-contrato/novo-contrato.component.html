@@ -65,7 +65,7 @@
           name="tipoProduto" p-label="Produto" [p-options]="produtoOptions" (p-change)="loadServicos(null)">
         </po-combo>
         <po-combo p-clean [(ngModel)]="contratoServico.servicoPrestado.id" [ngModelOptions]="{standalone: true}"
-          class="po-md-3 po-ml-1" name="tipoServico" p-label="Servico" [p-options]="servicoOptions"
+          class="po-md-3 po-ml-1" name="tipoServico" p-label="Serviço" [p-options]="servicoOptions"
           (p-change)="carregarValorUnitario()">
         </po-combo>
         <po-number [(ngModel)]="contratoServico.quantidade" [ngModelOptions]="{standalone: true}" p-label="Quantidade"

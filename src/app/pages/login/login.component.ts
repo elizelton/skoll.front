@@ -48,7 +48,8 @@ export class LoginComponent implements OnInit {
   customLiterals: PoPageLoginLiterals = {
     loginPlaceholder: 'Insira seu usuário de acesso',
     passwordPlaceholder: 'Insira sua senha de acesso',
-    submitLabel: 'Acessar o sistema'
+    submitLabel: 'Acessar o sistema',
+    loginHint: 'Caso não possua usuário entre em contato com o suporte.',
   };
 
   ngOnInit(): void {
@@ -78,11 +79,11 @@ export class LoginComponent implements OnInit {
     this.loginService.recuperarSenha(this.emailRecuperacao)
       .subscribe({
         next: () => {
-          this.poNotification.success("E-mail de recuperação enviado com sucesso")
+          this.poNotification.success("E-mail de recuperação enviado com sucesso");
           this.closeModal()
         },
         error:() => {
-        
+          this.poNotification.error("E-mail de recuperação enviado com sucesso")
         }
       }
       )

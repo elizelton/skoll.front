@@ -1318,33 +1318,33 @@
   dependencies:
     mkdirp "^1.0.4"
 
-"@po-ui/ng-components@4.1.0", "@po-ui/ng-components@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@po-ui/ng-components/-/ng-components-4.1.0.tgz#f786f2f1022b67bf0f67337af2e52cc196c36397"
-  integrity sha512-Gci1pSSgzfWkXkd2gIvg89QZcM3dd71Zo4mska4NMLYq9BNbgKrrMPnuZPvGFaedzTebC0ItusJ56t1TWaYjFA==
+"@po-ui/ng-components@4.10.1", "@po-ui/ng-components@^4.10.1":
+  version "4.10.1"
+  resolved "https://registry.yarnpkg.com/@po-ui/ng-components/-/ng-components-4.10.1.tgz#4c672308ada6da1cd2c2e3e47560ad0b4697f133"
+  integrity sha512-1IV7RdfBf+OSSaPuIZmvOXHhwDA1zZv9s+dKSto8IzKaYNl4aLbNcniEYeFuM4Qk4PdHKrZnkuTRRwsC0W0AhQ==
   dependencies:
-    "@po-ui/ng-schematics" "4.1.0"
-    "@po-ui/style" "4.1.0"
+    "@po-ui/ng-schematics" "4.10.1"
+    "@po-ui/style" "4.10.1"
     tslib "^2.0.0"
 
-"@po-ui/ng-schematics@4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@po-ui/ng-schematics/-/ng-schematics-4.1.0.tgz#4b81b0e60636a75d9b34d6f7f1a0a858738d81a8"
-  integrity sha512-8aI/tY53Iu7DHtkAHMDNRymxXotRosPBPrFLVHLS7BxWrk/WztLb5kx9NWcnj2aw8TlWBH2s1/HrfJUlzv/Wpg==
+"@po-ui/ng-schematics@4.10.1":
+  version "4.10.1"
+  resolved "https://registry.yarnpkg.com/@po-ui/ng-schematics/-/ng-schematics-4.10.1.tgz#88fc09a3f638d7b3c8f04a9d88fa056b6d957a8c"
+  integrity sha512-TTO1VNd18Ow39A+yvU4WRXZd5uwUJezGlfUOU846DmVZM43smSP5AtrhYsGzKb8t/0+fsm64qabtkyB2GUFHsg==
 
-"@po-ui/ng-templates@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@po-ui/ng-templates/-/ng-templates-4.1.0.tgz#150b0ef1e474b271be109542210857cf9cbcc0db"
-  integrity sha512-AtCnGNkmvjYFqIpNdlSwTcwm/QZ/wOpOGrJlL23S+YFIVNqEGteqC+EH3nvIjnrWftP/OzKgosYdfmUV9z8ZGQ==
+"@po-ui/ng-templates@^4.10.1":
+  version "4.10.1"
+  resolved "https://registry.yarnpkg.com/@po-ui/ng-templates/-/ng-templates-4.10.1.tgz#62c30e98c82b5889c2395e1391f59850e87fe6b0"
+  integrity sha512-jp6zu3pxu2IErOBKR4zpZ8lQQ1JpTuIy9r/i+4iVc9hK48yjuQWlnygPYp8XKA2N8P7BQiht7wMj2S/kuH1PUA==
   dependencies:
-    "@po-ui/ng-components" "4.1.0"
-    "@po-ui/ng-schematics" "4.1.0"
+    "@po-ui/ng-components" "4.10.1"
+    "@po-ui/ng-schematics" "4.10.1"
     tslib "^2.0.0"
 
-"@po-ui/style@4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@po-ui/style/-/style-4.1.0.tgz#75bf7b128fd5b9b3337fc8b5a705cdb334bb9de8"
-  integrity sha512-Lrr+PvjDvRQvXKhTJisM+pmj5qfzssrNmWYFUpk/OLpxuCy20/3x/72KgxqAbh1/cCVnJDXS3IxA71YNXXCC3Q==
+"@po-ui/style@4.10.1":
+  version "4.10.1"
+  resolved "https://registry.yarnpkg.com/@po-ui/style/-/style-4.10.1.tgz#24257b722785a5e6b91105552162c95c54fa8fd3"
+  integrity sha512-rOTguuOv0HLjr38yD7kXXFO876t8tM73m1cdhe4PCvM3zKAhjImdp8E9D+2jfzizJCxJB4LPsFUXCgVZNN/zvg==
 
 "@schematics/angular@11.0.5":
   version "11.0.5"
