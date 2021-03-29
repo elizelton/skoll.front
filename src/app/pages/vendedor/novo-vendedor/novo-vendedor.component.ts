@@ -65,7 +65,7 @@ export class NovoVendedorComponent implements OnInit, OnDestroy {
     if (this.vendedor.id) {
       this.subService = this.vendedorService.update(this.vendedor.id, this.vendedor).subscribe({
         next: () => {
-          this.poNotification.success('Vendedor editado com sucesso!');
+          this.poNotification.success({message: 'Vendedor editado com sucesso!', duration: 6000 });
         }
       })
     }
@@ -74,7 +74,7 @@ export class NovoVendedorComponent implements OnInit, OnDestroy {
       this.subService = this.vendedorService.insert(this.vendedor).subscribe({
         next: (res: Vendedor) => {
           this.vendedor.id = res.id;
-          this.poNotification.success('Vendedor criado com sucesso!');
+          this.poNotification.success({message: 'Vendedor criado com sucesso!', duration: 6000 });
         }
       })
     }

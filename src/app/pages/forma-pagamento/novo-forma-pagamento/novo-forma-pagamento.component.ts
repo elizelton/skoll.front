@@ -64,7 +64,7 @@ export class NovoFormaPagamentoComponent implements OnInit, OnDestroy {
     if (this.formaPagamento.id) {
       this.subService = this.formaPagamentoService.update(this.formaPagamento.id, this.formaPagamento).subscribe({
         next: (res: FormaPagamento) => {
-          this.poNotification.success('Forma de pagamento editada com sucesso!');
+          this.poNotification.success({message: 'Forma de pagamento editada com sucesso!', duration: 6000 });
         }
       })
     }
@@ -73,7 +73,7 @@ export class NovoFormaPagamentoComponent implements OnInit, OnDestroy {
       this.subService = this.formaPagamentoService.insert(this.formaPagamento).subscribe({
         next: (res: FormaPagamento) => {
           this.formaPagamento.id = res.id;
-          this.poNotification.success('Forma de pagamento criada com sucesso!');
+          this.poNotification.success({message: 'Forma de pagamento criada com sucesso!', duration: 6000 });
         }
       })
     }

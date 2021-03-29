@@ -160,7 +160,7 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
     if (this.fornecedor.idFornecedor) {
       this.subService = this.fornecedorService.update(this.fornecedor.idFornecedor, this.fornecedor).subscribe({
         next: (res: Fornecedor) => {
-          this.poNotification.success('Fornecedor editado com sucesso!');
+          this.poNotification.success({message: 'Fornecedor editado com sucesso!', duration: 6000 });
         }
       })
     }
@@ -173,7 +173,7 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
           this.fornecedor.idFornecedor = res.idFornecedor;
           this.tituloPagina = `Editar Fornecedor #${res.idFornecedor}`
           this.breadcrumb.items[2].label = "Editar"
-          this.poNotification.success('Fornecedor criado com sucesso!');
+          this.poNotification.success({message: 'Fornecedor criado com sucesso!', duration: 6000 });
         }
       })
     }
@@ -238,11 +238,11 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
           .subscribe(
             {
               next: () => {
-                this.poNotification.success("Telefone removido com sucesso.");
+                this.poNotification.success({message: "Telefone removido com sucesso.", duration: 6000 });
                 this.getTelefones()
               },
               error: () => {
-                this.poNotification.error("Falha ao remover telefone.");
+                this.poNotification.error({message: "Falha ao remover telefone.", duration: 6000 });
               }
             }
           )
@@ -278,7 +278,7 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
     if (this.telefone.id) {
       this.subService = this.telefoneService.update(this.telefone.id, this.telefone).subscribe({
         next: () => {
-          this.poNotification.success('Telefone editado com sucesso!');
+          this.poNotification.success({message: 'Telefone editado com sucesso!', duration: 6000 });
           this.poModal.close();
           this.getTelefones()
           this.loading = false
@@ -296,7 +296,7 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
             this.poModal.close();
             this.getTelefones()
             this.loading = false
-            this.poNotification.success('Telefone adicionado com sucesso!');
+            this.poNotification.success({message: 'Telefone adicionado com sucesso!', duration: 6000 });
           },
           error: () => {
             this.loading = false

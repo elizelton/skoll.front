@@ -122,12 +122,12 @@ export class ListarComissaoComponent implements OnInit {
               this.items = res.items;
             }
             else {
-              this.poNotification.warning("Não encontrado registro para os filtros selecionados");
+              this.poNotification.warning({message: "Não encontrado registro para os filtros selecionados", duration: 6000 });
             }
           }
         },
         error: () => {
-          this.poNotification.error({message: "Verifique os filtros selecionados."});
+          this.poNotification.error({message: "Verifique os filtros selecionados.", duration: 6000 });
         }
       })
   }
@@ -156,7 +156,7 @@ export class ListarComissaoComponent implements OnInit {
           .subscribe({
             next: () => {
               this.limparFiltros();
-              this.poNotification.success("Pagamentos realizados com sucesso");
+              this.poNotification.success({message: "Pagamentos realizados com sucesso", duration: 6000 });
             }
           })
       },

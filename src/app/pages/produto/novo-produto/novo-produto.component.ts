@@ -81,11 +81,11 @@ export class NovoProdutoComponent implements OnInit, OnDestroy {
           .subscribe(
             {
               next: () => {
-                this.poNotification.success("Serviço prestado removido com sucesso.");
+                this.poNotification.success({message: "Serviço prestado removido com sucesso.", duration: 6000 });
                 this.carregarServicos()
               },
               error: () => {
-                this.poNotification.error("Falha ao remover Serviço Prestado.");
+                this.poNotification.error({message: "Falha ao remover Serviço Prestado.", duration: 6000 });
               }
             }
           )
@@ -146,7 +146,7 @@ export class NovoProdutoComponent implements OnInit, OnDestroy {
     if (this.produto.id) {
       this.subService = this.produtoService.update(this.produto.id, this.produto).subscribe({
         next: () => {
-          this.poNotification.success('Produto editado com sucesso!');
+          this.poNotification.success({message: 'Produto editado com sucesso!', duration: 6000 });
         }
       })
     }
@@ -156,7 +156,7 @@ export class NovoProdutoComponent implements OnInit, OnDestroy {
         next: (res: Produto) => {
           this.produto.id = res.id;
           this.tituloPagina = `Editar Produto #${res.id}`
-          this.poNotification.success('Produto criado com sucesso!');
+          this.poNotification.success({message: 'Produto criado com sucesso!', duration: 6000 });
         }
       })
     }
@@ -169,7 +169,7 @@ export class NovoProdutoComponent implements OnInit, OnDestroy {
         .subscribe(
           {
             next: (res: any) => {
-              this.poNotification.success('Serviço criado com sucesso!');
+              this.poNotification.success({message: 'Serviço criado com sucesso!', duration: 6000 });
               this.carregarServicos();
             }
           }
@@ -178,7 +178,7 @@ export class NovoProdutoComponent implements OnInit, OnDestroy {
     else {
       let sub = this.servicoPrestadoService.update(this.servicoPrestado.id, this.servicoPrestado).subscribe({
         next: () => {
-          this.poNotification.success('Serviço editado com sucesso!');
+          this.poNotification.success({message: 'Serviço editado com sucesso!', duration: 6000 });
           sub.unsubscribe();
         }
       })

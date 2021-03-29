@@ -311,7 +311,7 @@ export class NovoContratoComponent implements OnInit {
         this.contratoService.cancelarContrato(this.contrato.id, 0)
           .subscribe({
             next: () => {
-              this.poNotification.success("Contrato cancelado com sucesso.");
+              this.poNotification.success({message: "Contrato cancelado com sucesso.", duration: 6000 });
               this.ngOnInit()
             }
           })
@@ -328,7 +328,7 @@ export class NovoContratoComponent implements OnInit {
     if (this.contrato.id) {
       let subService = this.contratoService.update(this.contrato.id, this.contrato).subscribe({
         next: (res: Contrato) => {
-          this.poNotification.success('Contrato editado com sucesso!');
+          this.poNotification.success({message: 'Contrato editado com sucesso!', duration: 6000 });
           this.actions[2].disabled = false;
           subService.unsubscribe();
         }
@@ -340,7 +340,7 @@ export class NovoContratoComponent implements OnInit {
         next: (res: Contrato) => {
           this.contrato.id = res.id;
           this.tituloPagina = `Editar Contrato #${res.id}`
-          this.poNotification.success('Contrato criado com sucesso!');
+          this.poNotification.success({message: 'Contrato criado com sucesso!', duration: 6000 });
           this.breadcrumb.items[2].label = "Editar"
           this.actions[2].disabled = false;
           subService$.unsubscribe();
@@ -452,7 +452,7 @@ export class NovoContratoComponent implements OnInit {
       .delete(servico.id)
       .subscribe({
         next: () => {
-          this.poNotification.success("Serviço excluído com sucesso!");
+          this.poNotification.success({message: "Serviço excluído com sucesso!", duration: 6000 });
           this.carregarContratoServicos();
         }
       })
@@ -466,7 +466,7 @@ export class NovoContratoComponent implements OnInit {
         .subscribe({
           next: () => {
             this.carregarContratoServicos();
-            this.poNotification.success("Serviço adicionado com sucesso.");
+            this.poNotification.success({message: "Serviço adicionado com sucesso.", duration: 6000 });
             this.actions[1].disabled = false;
             sub.unsubscribe();
             this.labelAddEditServico = 'Adicionar';
@@ -477,7 +477,7 @@ export class NovoContratoComponent implements OnInit {
         .subscribe({
           next: () => {
             this.carregarContratoServicos();
-            this.poNotification.success("Serviço Editado com sucesso.");
+            this.poNotification.success({message: "Serviço Editado com sucesso.", duration: 6000 });
             this.actions[1].disabled = false;
             this.labelAddEditServico = 'Adicionar';
             sub.unsubscribe();
@@ -585,7 +585,7 @@ export class NovoContratoComponent implements OnInit {
     this.contratoService.cancelarContrato(this.contrato.id, this.novoClienteId)
       .subscribe({
         next: () => {
-          this.poNotification.success("Contrato cancelado com sucesso.");
+          this.poNotification.success({message: "Contrato cancelado com sucesso.", duration: 6000 });
           this.ngOnInit();
         }
       })
@@ -604,7 +604,7 @@ export class NovoContratoComponent implements OnInit {
           window.open(url);
         },
         error: () => {
-          this.poNotification.error("Não encontrado resultados.");
+          this.poNotification.error({message: "Não encontrado resultados.", duration: 6000 });
         }
       })
   }
@@ -621,7 +621,7 @@ export class NovoContratoComponent implements OnInit {
     this.contratoParcelaPagamentoService.insert(this.parcelaPagamento)
       .subscribe({
         next: () => {
-          this.poNotification.success('Parcela paga com sucesso!')
+          this.poNotification.success({message: 'Parcela paga com sucesso!', duration: 6000 })
           this.closeModal();
           this.getContratoParcelas();
         }
@@ -635,7 +635,7 @@ export class NovoContratoComponent implements OnInit {
       this.gerarParcelasOptions.isPrimeira)
       .subscribe({
         next: () => {
-          this.poNotification.success('Parcelas geradas com sucesso!')
+          this.poNotification.success({message: 'Parcelas geradas com sucesso!', duration: 6000 })
           this.ngOnInit();
           this.closeModal();
           this.getContratoParcelas();

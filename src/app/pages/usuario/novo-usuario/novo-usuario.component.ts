@@ -68,7 +68,7 @@ export class NovoUsuarioComponent {
     if (this.usuario.id) {
       this.subService = this.usuarioService.update(this.usuario.id, this.usuario).subscribe({
         next: () => {
-          this.poNotification.success('Usuário editado com sucesso!');
+          this.poNotification.success({message: 'Usuário editado com sucesso!', duration: 6000 });
         }
       })
     }
@@ -77,7 +77,7 @@ export class NovoUsuarioComponent {
       this.subService = this.usuarioService.insert(this.usuario).subscribe({
         next: (res: Usuario) => {
           this.usuario.id = res.id;
-          this.poNotification.success('Usuário criado com sucesso!');
+          this.poNotification.success({message: 'Usuário criado com sucesso!', duration: 6000 });
         }
       })
     }

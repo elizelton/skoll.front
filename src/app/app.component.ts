@@ -311,7 +311,7 @@ export class AppComponent {
           window.open(url);
         },
         error: () => {
-          this.poNotification.error("Não encontrado resultados.")
+          this.poNotification.error({message: "Não encontrado resultados.", duration: 6000 });
         }
       }
       )
@@ -333,7 +333,7 @@ export class AppComponent {
           window.open(url);
         },
         error: () => {
-          this.poNotification.error("Não encontrado resultados.")
+          this.poNotification.error({message: "Não encontrado resultados.", duration: 6000 })
         }
       })
   }
@@ -354,7 +354,7 @@ export class AppComponent {
           window.open(url);
         },
         error: () => {
-          this.poNotification.error("Não encontrado resultados.")
+          this.poNotification.error({message: "Não encontrado resultados.", duration: 6000 })
         }
       })
   }
@@ -375,7 +375,7 @@ export class AppComponent {
           window.open(url);
         },
         error: () => {
-          this.poNotification.error("Não encontrado resultados.")
+          this.poNotification.error({message: "Não encontrado resultados.", duration: 6000 })
         }
       })
   }
@@ -393,7 +393,7 @@ export class AppComponent {
           window.open(url);
         },
         error: () => {
-          this.poNotification.error("Não encontrado resultados.")
+          this.poNotification.error({message: "Não encontrado resultados.", duration: 6000 })
         }
       }
       )
@@ -417,7 +417,7 @@ export class AppComponent {
           window.open(url);
         },
         error: () => {
-          this.poNotification.error("Não encontrado resultados.")
+          this.poNotification.error({message: "Não encontrado resultados.", duration: 6000 })
         }
       }
       )
@@ -440,7 +440,7 @@ export class AppComponent {
           window.open(url);
         },
         error: () => {
-          this.poNotification.error("Não encontrado resultados.")
+          this.poNotification.error({message: "Não encontrado resultados.", duration: 6000 })
         }
       })
   }
@@ -461,7 +461,7 @@ export class AppComponent {
           window.open(url);
         },
         error: () => {
-          this.poNotification.error("Não encontrado resultados.")
+          this.poNotification.error({message: "Não encontrado resultados.", duration: 6000 })
         }
       })
   }
