@@ -114,6 +114,20 @@
     </form>
 </po-modal>
 
+<po-modal #RelVendasMensaisModal p-title="Relatório de Vendas Mensais" [p-primary-action]="close"
+    [p-secondary-action]="confirmRelVendasMensaisModal">
+    <form #ModalForm="ngForm">
+        <div class="po-row">
+            <po-combo [(ngModel)]="mesSelecionado" [ngModelOptions]="{standalone: true}" class="po-md-8" p-auto-focus
+            p-label="Mês" p-required [p-options]="mesOptions" p-clean>
+             </po-combo>
+            <po-number [(ngModel)]="anoSelecionado" [ngModelOptions]="{standalone: true}" class="po-md-4 po-lp-1"
+                p-label="Ano" p-clean p-clean p-required>
+            </po-number>
+        </div>
+    </form>
+</po-modal>
+
 
 <po-modal #ComissaoVendedorModal p-title="Relatório de Comissão por vendedor" [p-primary-action]="close"
     [p-secondary-action]="confirmComissaoVendedorModal">

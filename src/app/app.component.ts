@@ -151,6 +151,10 @@ export class AppComponent {
         {
           label: 'Pagamentos e recebimentos de parcelas',
           action: this.abrirModalRelParcelas.bind(this)
+        },
+        {
+          label: 'Vendas Mensais',
+          action: this.abrirModalRelVendasMensais.bind(this)
         }
       ]
     },
@@ -168,16 +172,34 @@ export class AppComponent {
   @ViewChild('ContratoPorVendedorModal') contratoPorVendedorModal: PoModalComponent;
   @ViewChild('ParcelaReceberModal') parcelaReceberModal: PoModalComponent;
   @ViewChild('RelParcelasModal') relParcelasModal: PoModalComponent;
+  @ViewChild('RelVendasMensaisModal') relVendasMensaisModal: PoModalComponent;
   @ViewChild('ComissaoVendedorModal') comissaoVendedorModal: PoModalComponent;
   @ViewChild('ModalForm', { static: true }) parcelaAPagarForm: NgForm;
 
 
-  dataInicio
-  dataAte
-  idCliente
-  idVendedor
-  clienteOptions
-  vendedorOptions
+  dataInicio: any;
+  dataAte: any;
+  idCliente: number;
+  idVendedor: number;
+  clienteOptions: any;
+  vendedorOptions: any;
+  anoSelecionado: number;
+  mesSelecionado: number;
+
+  mesOptions = [
+    { label: 'Janeiro', value: 1 },
+    { label: 'Fevereiro', value: 2 },
+    { label: 'Março', value: 3 },
+    { label: 'Abril', value: 4 },
+    { label: 'Maio', value: 5 },
+    { label: 'Junho', value: 6 },
+    { label: 'Julho', value: 7 },
+    { label: 'Agosto', value: 8 },
+    { label: 'Setembro', value: 9 },
+    { label: 'Outubro', value: 10 },
+    { label: 'Novembro', value: 11 },
+    { label: 'Dezembro', value: 12 },
+  ]
 
   abrirModalParcelaReceber() {
     this.dataAte = new Date()
@@ -207,6 +229,12 @@ export class AppComponent {
     this.relParcelasModal.open()
   }
 
+  abrirModalRelVendasMensais() {
+    this.dataInicio = new Date()
+    this.dataAte = moment(new Date()).endOf("month").toDate()
+    this.relVendasMensaisModal.open()
+  }
+
   abrirModalParcelaPagar() {
     this.dataAte = new Date()
     this.parcelaAPagarModal.open()
@@ -228,6 +256,8 @@ export class AppComponent {
       })
 
   }
+
+  
 
 
   abrirModalContratoPorVendedor() {
@@ -391,6 +421,28 @@ export class AppComponent {
         }
       }
       )
+  }
+
+
+
+  confirmRelVendasMensaisModal: PoModalAction = {
+    action: this.gerarVendasMensais.bind(this),
+    label: 'Gerar relatório',
+  };
+
+  gerarVendasMensais() {
+    this.relatorioService.GerarContratoMes(
+     this.mesSelecionado,
+     this.anoSelecionado)
+      .subscribe({
+        next: (response: any) => {
+          const url = window.URL.createObjectURL(response);
+          window.open(url);
+        },
+        error: () => {
+          this.poNotification.error("Não encontrado resultados.")
+        }
+      })
   }
 
   confirmComissaoVendedorModal: PoModalAction = {

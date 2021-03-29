@@ -19,9 +19,9 @@
                 </po-input>
                 <po-decimal [(ngModel)]="servicoPrestado.valorUnitario" p-label="Valor Unitário" [ngModelOptions]="{standalone: true}"  class="po-md-2 po-lp-1" p-decimals-length="2" p-icon="po-icon-finance">
                 </po-decimal>
-                <po-button p-label="Adicionar" class="po-mt-4" p-type="primary" (p-click)="salvarServico()"> </po-button>
+                <po-button [p-label]="btnAddEditLabel" class="po-mt-4" p-type="primary" (p-click)="salvarServico()"> </po-button>
               </div>
-              <po-table [p-columns]="colServicos" [p-items]="itemsServicos" p-striped="true">
+              <po-table [p-columns]="colServicos" [p-items]="itemsServicos" p-striped="true" [p-actions]="actionsServicos">
               </po-table>
             </po-tab>
     </po-tabs>

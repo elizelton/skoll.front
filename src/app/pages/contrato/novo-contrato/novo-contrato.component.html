@@ -78,7 +78,7 @@
         <po-decimal p-readonly [(ngModel)]="contratoServico.valorTotal" [ngModelOptions]="{standalone: true}"
           p-label="Valor Total" class="po-md-2 po-lp-1" p-decimals-length="2" p-icon="po-icon-finance">
         </po-decimal>
-        <po-button p-label="Adicionar" class="po-mt-4" (p-click)="adicionarServico()"> </po-button>
+        <po-button [p-label]="labelAddEditServico" class="po-mt-4" (p-click)="adicionarServico()"> </po-button>
       </div>
       <po-table [p-columns]="colProduto" [p-items]="itemsContratoServico" p-striped="true" [p-actions]="actionsProduto">
       </po-table>
@@ -120,8 +120,8 @@
       </po-decimal>
     </div>
     <div class="po-row">
-      <po-datepicker [(ngModel)]="parcelaPagamento.dataPagamento" class="po-md-4 po-lp-1"
-        p-label="Data de Pagamento" p-clean p-format="dd/mm/yyyy" p-required>
+      <po-datepicker [(ngModel)]="parcelaPagamento.dataPagamento" class="po-md-4 po-lp-1" p-label="Data de Pagamento"
+        p-clean p-format="dd/mm/yyyy" p-required>
       </po-datepicker>
       <po-decimal [(ngModel)]="parcelaPagamento.valorPagamento" p-label="Valor de Pagamento" class="po-md-4 po-lp-1"
         p-decimals-length="2" p-icon="po-icon-money" (p-change)="validaValorParcela()">
@@ -131,32 +131,32 @@
     </po-loading-overlay>
   </po-modal>
 
-  <po-modal #modalSelecionarClienteCancelamento p-title="Selecione um novo cliente" [p-primary-action]="confirmGerarNovoContrato"
-    [p-secondary-action]="closeCancelarNovoCliente">
+  <po-modal #modalSelecionarClienteCancelamento p-title="Selecione um novo cliente"
+    [p-primary-action]="confirmGerarNovoContrato" [p-secondary-action]="closeCancelarNovoCliente">
     <div class="po-row">
-      <po-combo [(ngModel)]="novoClienteId" [ngModelOptions]="{standalone: true}"
-        p-auto-focus p-label="Cliente" p-required p-icon="po-icon-user" [p-options]="clienteOptions" p-clean>
+      <po-combo [(ngModel)]="novoClienteId" [ngModelOptions]="{standalone: true}" p-auto-focus p-label="Cliente"
+        p-required p-icon="po-icon-user" [p-options]="clienteOptions" p-clean>
       </po-combo>
     </div>
   </po-modal>
 
   <po-modal #modalImprimirRecibo [p-title]="tituloModalImprimirRecibo" [p-primary-action]="confirmImprimirRecibo"
-  [p-secondary-action]="close" >
-  <div class="po-row">
-    <po-decimal [(ngModel)]="recibo.valor" p-label="Valor de Pagamento" class="po-md-4 po-lp-1"
-      p-decimals-length="2" p-icon="po-icon-money" (p-change)="validaValorParcela()">
-    </po-decimal>
-    <po-switch [ngModelOptions]="{standalone: true}" [(ngModel)]="recibo.imprimirObs"
-    name="Ativo" class="po-ml-2" p-label="Imprimir observações?" p-label-off="Não" p-label-on="Sim"></po-switch>
-  </div>
-  <div class="po-row">
-    <po-input [(ngModel)]="recibo.valorExtenso" class="po-md-12 po-lp-1"
-      p-label="Valor por extenso" p-clean p-required>
-    </po-input>
-  </div>
-  <po-loading-overlay [hidden]="!loading" p-screen-lock="true">
-  </po-loading-overlay>
-</po-modal>
+    [p-secondary-action]="close">
+    <div class="po-row">
+      <po-decimal [(ngModel)]="recibo.valor" p-label="Valor de Pagamento" class="po-md-4 po-lp-1" p-decimals-length="2"
+        p-icon="po-icon-money" (p-change)="validaValorParcela()">
+      </po-decimal>
+      <po-switch [ngModelOptions]="{standalone: true}" [(ngModel)]="recibo.imprimirObs" name="Ativo" class="po-ml-2"
+        p-label="Imprimir observações?" p-label-off="Não" p-label-on="Sim"></po-switch>
+    </div>
+    <div class="po-row">
+      <po-input [(ngModel)]="recibo.valorExtenso" class="po-md-12 po-lp-1" p-label="Valor por extenso" p-clean
+        p-required>
+      </po-input>
+    </div>
+    <po-loading-overlay [hidden]="!loading" p-screen-lock="true">
+    </po-loading-overlay>
+  </po-modal>
 
 
   <po-loading-overlay [hidden]="!loading" p-screen-lock="true">

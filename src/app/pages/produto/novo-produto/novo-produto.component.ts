@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { PoBreadcrumb, PoNotificationService, PoPageAction, PoRadioGroupOption, PoTableColumn } from '@po-ui/ng-components';
+import { PoBreadcrumb, PoDialogService, PoNotificationService, PoPageAction, PoTableAction, PoTableColumn } from '@po-ui/ng-components';
 import { FormControl } from '@angular/forms';
 import { Produto } from 'src/app/model/Produto.model';
 import { ProdutoService } from '../produto.service';
@@ -16,30 +16,32 @@ import { map } from 'rxjs/operators'
 })
 export class NovoProdutoComponent implements OnInit, OnDestroy {
 
-  produto: Produto
-  servicoPrestado: ServicoPrestado
-  itemsServicos: any
-  tituloPagina: string = "Novo Produto"
+  produto: Produto;
+  servicoPrestado: ServicoPrestado;
+  itemsServicos: any;
+  tituloPagina: string = "Novo Produto";
   private sub: Subscription;
   private subService: Subscription;
-  loading: boolean = false
+  loading: boolean = false;
+  btnAddEditLabel = "Adicionar";
   constructor(
     private produtoService: ProdutoService,
     private servicoPrestadoService: ServicoPrestadoService,
     public poNotification: PoNotificationService,
+    public poDialog: PoDialogService,
     private route: ActivatedRoute) {
-    this.produto = new Produto()
-    this.produto.ativo = true
-    this.produto.nome = ""
+    this.produto = new Produto();
+    this.produto.ativo = true;
+    this.produto.nome = "";
 
     this.servicoPrestado = new ServicoPrestado();
     this.servicoPrestado.ativo = true;
-    this.servicoPrestado.nome = ""
-    this.servicoPrestado.produto = this.produto
-    this.servicoPrestado.valorUnitario = 0
+    this.servicoPrestado.nome = "";
+    this.servicoPrestado.produto = this.produto;
+    this.servicoPrestado.valorUnitario = 0;
 
     if (this.produto.id) {
-      this.servicoPrestado.produto = this.produto
+      this.servicoPrestado.produto = this.produto;
     }
   }
 
@@ -48,12 +50,12 @@ export class NovoProdutoComponent implements OnInit, OnDestroy {
       this.produto.id = +params['id'];
 
       if (this.produto.id) {
-        this.loading = true
+        this.loading = true;
         this.subService = this.produtoService.get(this.produto.id).subscribe({
           next: (res: Produto) => {
             this.produto = res;
-            this.tituloPagina = `Editar Produto #${res.id}`
-            this.breadcrumb.items[2].label = "Editar"
+            this.tituloPagina = `Editar Produto #${res.id}`;
+            this.breadcrumb.items[2].label = "Editar";
             this.loading = false;
           }
         })
@@ -61,10 +63,55 @@ export class NovoProdutoComponent implements OnInit, OnDestroy {
     });
   }
 
+  editarServico(servico) {
+    this.servicoPrestado.valorUnitario = servico.valorUnitario;
+    this.servicoPrestado.nome = servico.nome;
+    this.servicoPrestado.id = servico.id;
+    this.btnAddEditLabel = "Salvar";
+
+  }
+
+  excluirServico(servico) {
+
+    this.poDialog.confirm({
+      title: "Confirmar Exclusão",
+      message: `Deseja remover o serviço prestado <strong>#${servico.nome}</strong>?`,
+      confirm: () => {
+        this.servicoPrestadoService.delete(this.servicoPrestado.id)
+          .subscribe(
+            {
+              next: () => {
+                this.poNotification.success("Serviço prestado removido com sucesso.");
+                this.carregarServicos()
+              },
+              error: () => {
+                this.poNotification.error("Falha ao remover Serviço Prestado.");
+              }
+            }
+          )
+      },
+      cancel: () => { undefined }
+    })
+  }
+
+  readonly actionsServicos: Array<PoTableAction> = [
+    {
+      action: this.editarServico.bind(this),
+      icon: 'po-icon-edit',
+      label: 'Editar'
+    },
+    {
+      action: this.excluirServico.bind(this),
+      icon: 'po-icon-delete',
+      label: 'Excluir'
+    }
+  ];
+
   ngOnDestroy(): void {
     this.sub.unsubscribe();
-    if (this.subService)
+    if (this.subService) {
       this.subService.unsubscribe();
+    }
   }
 
   readonly breadcrumb: PoBreadcrumb = {
@@ -91,13 +138,6 @@ export class NovoProdutoComponent implements OnInit, OnDestroy {
       type: 'currency',
       format: 'BRL',
     },
-    {
-      property: 'columnIcon', label: ' ', type: 'icon', width: '100px', action: console.log, icons: [
-        { value: 'delete', icon: 'po-icon-plus', color: 'color-06', action: () => {alert('ok') }, tooltip: 'Adiciona um novo item' },
-        { value: 'edit', icon: 'po-icon-edit', action: console.log },
-        { value: 'delete', icon: 'po-icon-delete', color: 'color-12', action: console.log }
-      ]
-    },
   ]
 
 
@@ -111,7 +151,7 @@ export class NovoProdutoComponent implements OnInit, OnDestroy {
       })
     }
     else {
-      this.produto.id = this.produto.id || 0
+      this.produto.id = this.produto.id || 0;
       this.subService = this.produtoService.insert(this.produto).subscribe({
         next: (res: Produto) => {
           this.produto.id = res.id;
@@ -123,31 +163,42 @@ export class NovoProdutoComponent implements OnInit, OnDestroy {
   }
 
   salvarServico() {
-    this.servicoPrestadoService.insert(this.servicoPrestado)
-      .subscribe(
-        {
-          next: (res: any) => {
-            this.poNotification.success('Serviço criado com sucesso!');
-            this.carregarServicos()
+    this.servicoPrestado.id = this.servicoPrestado.id || 0;
+    if (!this.servicoPrestado.id) {
+      this.servicoPrestadoService.insert(this.servicoPrestado)
+        .subscribe(
+          {
+            next: (res: any) => {
+              this.poNotification.success('Serviço criado com sucesso!');
+              this.carregarServicos();
+            }
           }
-        }
-      )
-  }
-
-  carregarServicos(){
-    if(this.produto.id){
-      this.servicoPrestadoService.getByProduto(this.produto.id)
-      .subscribe({
-        next: (res: any) => {
-          this.servicoPrestado.id = 0
-          this.servicoPrestado.ativo = true
-          this.servicoPrestado.nome = ""
-          this.servicoPrestado.valorUnitario = 0
-          this.itemsServicos = res.map(function (item) {
-            return { columnIcon: ['po-icon-edit', 'po-icon-delete'], ...item }
-          })
+        )
+    }
+    else {
+      let sub = this.servicoPrestadoService.update(this.servicoPrestado.id, this.servicoPrestado).subscribe({
+        next: () => {
+          this.poNotification.success('Serviço editado com sucesso!');
+          sub.unsubscribe();
         }
       })
+    }
+  }
+
+  carregarServicos() {
+    if (this.produto.id) {
+      this.servicoPrestadoService.getByProduto(this.produto.id)
+        .subscribe({
+          next: (res: any) => {
+            this.servicoPrestado.id = 0;
+            this.servicoPrestado.ativo = true;
+            this.servicoPrestado.nome = "";
+            this.servicoPrestado.valorUnitario = 0;
+            this.itemsServicos = res.map(function (item) {
+              return { columnIcon: ['po-icon-edit', 'po-icon-delete'], ...item }
+            })
+          }
+        })
     }
   }
 }
