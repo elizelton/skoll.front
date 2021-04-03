@@ -6,7 +6,7 @@
             <form #form>
                 <div class="po-row">
                     <po-combo [(ngModel)]="contaPagar.fornecedor.idFornecedor" [ngModelOptions]="{standalone: true}"
-                        class="po-md-4" p-auto-focus p-label="Fornecedor" p-required p-icon="po-icon-user"
+                        class="po-md-4" p-auto-focus p-label="Fornecedor *" p-required p-icon="po-icon-user"
                         [p-options]="forncedorOptions" p-clean>
                     </po-combo>
                 </div>
@@ -17,11 +17,11 @@
                 </div>
                 <div class="po-row">
                     <po-decimal [hidden]="pagamentoMensal" [(ngModel)]="contaPagar.valorTotal"
-                        [ngModelOptions]="{standalone: true}" p-label="Valor Total" class="po-md-2 po-lp-1"
+                        [ngModelOptions]="{standalone: true}" p-label="Valor Total *" class="po-md-2 po-lp-1"
                         p-decimals-length="2" p-icon="po-icon-money">
                     </po-decimal>
                     <po-decimal [hidden]="!pagamentoMensal" [(ngModel)]="contaPagar.valorMensal"
-                        [ngModelOptions]="{standalone: true}" p-label="Valor Mensal" class="po-md-2 po-lp-1"
+                        [ngModelOptions]="{standalone: true}" p-label="Valor Mensal *" class="po-md-2 po-lp-1"
                         p-decimals-length="2" p-icon="po-icon-money">
                     </po-decimal>
                     <po-decimal p-readonly [(ngModel)]="contaPagar.juros" [ngModelOptions]="{standalone: true}"
@@ -34,12 +34,12 @@
                             class="po-md-2 po-lp-1" p-label="Dia Inicial" p-clean p-required>
                         </po-number>
                         <po-combo [(ngModel)]="contaPagar.mesInicial" [ngModelOptions]="{standalone: true}"
-                            p-label="Mês Inicial" class="po-md-3" [p-options]="mesOptions" p-clean>
+                            p-label="Mês Inicial *" class="po-md-3" [p-options]="mesOptions" p-clean>
                         </po-combo>
                     </div>
                     <div class="po-row">
                         <po-number [(ngModel)]="contaPagar.numParcelas" [ngModelOptions]="{standalone: true}"
-                            p-label="Total de Parcelas" min-value="1" class="po-md-2 po-lp-1">
+                            p-label="Total de Parcelas *" min-value="1" class="po-md-2 po-lp-1">
                         </po-number>
                         <po-decimal p-readonly [(ngModel)]="contaPagar.ajuste" [ngModelOptions]="{standalone: true}"
                             p-label="Valor de ajuste" class="po-md-2 po-lp-1" p-decimals-length="2"

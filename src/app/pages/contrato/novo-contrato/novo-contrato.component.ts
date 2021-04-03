@@ -206,7 +206,7 @@ export class NovoContratoComponent implements OnInit {
     this.contrato.dataTermino = moment(this.contrato.dataInicio).add(1, 'months').toDate()
     this.contrato.observacoes = ""
     this.contrato.valorTotal = 0
-    this.contrato.numParcelas = null
+    this.contrato.numParcelas = 0
     this.contrato.ativo = true
     this.contrato.periodoMeses = 1
     this.contrato.tipoDocumento = 1

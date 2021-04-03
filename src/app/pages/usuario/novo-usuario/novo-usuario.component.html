@@ -4,14 +4,14 @@
     <po-divider></po-divider>
     <div class="po-row">
       <po-input [(ngModel)]="usuario.Nome" [ngModelOptions]="{standalone: true}" class="po-md-8 " p-auto-focus
-        p-label="Nome" p-required p-icon="po-icon-user">
+        p-label="Nome *" p-required p-icon="po-icon-user">
       </po-input>
     </div>
     <div class="po-row">
       <po-input [(ngModel)]="usuario.userName" [ngModelOptions]="{standalone: true}" class="po-md-4 " p-auto-focus
-      p-label="Login" p-required p-icon="po-icon-user">
+      p-label="Login *" p-required p-icon="po-icon-user">
     </po-input>
-      <po-email [(ngModel)]="usuario.email" p-label="E-mail" [ngModelOptions]="{standalone: true}"
+      <po-email [(ngModel)]="usuario.email" p-label="E-mail *" [ngModelOptions]="{standalone: true}"
         class="po-md-4 po-lp-1">
       </po-email>
     </div>

@@ -6,7 +6,7 @@
       <form #form>
         <div class="po-row">
           <po-combo [(ngModel)]="contrato.cliente.idCliente" [ngModelOptions]="{standalone: true}" class="po-md-4"
-            p-auto-focus p-label="Cliente" p-required p-icon="po-icon-user" [p-options]="clienteOptions" p-clean>
+            p-auto-focus p-label="Cliente *" p-required p-icon="po-icon-user" [p-options]="clienteOptions" p-clean>
           </po-combo>
           <po-select [(ngModel)]="contrato.tipoDocumento" [ngModelOptions]="{standalone: true}"
             p-label="Tipo de documento" class="po-md-2 po-lp-1" [p-options]="tipoDocumentoOptions">
@@ -15,14 +15,14 @@
         <div class="po-row po-mt-2">
           <div class="po-row">
             <po-datepicker [(ngModel)]="contrato.dataInicio" [ngModelOptions]="{standalone: true}"
-              class="po-md-2 po-lp-1" p-label="Inicio da vigência" p-clean p-format="dd/mm/yyyy" p-required
+              class="po-md-2 po-lp-1" p-label="Inicio da vigência *" p-clean p-format="dd/mm/yyyy" p-required
               p-min-date="2003-01-01">
             </po-datepicker>
             <po-number [(ngModel)]="this.contrato.periodoMeses" [ngModelOptions]="{standalone: true}"
-              p-label="Quantidade de meses" min-value="1" class="po-md-2 po-lp-1" (p-change)="calcularData()">
+              p-label="Quantidade de meses *" min-value="1" class="po-md-2 po-lp-1" (p-change)="calcularData()">
             </po-number>
             <po-datepicker [(ngModel)]="contrato.dataTermino" [ngModelOptions]="{standalone: true}"
-              class="po-md-2 po-lp-1" p-label="Término da vigência" p-clean p-format="dd/mm/yyyy" p-required
+              class="po-md-2 po-lp-1" p-label="Término da vigência *" p-clean p-format="dd/mm/yyyy" p-required
               p-min-date="2003-01-01">
             </po-datepicker>
             <po-number [(ngModel)]="contrato.qntdExemplares" [ngModelOptions]="{standalone: true}"
@@ -31,18 +31,18 @@
           </div>
           <div class="po-row">
             <po-combo [(ngModel)]="this.contrato.formaPagamento.id " [ngModelOptions]="{standalone: true}"
-              p-label="Forma de Pagamento" class="po-md-4" [p-options]="formaPagamentoOptions" p-clean
+              p-label="Forma de Pagamento *" class="po-md-4" [p-options]="formaPagamentoOptions" p-clean
               (p-change)="carregarNumParcelas()">
             </po-combo>
             <po-number [(ngModel)]="contrato.numParcelas" [ngModelOptions]="{standalone: true}"
-              p-label="Total de Parcelas" min-value="1" class="po-md-2 po-lp-1">
+              p-label="Total de Parcelas 8" min-value="1" class="po-md-2 po-lp-1">
             </po-number>
             <po-decimal p-readonly [(ngModel)]="contrato.juros" [ngModelOptions]="{standalone: true}" p-label="Juros"
               class="po-md-2 po-lp-1" p-decimals-length="2" p-icon="po-icon-money">
             </po-decimal>
           </div>
           <div class="po-row">
-            <po-combo [(ngModel)]="contrato.vendedor.id" [ngModelOptions]="{standalone: true}" p-label="Vendedor"
+            <po-combo [(ngModel)]="contrato.vendedor.id" [ngModelOptions]="{standalone: true}" p-label="Vendedor *"
               class="po-md-4" [p-options]="vendedorOptions" p-clean>
             </po-combo>
             <po-decimal p-readonly [(ngModel)]="contrato.valorTotal" [ngModelOptions]="{standalone: true}"

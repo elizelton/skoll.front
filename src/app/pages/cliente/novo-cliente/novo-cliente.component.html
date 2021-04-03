@@ -4,7 +4,7 @@
         <po-divider></po-divider>
         <div class="po-row">
             <po-input p-auto-focus="true" class="po-md-5" [ngModelOptions]="{standalone: true}"
-                [(ngModel)]="cliente.nome" p-auto-focus p-label="Nome" p-required p-icon="po-icon-user">
+                [(ngModel)]="cliente.nome" p-auto-focus p-label="Nome *" p-required p-icon="po-icon-user">
             </po-input>
         </div>
         <div class="po-row">
@@ -16,23 +16,23 @@
             </po-switch>
         </div>
         <div class="po-row">
-            <po-radio-group class="po-md-4 po-lp-1" name="cliente.tipo" p-label="Tipo" p-required
+            <po-radio-group class="po-md-4 po-lp-1" name="cliente.tipo" p-label="Tipo *" p-required
                 [ngModelOptions]="{standalone: true}" [(ngModel)]="cliente.tipoCliente" [p-options]="tipoPessoaOptions">
             </po-radio-group>
         </div>
         <div [hidden]="cliente.tipoCliente == 1">
             <po-input [hidden]="cliente.tipoCliente == 1" class="po-md-3 po-lp-1" [ngModelOptions]="{standalone: true}"
-                [(ngModel)]="cliente.cpfCnpj" name="cpfCnpj" p-auto-focus p-label="CNPJ" p-required
+                [(ngModel)]="cliente.cpfCnpj" name="cpfCnpj" p-auto-focus p-label="CNPJ *" p-required
                 p-mask="99.999.999/9999-99">
             </po-input>
         </div>
         <div [hidden]="cliente.tipoCliente == 2" class="po-row po-mb-5">
             <po-input [hidden]="cliente.tipoCliente == 2" class="po-md-3 po-lp-1" [ngModelOptions]="{standalone: true}"
-                [(ngModel)]="cliente.cpfCnpj" name="cpfCnpj" p-auto-focus p-label="CPF" p-required
+                [(ngModel)]="cliente.cpfCnpj" name="cpfCnpj" p-auto-focus p-label="CPF *" p-required
                 p-mask="999.999.999-99">
             </po-input>
             <po-datepicker [hidden]="cliente.tipoCliente == 2" class="po-md-2 po-lp-1"
-                [ngModelOptions]="{standalone: true}" [(ngModel)]="cliente.nascimento" p-label="Data de Nascimento"
+                [ngModelOptions]="{standalone: true}" [(ngModel)]="cliente.nascimento" p-label="Data de Nascimento *"
                 p-clean p-format="dd/mm/yyyy" p-required p-max-date="2003-01-01">
             </po-datepicker>
         </div>
@@ -67,7 +67,7 @@
         </div>
         <div class="po-row  po-mb-5">
             <po-combo p-clean [ngModelOptions]="{standalone: true}" [(ngModel)]="cliente.cidade.id"
-                [p-disabled]="!estado" class="po-md-4" p-auto-focus p-label="Cidade" p-required
+                [p-disabled]="!estado" class="po-md-4" p-auto-focus p-label="Cidade *" p-required
                 [p-options]="cidadesOptions">
             </po-combo>
         </div>

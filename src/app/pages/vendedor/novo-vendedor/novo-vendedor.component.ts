@@ -26,6 +26,7 @@ export class NovoVendedorComponent implements OnInit, OnDestroy {
     this.vendedor = new Vendedor()
     this.vendedor.nome = ""
     this.vendedor.codigo = ""
+    this.vendedor.cpf = ""
     this.vendedor.percComis = 0
     this.vendedor.ativo = true
   }

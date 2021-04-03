@@ -3,7 +3,7 @@
         <po-tab p-label="Produto" p-active="true">
             <form>
                 <div class="po-row">
-                    <po-input [(ngModel)]="produto.nome" class="po-md-4" [ngModelOptions]="{standalone: true}"  p-auto-focus p-label="Nome" p-required p-icon="po-icon-stock">
+                    <po-input [(ngModel)]="produto.nome" class="po-md-4" [ngModelOptions]="{standalone: true}"  p-auto-focus p-label="Nome *" p-required p-icon="po-icon-stock">
                     </po-input>
                 </div>
                 <div class="po-row">
@@ -15,9 +15,9 @@
         </po-tab>
         <po-tab p-label="Serviços" [p-disabled]="!produto.id" (p-click)="carregarServicos()">
             <div class="po-row">
-                <po-input [(ngModel)]="servicoPrestado.nome" class="po-md-6" [ngModelOptions]="{standalone: true}"  p-auto-focus p-label="Nome" p-clean p-required p-icon="po-icon-book">
+                <po-input [(ngModel)]="servicoPrestado.nome" class="po-md-6" [ngModelOptions]="{standalone: true}"  p-auto-focus p-label="Nome *" p-clean p-required p-icon="po-icon-book">
                 </po-input>
-                <po-decimal [(ngModel)]="servicoPrestado.valorUnitario" p-label="Valor Unitário" [ngModelOptions]="{standalone: true}"  class="po-md-2 po-lp-1" p-decimals-length="2" p-icon="po-icon-finance">
+                <po-decimal [(ngModel)]="servicoPrestado.valorUnitario" p-label="Valor Unitário *" [ngModelOptions]="{standalone: true}"  class="po-md-2 po-lp-1" p-decimals-length="2" p-icon="po-icon-finance">
                 </po-decimal>
                 <po-button [p-label]="btnAddEditLabel" class="po-mt-4" p-type="primary" (p-click)="salvarServico()"> </po-button>
               </div>

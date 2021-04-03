@@ -4,11 +4,11 @@
         <po-divider></po-divider>
         <div class="po-row">
             <po-input [(ngModel)]="formaPagamento.nome" [ngModelOptions]="{standalone: true}" class="po-md-5 "
-                p-auto-focus p-label="Nome" p-required p-icon="po-icon-user">
+                p-auto-focus p-label="Nome *" p-required p-icon="po-icon-user">
             </po-input>
         </div>
         <div class="po-row">
-            <po-number [(ngModel)]="formaPagamento.qtdParcela" p-label="Quantidade de parcelas"
+            <po-number [(ngModel)]="formaPagamento.qtdParcela" p-label="Quantidade de parcelas *"
                 [ngModelOptions]="{standalone: true}" class="po-md-2 po-lp-1" p-clean>
             </po-number>
             <po-switch p-max="100" p-min="0" [hidden]="!formaPagamento.id" [ngModelOptions]="{standalone: true}"

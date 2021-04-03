@@ -4,7 +4,7 @@
         <po-divider></po-divider>
         <div class="po-row">
             <po-input [(ngModel)]="vendedor.nome" [ngModelOptions]="{standalone: true}" class="po-md-5 " p-auto-focus
-                p-label="Nome" p-required p-icon="po-icon-user">
+                p-label="Nome *" p-required p-icon="po-icon-user">
             </po-input>
         </div>
         <div class="po-row">
@@ -16,7 +16,7 @@
             </po-input>
         </div>
         <div class="po-row">
-            <po-decimal p [(ngModel)]="vendedor.percComis" p-label="Percentual de Comissão(%)"
+            <po-decimal p [(ngModel)]="vendedor.percComis" p-label="Percentual de Comissão(%) *"
                 [ngModelOptions]="{standalone: true}" class="po-md-2 po-lp-1" p-decimals-length="2"
                 p-icon="po-icon-money">
             </po-decimal>
