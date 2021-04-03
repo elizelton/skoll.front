@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListarClienteComponent } from './listar-cliente/listar-cliente.component';
-import { EditarClienteComponent } from './editar-cliente/editar-cliente.component';
 import { NovoClienteComponent } from './novo-cliente/novo-cliente.component';
 import { Routes, RouterModule } from '@angular/router';
 import { PoModule } from '@po-ui/ng-components';
@@ -26,7 +25,6 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     ListarClienteComponent,
-    EditarClienteComponent,
     NovoClienteComponent,
   ],
   imports: [

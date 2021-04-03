@@ -3,19 +3,24 @@
   <form class="po-ml-5">
     <po-divider></po-divider>
     <div class="po-row">
-      <po-input [(ngModel)]="usuario.Nome" [ngModelOptions]="{standalone: true}" class="po-md-4 " p-auto-focus
+      <po-input [(ngModel)]="usuario.Nome" [ngModelOptions]="{standalone: true}" class="po-md-8 " p-auto-focus
         p-label="Nome" p-required p-icon="po-icon-user">
-      </po-input>
-      <po-input [(ngModel)]="usuario.userName" [ngModelOptions]="{standalone: true}" class="po-md-4 " p-auto-focus
-        p-label="Login" p-required p-icon="po-icon-user">
       </po-input>
     </div>
     <div class="po-row">
+      <po-input [(ngModel)]="usuario.userName" [ngModelOptions]="{standalone: true}" class="po-md-4 " p-auto-focus
+      p-label="Login" p-required p-icon="po-icon-user">
+    </po-input>
       <po-email [(ngModel)]="usuario.email" p-label="E-mail" [ngModelOptions]="{standalone: true}"
         class="po-md-4 po-lp-1">
       </po-email>
+    </div>
+    <div class="po-row">
       <po-password [(ngModel)]="usuario.senha" p-label="Senha" [ngModelOptions]="{standalone: true}"
-        class="po-md-4 po-lp-1">
+      class="po-md-4 po-lp-1">
+      </po-password>
+      <po-password  #confirmarSenhaComponente id="confirmarSenhaComponente" [ngModelOptions]="{standalone: true}" [(ngModel)]="confirmarSenhaModel" p-label="Confirmar senha" p-error-pattern="As senhas devem ser iguais."
+      class="po-md-4 po-lp-1" (p-blur)="validarSenha()">
       </po-password>
     </div>
     <div class="po-row">

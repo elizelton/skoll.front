@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListarProdutoComponent } from './listar-produto/listar-produto.component';
 import { NovoProdutoComponent } from './novo-produto/novo-produto.component';
-import { EditarProdutoComponent } from './editar-produto/editar-produto.component';
 import { RouterModule, Routes } from '@angular/router';
 import { PoModule } from '@po-ui/ng-components';
 import { PoTemplatesModule } from '@po-ui/ng-templates';
@@ -26,7 +25,7 @@ const routes: Routes = [
 
 
 @NgModule({
-  declarations: [ListarProdutoComponent, NovoProdutoComponent, EditarProdutoComponent],
+  declarations: [ListarProdutoComponent, NovoProdutoComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
