@@ -4,6 +4,7 @@ import { PoPageDynamicSearchFilters, PoPageDynamicTableActions, PoPageDynamicTab
 import { FormaPagamento } from 'src/app/model/FormaPagamento.model';
 import { environment } from 'src/environments/environment';
 import { FormaPagamentoService } from '../forma-pagamento.service';
+import { PoDynamicModule } from '@po-ui/ng-components';
 
 @Component({
   selector: 'app-listar-forma-pagamento',
@@ -41,7 +42,7 @@ export class ListarFormaPagamentoComponent implements OnInit {
     { value: '0', label: 'Inativo' },
   ];
 
-  readonly fields: Array<any> = [
+  readonly fields: Array<PoDynamicModule> = [
     { property: 'id', key: true, visible: true, filter: false },
     { property: 'nome', label: 'Nome', filter: false, gridColumns: 6 },
     { property: 'qtdParcela', type: 'number', format: '', label: 'Quantidade de parcelas', filter: false, gridColumns: 4 },

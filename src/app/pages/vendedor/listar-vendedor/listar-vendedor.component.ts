@@ -3,6 +3,7 @@ import { PoModalComponent, PoBreadcrumb, PoDynamicViewField } from '@po-ui/ng-co
 import { PoPageDynamicTableActions, PoPageDynamicSearchFilters, PoPageDynamicTableCustomAction, PoPageDynamicTableCustomTableAction, PoPageDynamicTableFilters } from '@po-ui/ng-templates';
 import { environment } from 'src/environments/environment';
 import { VendedorService } from '../vendedor.service';
+import { PoDynamicModule } from '@po-ui/ng-components';
 @Component({
   selector: 'app-listar-vendedor',
   templateUrl: './listar-vendedor.component.html',
@@ -37,7 +38,7 @@ export class ListarVendedorComponent implements OnInit {
     { value: '0', label: 'Inativo' },
   ];
 
-  readonly fields: Array<any> = [
+  readonly fields: Array<PoDynamicModule> = [
     { property: 'id', key: true, visible: true, filter: false },
     { property: 'nome', label: 'Nome', filter: false, gridColumns: 6 },
     { property: 'codigo', label: 'Código', filter: false, gridColumns: 4 },

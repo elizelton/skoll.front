@@ -3,6 +3,7 @@ import { PoModalComponent, PoBreadcrumb, PoDynamicViewField } from '@po-ui/ng-co
 import { PoPageDynamicTableActions, PoPageDynamicSearchFilters, PoPageDynamicTableCustomAction, PoPageDynamicTableCustomTableAction } from '@po-ui/ng-templates';
 import { ContratoService } from 'src/app/pages/contrato/contrato.service';
 import { environment } from 'src/environments/environment';
+import { PoDynamicModule } from '@po-ui/ng-components';
 
 @Component({
   selector: 'app-listar-conta-pagar',
@@ -38,9 +39,9 @@ export class ListarContaPagarComponent implements OnInit {
     { value: '0', label: 'Inativo' },
   ];
 
-  readonly fields: Array<any> = [
+  readonly fields: Array<PoDynamicModule> = [
     { property: 'id', key: true, visible: true, filter: false },
-    { property: 'nomeFornecedor', label: 'Vendedor', filter: false, gridColumns: 4 },
+    { property: 'nomeFornecedor', label: 'Fornecedor', filter: false, gridColumns: 4 },
     { property: 'numParcelas', label: 'Quantidade de parcelas', type: 'number', filter: false, gridColumns: 4 },
     { property: 'valorMensal', label: 'Valor Mensal', type: 'currency', format: 'BRL', filter: false, gridColumns: 4 },
     { property: 'valorTotal', label: 'Valor Total', type: 'currency', format: 'BRL', filter: false, gridColumns: 4 },

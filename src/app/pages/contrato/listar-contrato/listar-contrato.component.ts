@@ -11,6 +11,7 @@ import {
 } from '@po-ui/ng-templates';
 import { environment } from 'src/environments/environment';
 import { ContratoService } from '../contrato.service';
+import { PoDynamicModule } from '@po-ui/ng-components';
 
 @Component({
   selector: 'app-listar-contrato',
@@ -59,7 +60,7 @@ export class ListarContratoComponent implements OnInit {
     { value: '0', label: 'Inativo' },
   ];
 
-  readonly fields: Array<any> = [
+  readonly fields: Array<PoDynamicModule> = [
     { property: 'id', type: "number", key: true, visible: true, filter: false },
     { property: 'nomeCliente', label: 'Cliente', filter: false, gridColumns: 6 },
     {
@@ -72,7 +73,7 @@ export class ListarContratoComponent implements OnInit {
     { property: 'dataInicio', label: 'Data inicio', type: 'date', filter: false, gridColumns: 3 },
     { property: 'dataTermino', label: 'Data Término', type: 'date', filter: false, gridColumns: 3 },
     { property: 'nomeVendedor', label: 'Vendedor', filter: false, gridColumns: 4 },
-    { property: 'qntdExemplares', label: 'Quantidade de exemplares', filter: false, gridColumns: 4 },
+    { property: 'qntdExemplares', label: 'Quantidade de exemplares', type: 'number', filter: false, gridColumns: 4 },
     { property: 'numParcelas', label: 'Quantidade de parcelas', type: 'number', filter: false, gridColumns: 4 },
     { property: 'juros', label: 'Juros', type: 'currency', format: 'BRL', filter: false, gridColumns: 4 },
     { property: 'valorTotal', label: 'Valor Total', type: 'currency', format: 'BRL', filter: false, gridColumns: 4 },
