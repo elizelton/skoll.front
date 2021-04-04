@@ -295,7 +295,6 @@ export class NovoContaPagarComponent implements OnInit {
   }
 
   salvarContaPagar() {
-    this.contaPagarService.insert(this.contaPagar).subscribe()
     if (this.contaPagar.id) {
       let subService = this.contaPagarService.update(this.contaPagar.id, this.contaPagar).subscribe({
         next: (res: ContaPagar) => {

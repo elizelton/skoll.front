@@ -48,8 +48,9 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
   cidadesOptions: PoComboOption
   telefone: Telefone = new Telefone();
   loading = false
-  tituloPagina: string
+  tituloPagina: string = "Novo Fornecedor"
   modalTelefoneTitulo = "Novo Telefone"
+  showTelTable = true
   itemsTel = []
   private sub: Subscription;
   private subService: Subscription;
@@ -89,6 +90,7 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
             this.fornecedor = res;
             this.tituloPagina = `Editar Fornecedor #${res.idFornecedor}`
             this.modalTelefoneTitulo = `Fornecedor#${this.fornecedor.idFornecedor} - Novo Telefone`
+            this.breadcrumb.items[2].label = "Editar"
             this.estado = res.cidade.estado
             this.loadCidades()
             this.cidadeTemp = this.fornecedor.cidade.id
@@ -97,10 +99,6 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
           }
         })
       }
-      else {
-        this.tituloPagina = "Novo Fornecedor"
-      }
-
     });
   }
 
@@ -157,7 +155,6 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
   ];
 
   salvarFornecedor() {
-    this.fornecedorService.insert(this.fornecedor).subscribe()
     if (this.fornecedor.idFornecedor) {
       this.subService = this.fornecedorService.update(this.fornecedor.idFornecedor, this.fornecedor).subscribe({
         next: (res: Fornecedor) => {
@@ -172,9 +169,8 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
         next: (res: Fornecedor) => {
           this.fornecedor.id = res.id;
           this.fornecedor.idFornecedor = res.idFornecedor;
+          this.modalTelefoneTitulo = `Fornecedor#${this.fornecedor.idFornecedor} - Adicionar Telefone`
           this.tituloPagina = `Editar Fornecedor #${res.idFornecedor}`
-          this.modalTelefoneTitulo = `Fornecedor#${this.fornecedor.idFornecedor} - Novo Telefone`
-          this.breadcrumb.items[2].label = "Editar"
           this.poNotification.success({message: 'Fornecedor criado com sucesso!', duration: 6000 });
         }
       })
@@ -315,6 +311,8 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res: any) => {
           this.itemsTel = res
+          if(res.length == 0)
+            this.showTelTable = false
           this.loading = false;
         }
       })
