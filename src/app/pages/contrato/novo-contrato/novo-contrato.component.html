@@ -35,7 +35,7 @@
               (p-change)="carregarNumParcelas()">
             </po-combo>
             <po-number [(ngModel)]="contrato.numParcelas" [ngModelOptions]="{standalone: true}"
-              p-label="Total de Parcelas 8" min-value="1" class="po-md-2 po-lp-1">
+              p-label="Total de Parcelas *" min-value="1" class="po-md-2 po-lp-1">
             </po-number>
             <po-decimal p-readonly [(ngModel)]="contrato.juros" [ngModelOptions]="{standalone: true}" p-label="Juros"
               class="po-md-2 po-lp-1" p-decimals-length="2" p-icon="po-icon-money">
