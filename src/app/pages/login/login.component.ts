@@ -74,16 +74,13 @@ export class LoginComponent implements OnInit {
   }
 
   enviarSenha() {
-    debugger
+    debugger;
     this.formRecupepar
     this.loginService.recuperarSenha(this.emailRecuperacao)
       .subscribe({
-        next: () => {
+        next: (response: any) => {
           this.poNotification.success({message: "E-mail de recuperação enviado com sucesso", duration: 6000 });
           this.closeModal()
-        },
-        error:() => {
-          this.poNotification.error({message: "E-mail de recuperação enviado com sucesso", duration: 6000 })
         }
       }
       )
