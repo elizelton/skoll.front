@@ -1,9 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Usuario } from 'src/app/model/Usuario.model';
 import { map } from 'rxjs/operators';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 export class LoginService {
   public user: Observable<Usuario>;
   private userSubject: BehaviorSubject<Usuario>;
+  httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json '}) };
+
 
   constructor(
     private router: Router,
@@ -38,6 +40,25 @@ export class LoginService {
 
   getUsuarioLogado(): Usuario{
     return (this.userSubject.getValue())
+  }
+
+  refreshToken(): Observable<Usuario> {
+    let refreshToken = this.getUsuarioLogado().refreshToken
+    if (refreshToken && new Date(refreshToken.expirationDate) < new Date()) {
+      let obj = { refreshToken: refreshToken.token }
+
+      return this.http.post<Usuario>(`${environment.apiURLAuth}/Autenticacao/Autenticar`, obj, this.httpOptions)
+        .pipe(map(user => {
+
+          localStorage.setItem('usuario', JSON.stringify(user))
+          this.userSubject.next(user)
+
+          return user
+        }))
+    }
+    else {
+      return throwError('RefreshToken invalido ou expirado.')
+    }
   }
 
   logout(): void {
