@@ -151,7 +151,9 @@ export class ListarComissaoComponent implements OnInit {
         this.comissaoService.pagamentoComissao(
           this.idVendedor,
           this.tipoFiltro,
-          this.listaContrato
+          this.listaContrato,
+          this.dataDe,
+          this.dataAte
         )
           .subscribe({
             next: () => {

@@ -65,18 +65,18 @@
           name="tipoProduto" p-label="Produto" [p-options]="produtoOptions" (p-change)="loadServicos(null)">
         </po-combo>
         <po-combo p-clean [(ngModel)]="contratoServico.servicoPrestado.id" [ngModelOptions]="{standalone: true}"
-          class="po-md-3 po-ml-1" name="tipoServico" p-label="Serviço" [p-options]="servicoOptions"
+          class="po-md-3" name="tipoServico" p-label="Serviço" [p-options]="servicoOptions"
           (p-change)="carregarValorUnitario()">
         </po-combo>
         <po-number [(ngModel)]="contratoServico.quantidade" [ngModelOptions]="{standalone: true}" p-label="Quantidade"
-          min-value=1 class="po-md-1 po-lp-1" (p-change)="calcularServico()">
+          min-value=1 class="po-md-1" (p-change)="calcularServico()">
         </po-number>
         <po-decimal [(ngModel)]="contratoServico.valorUnitario" [ngModelOptions]="{standalone: true}"
-          p-label="Valor Unitário" class="po-md-2 po-lp-1" p-decimals-length="2" p-icon="po-icon-finance"
+          p-label="Valor Unitário" class="po-md-2" p-decimals-length="2" p-icon="po-icon-finance"
           (p-change)="calcularServico()">
         </po-decimal>
         <po-decimal p-readonly [(ngModel)]="contratoServico.valorTotal" [ngModelOptions]="{standalone: true}"
-          p-label="Valor Total" class="po-md-2 po-lp-1" p-decimals-length="2" p-icon="po-icon-finance">
+          p-label="Valor Total" class="po-md-2" p-decimals-length="2" p-icon="po-icon-finance">
         </po-decimal>
         <po-button [p-label]="labelAddEditServico" class="po-mt-4" (p-click)="adicionarServico()"> </po-button>
       </div>

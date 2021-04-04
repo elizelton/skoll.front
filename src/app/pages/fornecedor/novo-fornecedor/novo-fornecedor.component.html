@@ -78,16 +78,16 @@
         p-hide-select-all="true" p-hide-text-overflow class="po-mb-5" [p-actions]="actionsTel">
     </po-table>
 
-    <po-modal [p-title]="modalTelefoneTitulo" [p-primary-action]="close" [p-secondary-action]="confirm" p-size="xl">
+    <po-modal [p-title]="modalTelefoneTitulo" [p-primary-action]="confirm" [p-secondary-action]="close" p-size="xl">
         <div class="po-row">
             <po-input [(ngModel)]="telefone.ddd" [ngModelOptions]="{standalone: true}" class="po-md-2" p-mask="99"
-                p-label="DDD">
+                p-label="DDD *">
             </po-input>
             <po-input [(ngModel)]="telefone.telefone" [ngModelOptions]="{standalone: true}" class="po-md-4"
-                p-mask="99999-9999" p-label="Número">
+                p-mask="99999-9999" p-label="Número *">
             </po-input>
             <po-select [(ngModel)]="telefone.tipoTelefone" [ngModelOptions]="{standalone: true}" class="po-md-3 po-ml-1"
-                name="tipoTelefone" p-label="Tipo" [p-options]="telefoneOptions">
+                name="tipoTelefone" p-label="Tipo *" [p-options]="telefoneOptions">
             </po-select>
             <po-switch [(ngModel)]="telefone.whatsApp" [ngModelOptions]="{standalone: true}" name="Whatsapp"
                 class="po-ml-2" p-label="Whatsapp?" p-label-off="Não" p-label-on="Sim">

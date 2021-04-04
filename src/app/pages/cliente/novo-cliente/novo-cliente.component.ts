@@ -47,7 +47,7 @@ export class NovoClienteComponent implements OnInit, OnDestroy {
   telefone: Telefone = new Telefone();
   loading = false
   tituloPagina: string = "Novo Cliente"
-  modalTelefoneTitulo = "Novo Telefone"
+  modalTelefoneTitulo
   showTelTable = true
   itemsTel = []
   private sub: Subscription;
@@ -89,6 +89,7 @@ export class NovoClienteComponent implements OnInit, OnDestroy {
           next: (res: Cliente) => {
             this.cliente = res;
             this.tituloPagina = `Editar Cliente #${res.idCliente}`
+            this.modalTelefoneTitulo = `Cliente#${this.cliente.idCliente} - Adicionar Telefone`
             this.breadcrumb.items[2].label = "Editar"
             this.cliente.nascimento = new Date(this.cliente.nascimento)
             this.estado = res.cidade.estado
@@ -136,9 +137,10 @@ export class NovoClienteComponent implements OnInit, OnDestroy {
   }
 
   readonly telefoneOptions: Array<PoRadioGroupOption> = [
-    { label: 'Residencial', value: 1 },
+    { label: 'Celular', value: 3 },
     { label: 'Comercial', value: 2 },
-    { label: 'Celular', value: 3 }
+    { label: 'Residencial', value: 1 },
+    
   ];
 
   readonly tipoPessoaOptions: Array<any> = [
@@ -170,6 +172,7 @@ export class NovoClienteComponent implements OnInit, OnDestroy {
         next: (res: Cliente) => {
           this.cliente.id = res.id;
           this.cliente.idCliente = res.idCliente;
+          this.modalTelefoneTitulo = `Cliente#${this.cliente.idCliente} - Adicionar Telefone`
           this.tituloPagina = `Editar Cliente #${res.idCliente}`
           this.poNotification.success({message: 'Cliente criado com sucesso!', duration: 6000 });
         }
@@ -244,7 +247,7 @@ export class NovoClienteComponent implements OnInit, OnDestroy {
   }
 
   editarTelefone(telefone) {
-    this.modalTelefoneTitulo = "Editar Telefone"
+    this.modalTelefoneTitulo = `Cliente#${this.cliente.idCliente} - Editar Telefone`
     this.telefone = new Telefone();
     this.telefone = telefone;
     this.poModal.open();
@@ -257,6 +260,8 @@ export class NovoClienteComponent implements OnInit, OnDestroy {
   abrirModalTelefone() {
     this.telefone = new Telefone();
     this.telefone.idPessoa = this.cliente.id;
+    this.telefone.ddd = "";
+    this.telefone.telefone = "";
     this.poModal.open();
   }
 

@@ -16,7 +16,7 @@ export class ComissaoService {
     return this.http.get(`${this.urlApi}/${idVendedor}/${inicio}/${fim}/${filtro}`, this.httpOptions);
   }
 
-  pagamentoComissao(idVendedor: number,filtro: number, contratoList) {
-    return this.http.put(`${this.urlApi}/${idVendedor}/${filtro}`,contratoList);
+  pagamentoComissao(idVendedor: number,filtro: number, contratoList, inicio: string, fim: string,) {
+    return this.http.put(`${this.urlApi}/${idVendedor}/${filtro}/${inicio}/${fim}`,contratoList);
   }
 }

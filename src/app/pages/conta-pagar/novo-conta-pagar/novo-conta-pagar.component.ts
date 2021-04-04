@@ -36,6 +36,7 @@ export class NovoContaPagarComponent implements OnInit {
   }
 
   gerarParcelasAjuste(){
+    this.tituloModalPagarParcelaAjuste = `Conta a pagar#${this.contaPagar.id} - Gerar parcala de ajuste`
     this.parcelaAjuste.dataVencimento=new Date()
     this.parcelaAjuste.valorDif = 0
     this.modalLancarParcelaAjuste.open()
@@ -279,7 +280,7 @@ export class NovoContaPagarComponent implements OnInit {
   lancarPagamentoParcela(parcela) {
     this.parcelaModal = new ContaPagarParcela()
     this.parcelaModal = parcela
-    this.tituloModalPagarParcela = `Novo Pagamento de Parcela#${parcela.id}`
+    this.tituloModalPagarParcela = `Conta a pagar#${this.contaPagar.id} - Novo Pagamento de Parcela#${parcela.id}`
 
     if(parcela.valorParcela == 0){
       parcela.valorParcela = parcela.ajuste
@@ -337,7 +338,7 @@ export class NovoContaPagarComponent implements OnInit {
 
     this.poDialog.confirm({
       title: "Confirmar processo",
-      message: `Deseja gerar as parcelas da conta a pagar #${this.contaPagar.id}?`,
+      message: `Deseja gerar as parcelas da <strong>conta a pagar #${this.contaPagar.id}</strong>?`,
       confirm: () => {
         this.contaPagarService.gerarParcelas(
           this.contaPagar.id)

@@ -88,6 +88,7 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
           next: (res: Fornecedor) => {
             this.fornecedor = res;
             this.tituloPagina = `Editar Fornecedor #${res.idFornecedor}`
+            this.modalTelefoneTitulo = `Fornecedor#${this.fornecedor.idFornecedor} - Novo Telefone`
             this.estado = res.cidade.estado
             this.loadCidades()
             this.cidadeTemp = this.fornecedor.cidade.id
@@ -136,9 +137,9 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
   }
 
   readonly telefoneOptions: Array<PoRadioGroupOption> = [
-    { label: 'Residencial', value: 1 },
+    { label: 'Celular', value: 3 },
     { label: 'Comercial', value: 2 },
-    { label: 'Celular', value: 3 }
+    { label: 'Residencial', value: 1 },
   ];
 
   readonly tipoPessoaOptions: Array<any> = [
@@ -172,6 +173,7 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
           this.fornecedor.id = res.id;
           this.fornecedor.idFornecedor = res.idFornecedor;
           this.tituloPagina = `Editar Fornecedor #${res.idFornecedor}`
+          this.modalTelefoneTitulo = `Fornecedor#${this.fornecedor.idFornecedor} - Novo Telefone`
           this.breadcrumb.items[2].label = "Editar"
           this.poNotification.success({message: 'Fornecedor criado com sucesso!', duration: 6000 });
         }
@@ -252,7 +254,7 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
   }
 
   editarTelefone(telefone) {
-    this.modalTelefoneTitulo = "Editar Telefone"
+    this.modalTelefoneTitulo = `Fornecedor#${this.fornecedor.idFornecedor} - Editar Telefone`
     this.telefone = new Telefone();
     this.telefone = telefone;
     this.poModal.open();
@@ -265,6 +267,8 @@ export class NovoFornecedorComponent implements OnInit, OnDestroy {
   abrirModalTelefone() {
     this.telefone = new Telefone();
     this.telefone.idPessoa = this.fornecedor.id;
+    this.telefone.ddd = "";
+    this.telefone.telefone = "";
     this.poModal.open();
   }
 

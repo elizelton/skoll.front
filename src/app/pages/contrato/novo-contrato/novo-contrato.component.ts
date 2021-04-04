@@ -291,8 +291,8 @@ export class NovoContratoComponent implements OnInit {
 
   cancelarContratoModal() {
     this.poDialog.confirm({
-      title: "Confirmar Ação",
-      message: `Deseja cancelar o contrato?`,
+      title: "Confirmar operação",
+      message: `Deseja cancelar o <strong>Contrato#${this.contrato.id}</strong>?`,
       confirm: () => {
         this.cancelarContratoConfirmacao()
       },
@@ -302,8 +302,8 @@ export class NovoContratoComponent implements OnInit {
 
   cancelarContratoConfirmacao() {
     this.poDialog.openDialog(PoDialogType.Confirm, {
-      title: "Confirmar Ação",
-      message: `Deseja copiar os dados para um novo contrato?`,
+      title: "Confirmar operação",
+      message: `Deseja copiar os dados do <strong>Contrato#${this.contrato.id}</strong> para um novo contrato?`,
       confirm: () => {
         this.modalSelecionarClienteCancelamento.open()
       },
@@ -522,7 +522,7 @@ export class NovoContratoComponent implements OnInit {
   recibo = { idParcela: 0, valor: 0, valorExtenso: "", imprimirObs: false };
 
   imprimirRecibo(parcela) {
-    this.tituloModalImprimirRecibo = `Impressão de recibo - Parcela#${parcela.id}`;
+    this.tituloModalImprimirRecibo = `Contrato#${this.contrato.id} - Impressão de recibo - Parcela#${parcela.id}`;
     this.recibo.valor = parcela.valorParcela;
     this.recibo.idParcela = parcela.id;
     this.modalImprimirRecibo.open();
@@ -659,7 +659,7 @@ export class NovoContratoComponent implements OnInit {
   }
 
   gerarParcelasContratoModal() {
-    this.tituloModalGerarParcela = `Gerar Parcelas Contrato#${this.contrato.id}`;
+    this.tituloModalGerarParcela = `Contrato#${this.contrato.id} - Gerar Parcelas`;
     this.poModal.open();
   }
 
