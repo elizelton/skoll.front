@@ -47,6 +47,7 @@ export class NovoUsuarioComponent {
       this.usuario.id = +params['id'];
 
       if (this.usuario.id) {
+        this.actions[0].disabled = false;
         this.loading = true
         this.subService = this.usuarioService.get(this.usuario.id).subscribe({
           next: (res: any) => {
