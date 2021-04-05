@@ -180,6 +180,7 @@ export class NovoProdutoComponent implements OnInit, OnDestroy {
         next: () => {
           this.poNotification.success({message: 'Serviço editado com sucesso!', duration: 6000 });
           sub.unsubscribe();
+          this.carregarServicos();
         }
       })
     }
