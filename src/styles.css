@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-.po-table .po-table-column-right {
-    text-align: left!important;
+span.po-table-header-ellipsis, div.po-table-header-flex.po-table-header-flex-right {
+    text-align: right !important;
 }
+
