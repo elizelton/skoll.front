@@ -103,7 +103,7 @@
           class="po-ml-2" p-label="Primeira Parcela?" p-label-off="Não" p-label-on="Sim">
         </po-switch>
         <po-number [(ngModel)]="gerarParcelasOptions.diaVencimento" [ngModelOptions]="{standalone: true}"
-          class="po-md-3 po-lp-1" p-label="Dia de vencimento" p-clean p-required (p-change)="validarDia()">
+          class="po-md-3 po-lp-1" p-label="Dia de vencimento">
         </po-number>
       </div>
     </form>

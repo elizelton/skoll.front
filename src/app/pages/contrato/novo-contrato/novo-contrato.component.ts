@@ -552,7 +552,6 @@ export class NovoContratoComponent implements OnInit {
   confirmGerarParcela: PoModalAction = {
     action: this.gerarParcelaConfirmacao.bind(this),
     label: 'Gerar parcelas',
-    disabled: true,
     loading: this.loading
   };
 
@@ -647,15 +646,6 @@ export class NovoContratoComponent implements OnInit {
     debugger
     this.contratoServico.valorUnitario = this.servicoOptions
       .find(x => x.value === this.contratoServico.servicoPrestado.id)?.valorUnitario
-  }
-
-  validarDia() {
-    if (this.gerarParcelasOptions.diaVencimento > 0 && this.gerarParcelasOptions.diaVencimento < 31) {
-      this.confirmGerarParcela.disabled = false;
-    }
-    else {
-      this.confirmGerarParcela.disabled = true;
-    }
   }
 
   gerarParcelasContratoModal() {
